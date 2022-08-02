@@ -1,4 +1,5 @@
 import os
+import traceback
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -7,7 +8,7 @@ from netbox_initializers.initializers import INITIALIZER_ORDER, INITIALIZER_REGI
 
 class Command(BaseCommand):
     help = "Load data from YAML files into Netbox"
-    requires_migrations_checks= True
+    requires_migrations_checks = True
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -34,4 +35,5 @@ class Command(BaseCommand):
             try:
                 initializer_instance.load_data()
             except Exception as e:
-                raise CommandError(e)
+                traceback.print_exception(e)
+                raise CommandError(f"{initializer.__name__} failed.") from e
