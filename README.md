@@ -8,6 +8,12 @@ First activate your virtual environment where Netbox is installed, the install t
 ```bash
 pip install "netbox-initializers==3.2.*"
 ```
+Then you need to add the plugin to the `PLUGINS` array in the Netbox configuration.
+```python
+PLUGINS = [
+    'netbox_initializers',
+]
+```
 
 ### Getting started
 
