@@ -4,11 +4,11 @@ Please follow these steps to produce a release
 
 ## Checkout correct branch
 
-Checkout the branch for which the release is to be build. If no branch exists for the new release one must be created. The name must correspond to the Netbox version in the format "MAJOR.MINOR".
+Checkout the branch for which the release is to be build. If no branch exists for the new release one must be created. The name must correspond to the Netbox version in the format "netbox/MAJOR.MINOR".
 
 ## Set version number
 
-The version number in `README.md`, `setup.py` and the `NetBoxInitializersConfig` need to be updated.
+For patch releases the version number in `setup.py` and the `NetBoxInitializersConfig` needs to be updated. If the release is for a new Netbox version additional changes need to be made in `README.md` and `Dockerfile` (for tests).
 
 ## Build the packages
 

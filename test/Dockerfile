@@ -1,7 +1,7 @@
 FROM netboxcommunity/netbox:v3.2
 
-COPY ../src /opt/netbox-initializers/
+COPY ../ /opt/netbox-initializers/
 COPY ./test/config/plugins.py /etc/netbox/config/
-WORKDIR /opt/netbox-initializers/
-RUN ls -l  && /opt/netbox/venv/bin/pip install -e .
+WORKDIR /opt/netbox-initializers/src/
+RUN /opt/netbox/venv/bin/pip install -e .
 WORKDIR /opt/netbox/netbox
