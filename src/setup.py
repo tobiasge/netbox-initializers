@@ -8,7 +8,7 @@ long_description = (this_directory / ".." / "README.md").read_text()
 
 setup(
     name="netbox-initializers",
-    version="3.2.1",
+    version="3.2.2",
     description="Load initial data into Netbox",
     install_requires=["ruamel.yaml==0.17.21"],
     packages=find_packages() + ["netbox_initializers.initializers.yaml"],
