@@ -1,0 +1,41 @@
+---
+name: Pull request tests
+
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Checks syntax of our code
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUPPRESS_POSSUM: true
+          VALIDATE_ALL_CODEBASE: false
+          LINTER_RULES_PATH: /
+          PYTHON_BLACK_CONFIG_FILE: src/pyproject.toml
+          FILTER_REGEX_EXCLUDE: (.*/)?(LICENSE)
+          YAML_CONFIG_FILE: .yamllint.yaml
+          PYTHON_FLAKE8_CONFIG_FILE: .flake8
+          PYTHON_ISORT_CONFIG_FILE: src/pyproject.toml
+  tests:
+    runs-on: ubuntu-latest
+    name: Run initializer test script
+    steps:
+      - id: git-checkout
+        name: Checkout
+        uses: actions/checkout@v3
+      - id: test-script
+        name: Test the initializers
+        run: |
+          cd test
+          ./test.sh
