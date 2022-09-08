@@ -138,7 +138,7 @@ class InitializationError(Exception):
     pass
 
 
-def register_initializer(name: str, initializer: BaseInitializer):
+def register_initializer(name: str, initializer):
     INITIALIZER_REGISTRY[name] = initializer
 
 

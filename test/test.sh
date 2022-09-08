@@ -1,9 +1,7 @@
 #!/bin/bash
 
-
 # The docker compose command to use
 doco="docker compose --project-name netbox_initializer_test"
-
 
 INITIALIZERS_DIR="initializer-data"
 
@@ -15,9 +13,9 @@ test_setup() {
 
   mkdir "${INITIALIZERS_DIR}"
   (
-    cd ../src/netbox_initializers/initializers/yaml/
+    cd ../src/netbox_initializers/initializers/yaml/ || exit
     for script in *.yml; do
-      sed -E 's/^# //' "${script}" > "../../../../test/${INITIALIZERS_DIR}/${script}"
+      sed -E 's/^# //' "${script}" >"../../../../test/${INITIALIZERS_DIR}/${script}"
     done
   )
   $doco build --no-cache

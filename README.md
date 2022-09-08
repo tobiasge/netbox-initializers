@@ -1,8 +1,8 @@
-## Netbox Initializers Plugin
+# Netbox Initializers Plugin
 
 Load data from YAML files into Netbox
 
-### Installation
+## Installation
 
 First activate your virtual environment where Netbox is installed, the install the plugin version correspondig to your Netbox version.
 ```bash
@@ -15,7 +15,7 @@ PLUGINS = [
 ]
 ```
 
-### Getting started
+## Getting started
 
 At first you need to start with writing the YAML files that contain the initial data. To make that easier the plugin includes example files for all supported initializers. To access those examples you can copy them into a directory of your choosing and edit them there. To copy the files run the following command (in your Netbox directory):
 
@@ -30,7 +30,7 @@ After you filled in the data you want to import, the import can be started with 
 ```
 
 
-### Netbox Docker image
+## Netbox Docker image
 
 The initializers where a part of the Docker image and where then extracted into a Netbox plugin. This was done to split the release cycle of the initializers and the image.
 To use the new plugin in a the Netbox Docker image, it musst be installad into the image. To this, the following example can be used as a starting point:
