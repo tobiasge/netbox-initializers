@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck disable=SC1091
+source ./gh-functions.sh
+
 # The docker compose command to use
 doco="docker compose --project-name netbox_initializer_test"
 
@@ -22,12 +25,14 @@ test_setup() {
 }
 
 test_cleanup() {
+  gh_echo "::group::Clean test environment"
   echo "💣 Cleaning Up"
   $doco down -v
 
   if [ -d "${INITIALIZERS_DIR}" ]; then
     rm -rf "${INITIALIZERS_DIR}"
   fi
+  gh_echo "::endgroup::"
 }
 
 test_initializers() {
@@ -39,8 +44,13 @@ echo "🐳🐳🐳 Start testing"
 
 # Make sure the cleanup script is executed
 trap test_cleanup EXIT ERR
-test_setup
 
+gh_echo "::group::Setup test environment"
+test_setup
+gh_echo "::endgroup::"
+
+gh_echo "::group::Initializer tests"
 test_initializers
+gh_echo "::endgroup::"
 
 echo "🐳🐳🐳 Done testing"
