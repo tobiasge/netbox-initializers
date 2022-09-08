@@ -1,0 +1,33 @@
+---
+name: 🐛 Bug Report
+description: Report a reproducible bug
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe your issue
+  - type: input
+    attributes:
+      label: NetBox version
+      description: What version of NetBox are you currently running?
+      placeholder: v3.x.x
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: NetBox initilizers version
+      description: What version of NetBox initilizers are you currently running?
+      placeholder: v3.x.x
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Example YAML
+      description: >
+        Provide an example for the YAML file that is causing you issue
+      placeholder: |
+        ---
+    validations:
+      required: true
+

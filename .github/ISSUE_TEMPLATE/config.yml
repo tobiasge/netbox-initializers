@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ❓ Discussion
+    url: https://github.com/tobiasge/netbox-initializers/discussions
+    about: "If you're just looking for help, try starting a discussion instead"
