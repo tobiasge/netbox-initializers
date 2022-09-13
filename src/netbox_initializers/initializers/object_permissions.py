@@ -22,6 +22,9 @@ class ObjectPermissionInitializer(BaseInitializer):
                 },
             )
 
+            if permission_details.get("constraints", 0):
+                object_permission.constraints = permission_details["constraints"]
+
             if permission_details.get("object_types", 0):
                 object_types = permission_details["object_types"]
 
@@ -66,7 +69,7 @@ class ObjectPermissionInitializer(BaseInitializer):
                             % (username, object_permission.name)
                         )
 
-            object_permission.save()
+                    object_permission.save()
 
 
 register_initializer("object_permissions", ObjectPermissionInitializer)
