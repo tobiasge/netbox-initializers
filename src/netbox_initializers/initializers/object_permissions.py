@@ -69,7 +69,7 @@ class ObjectPermissionInitializer(BaseInitializer):
                             % (username, object_permission.name)
                         )
 
-                    object_permission.save()
+            object_permission.save()
 
 
 register_initializer("object_permissions", ObjectPermissionInitializer)
