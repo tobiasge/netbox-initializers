@@ -128,8 +128,8 @@ class BaseInitializer:
 
         matching_params = {}
         for unique_param in unique_params:
-            param = params.pop(unique_param, None)
-            if param:
+            param = params.pop(unique_param, "__not_set__")
+            if param != "__not_set__":
                 matching_params[unique_param] = param
         return matching_params, params
 
