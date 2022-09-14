@@ -51,45 +51,65 @@ class CustomFieldInitializer(BaseInitializer):
 
                 # object_type should only be applied when type is object, multiobject
                 if cf_details.get("object_type"):
-                    if cf_details.get("type") not in ('object', 'multiobject',):
-                        print(f"⚠️ Unable to create Custom Field '{cf_name}': object_type is "
-                              "supported only for object and multiobject types")
+                    if cf_details.get("type") not in (
+                        "object",
+                        "multiobject",
+                    ):
+                        print(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': object_type is "
+                            + "supported only for object and multiobject types"
+                        )
                         custom_field.delete()
                         continue
                     custom_field.object_type = get_class_for_class_path(cf_details["object_type"])
 
                 # validation_regex should only be applied when type is text, longtext, url
                 if cf_details.get("validation_regex"):
-                    if cf_details.get("type") not in ('text', 'longtext', 'url',):
-                        print(f"⚠️ Unable to create Custom Field '{cf_name}': validation_regex is "
-                              "supported only for text, longtext and, url types")
+                    if cf_details.get("type") not in (
+                        "text",
+                        "longtext",
+                        "url",
+                    ):
+                        print(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': validation_regex is "
+                            + "supported only for text, longtext and, url types"
+                        )
                         custom_field.delete()
                         continue
                     custom_field.validation_regex = cf_details["validation_regex"]
 
                 # validation_minimum should only be applied when type is integer
                 if cf_details.get("validation_minimum"):
-                    if cf_details.get("type") not in ('integer',):
-                        print(f"⚠️ Unable to create Custom Field '{cf_name}': validation_minimum is "
-                              "supported only for integer type")
+                    if cf_details.get("type") not in ("integer",):
+                        print(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': validation_minimum is "
+                            + "supported only for integer type"
+                        )
                         custom_field.delete()
                         continue
                     custom_field.validation_minimum = cf_details["validation_minimum"]
 
                 # validation_maximum should only be applied when type is integer
                 if cf_details.get("validation_maximum"):
-                    if cf_details.get("type") not in ('integer',):
-                        print(f"⚠️ Unable to create Custom Field '{cf_name}': validation_maximum is "
-                              "supported only for integer type")
+                    if cf_details.get("type") not in ("integer",):
+                        print(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': validation_maximum is "
+                            + "supported only for integer type"
+                        )
                         custom_field.delete()
                         continue
                     custom_field.validation_maximum = cf_details["validation_maximum"]
 
                 # choices should only be applied when type is select, multiselect
                 if cf_details.get("choices"):
-                    if cf_details.get("type") not in ('select', 'multiselect',):
-                        print(f"⚠️ Unable to create Custom Field '{cf_name}': choices is supported only "
-                              "for select and multiselect types")
+                    if cf_details.get("type") not in (
+                        "select",
+                        "multiselect",
+                    ):
+                        print(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': choices is supported only "
+                            + "for select and multiselect types"
+                        )
                         custom_field.delete()
                         continue
                     custom_field.choices = []
