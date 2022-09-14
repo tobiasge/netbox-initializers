@@ -8,7 +8,7 @@ from virtualization.models import VirtualMachine, VMInterface
 
 from . import BaseInitializer, InitializationError, register_initializer
 
-MATCH_PARAMS = ["address", "vrf"]
+MATCH_PARAMS = ["address", "vrf", "vrf_id"]
 OPTIONAL_ASSOCS = {
     "tenant": (Tenant, "name"),
     "vrf": (VRF, "name"),
@@ -54,6 +54,8 @@ class IPAddressInitializer(BaseInitializer):
                             query = {"name": params.pop(assoc), "device_id": dev_id}
                             params["assigned_object_type"] = INTERFACE_CT
                             params["assigned_object_id"] = Interface.objects.get(**query).id
+                    elif assoc == "vrf" and params[assoc] is None: 
+                        params["vrf_id"] = None
                     else:
                         query = {field: params.pop(assoc)}
 
