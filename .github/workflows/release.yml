@@ -1,0 +1,29 @@
+---
+name: Publish release
+
+on:
+  release:
+    types:
+      - "released"
+  workflow_dispatch:
+
+jobs:
+  lint:
+    uses: ./.github/workflows/linter.yml
+  tests:
+    uses: ./.github/workflows/tests.yml
+  release:
+    runs-on: ubuntu-latest
+    name: Release to PyPi
+    needs: [lint, tests]
+    steps:
+      - id: git-checkout
+        name: Checkout
+        uses: actions/checkout@v3
+      - id: build-and-publish
+        name: Build and publish to pypi
+        uses: JRubics/poetry-publish@v1.13
+        with:
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+          repository_name: "testpypi"
+          repository_url: "https://test.pypi.org/legacy/"

@@ -21,7 +21,7 @@ test_setup() {
       sed -E 's/^# //' "${script}" >"../../../../test/${INITIALIZERS_DIR}/${script}"
     done
   )
-  $doco build --no-cache
+  $doco build --no-cache || exit 1
 }
 
 test_cleanup() {
@@ -37,7 +37,7 @@ test_cleanup() {
 
 test_initializers() {
   echo "🏭 Testing Initializers"
-  $doco run --rm netbox /opt/netbox/docker-entrypoint.sh ./manage.py load_initializer_data --path /etc/netbox/initializer-data
+  $doco run --rm netbox /opt/netbox/docker-entrypoint.sh ./manage.py load_initializer_data --path /etc/netbox/initializer-data || exit 1
 }
 
 echo "🐳🐳🐳 Start testing"
