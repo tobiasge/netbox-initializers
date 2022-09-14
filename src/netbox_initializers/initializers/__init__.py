@@ -60,7 +60,7 @@ INITIALIZER_REGISTRY = dict()
 
 class BaseInitializer:
     # File name for import; Musst be set in subclass
-    data_file_name = None
+    data_file_name = ""
 
     def __init__(self, data_file_path: str) -> None:
         self.data_file_path = data_file_path
