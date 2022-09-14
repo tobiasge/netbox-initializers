@@ -6,6 +6,9 @@
 ##   - date
 ##   - url
 ##   - select
+##   - multiselect
+##   - object
+##   - multiobject
 ##   filter_logic:
 ##   - disabled
 ##   - loose
@@ -34,6 +37,8 @@
 #   description: Enter numbers into an integer field.
 #   required: true
 #   filter_logic: loose
+#   validation_minimum: 0
+#   validation_maximum: 255
 #   weight: 10
 #   on_objects:
 #   - tenancy.models.Tenant
@@ -82,6 +87,7 @@
 #   description: Link to something nice.
 #   required: true
 #   filter_logic: disabled
+#   validation_regex: ^https://
 #   on_objects:
 #   - tenancy.models.Tenant
 # date_field:
@@ -91,3 +97,21 @@
 #   filter_logic: disabled
 #   on_objects:
 #   - dcim.models.Device
+# multiobject_field:
+#   type: multiobject
+#   label: Related Objects
+#   description: IP addresses that belong to this location
+#   required: true
+#   filter_logic: loose
+#   on_objects:
+#   - dcim.models.Location
+#   object_type: ipam.models.IPAddress
+# object_field:
+#   type: object
+#   label: ASN
+#   description: This device has an ASN now
+#   required: false
+#   filter_logic: loose
+#   on_objects:
+#   - dcim.models.Device
+#   object_type: ipam.models.ASN
