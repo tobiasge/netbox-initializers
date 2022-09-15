@@ -1,4 +1,4 @@
-# Build a release manually
+# Prepare a release
 
 Please follow these steps to produce a release
 
@@ -10,7 +10,13 @@ Checkout the branch for which the release is to be build. If no branch exists fo
 
 For patch releases the version number in `pyproject.toml` and the `NetBoxInitializersConfig` needs to be updated. If the release is for a new Netbox version additional changes need to be made in `README.md` and `Dockerfile` (for tests).
 
-## Build the packages
+## Build the release automatically
+
+After changing the version numbers and committing them create a new release with the GitHub Web UI. Configure the release to create a new tag with the name `vX.Y.Z`.
+
+## Build the release manually
+
+### Build the packages
 
 Install the needed Python packages for the build:
 
@@ -24,7 +30,7 @@ Then run the build for the wheel and source distributions:
 poetry build
 ```
 
-## Upload packages to PyPi
+### Upload packages to PyPi
 
 ```bash
 poetry publish
