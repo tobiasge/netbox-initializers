@@ -1,0 +1,28 @@
+[tool.poetry]
+authors = ["Tobias Genannt <tobias.genannt@gmail.com>"]
+description = "Load initial data into Netbox"
+license = "Apache-2.0"
+name = "netbox-initializers"
+readme = "README.md"
+repository = "https://github.com/tobiasge/netbox-initializers"
+version = "3.2.3"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+"ruamel.yaml" = "0.17.21"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+
+[tool.black]
+line_length = 100
+target-version = ['py310']
+
+[tool.isort]
+line_length = 100
+multi_line_output = 3
+profile = "black"
+
+[tool.pylint.format]
+max-line-length = "100"
