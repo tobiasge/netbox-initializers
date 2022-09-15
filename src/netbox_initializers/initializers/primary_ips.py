@@ -1,5 +1,5 @@
 from dcim.models import Device
-from ipam.models import IPAddress, VRF
+from ipam.models import VRF, IPAddress
 from virtualization.models import VirtualMachine
 
 from . import BaseInitializer, register_initializer
