@@ -26,6 +26,8 @@ class VirtualMachineInitializer(BaseInitializer):
             # primary ips are handled later in `270_primary_ips.py`
             params.pop("primary_ip4", None)
             params.pop("primary_ip6", None)
+            params.pop("primary_ip4_vrf", None)
+            params.pop("primary_ip6_vrf", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details

@@ -36,6 +36,7 @@ class VLANGroupInitializer(BaseInitializer):
                         )
                         continue
                     params["scope_id"] = ct.model_class().objects.get(**query).id
+                    params["scope_type"] = ct
 
             matching_params, defaults = self.split_params(params)
             vlan_group, created = VLANGroup.objects.get_or_create(

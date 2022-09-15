@@ -26,6 +26,9 @@ INITIALIZER_ORDER = (
     "manufacturers",
     "device_roles",
     "device_types",
+    "cluster_types",
+    "cluster_groups",
+    "clusters",
     "devices",
     "interfaces",
     "platforms",
@@ -35,9 +38,6 @@ INITIALIZER_ORDER = (
     "asns",
     "aggregates",
     "prefix_vlan_roles",
-    "cluster_types",
-    "cluster_groups",
-    "clusters",
     "vlan_groups",
     "vlans",
     "virtual_machines",
@@ -128,8 +128,8 @@ class BaseInitializer:
 
         matching_params = {}
         for unique_param in unique_params:
-            param = params.pop(unique_param, None)
-            if param:
+            param = params.pop(unique_param, "__not_set__")
+            if param != "__not_set__":
                 matching_params[unique_param] = param
         return matching_params, params
 
