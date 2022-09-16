@@ -32,7 +32,7 @@ body:
   - type: textarea
     attributes:
       label: Example YAML
-      description: Provide an example for the YAML file that is causing you issue
+      description: Provide an example for the YAML file that is causing your issue
       placeholder: |
         ---
       render: YAML
