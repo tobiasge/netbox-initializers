@@ -231,8 +231,6 @@ class CableInitializer(BaseInitializer):
 
             cable = Cable.objects.create(**params)
 
-            print(f"🧷 Created cable {cable} {cable_name}")
-
             params_a_term = {
                 "termination_id": term_a.id,
                 "termination_type": term_a_ct,
@@ -240,7 +238,6 @@ class CableInitializer(BaseInitializer):
                 "cable_end": "A",
             }
             CableTermination.objects.create(**params_a_term)
-            print(f"🧷 Attached cable {cable} A side to {term_a.device.name} > {term_a.name}.")
 
             params_b_term = {
                 "termination_id": term_b.id,
@@ -249,7 +246,8 @@ class CableInitializer(BaseInitializer):
                 "cable_end": "B",
             }
             CableTermination.objects.create(**params_b_term)
-            print(f"🧷 Attached cable {cable} B side to {term_b.device.name} > {term_b.name}.")
+
+            print(f"🧷 Created cable {cable} {cable_name}")
 
 
 register_initializer("cables", CableInitializer)
