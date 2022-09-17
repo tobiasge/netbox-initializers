@@ -27,7 +27,11 @@ test_setup() {
 test_cleanup() {
   gh_echo "::group::Clean test environment"
   echo "💣 Cleaning Up"
-  $doco down -v
+  if [ "$KEEP_VOLUMES" == "true" ]; then
+    $doco down
+  else
+    $doco down -v
+  fi
 
   if [ -d "${INITIALIZERS_DIR}" ]; then
     rm -rf "${INITIALIZERS_DIR}"
