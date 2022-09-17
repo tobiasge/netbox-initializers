@@ -44,8 +44,8 @@ class ObjectPermissionInitializer(BaseInitializer):
                                 object_permission.object_types.add(
                                     ContentType.objects.get(app_label=app_label, model=model)
                                 )
-
-            print("🔓 Created object permission", object_permission.name)
+            if created:
+                print("🔓 Created object permission", object_permission.name)
 
             if permission_details.get("groups", 0):
                 for groupname in permission_details["groups"]:

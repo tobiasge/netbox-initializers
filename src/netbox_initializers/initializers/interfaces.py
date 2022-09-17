@@ -65,7 +65,6 @@ class InterfaceInitializer(BaseInitializer):
                     query = {
                         r_field: related_value,
                         "device": interface.device,
-                        "type": related_field,
                     }
                     related_obj, rel_obj_created = r_model.objects.get_or_create(**query)
 
