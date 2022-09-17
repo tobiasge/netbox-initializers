@@ -22,6 +22,7 @@ test_setup() {
     done
   )
   $doco build --no-cache || exit 1
+  $doco run --rm netbox /opt/netbox/docker-entrypoint.sh ./manage.py check || exit 1
 }
 
 test_cleanup() {
