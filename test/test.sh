@@ -22,12 +22,17 @@ test_setup() {
     done
   )
   $doco build --no-cache || exit 1
+  $doco run --rm netbox /opt/netbox/docker-entrypoint.sh ./manage.py check || exit 1
 }
 
 test_cleanup() {
   gh_echo "::group::Clean test environment"
   echo "💣 Cleaning Up"
-  $doco down -v
+  if [ "$KEEP_VOLUMES" == "true" ]; then
+    $doco down
+  else
+    $doco down -v
+  fi
 
   if [ -d "${INITIALIZERS_DIR}" ]; then
     rm -rf "${INITIALIZERS_DIR}"

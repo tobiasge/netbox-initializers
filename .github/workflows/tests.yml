@@ -12,8 +12,15 @@ jobs:
       - id: git-checkout
         name: Checkout
         uses: actions/checkout@v3
-      - id: test-script
-        name: Test the initializers
+      - id: test-script-1
+        name: Test the initializers (First run)
+        env:
+          KEEP_VOLUMES: "true"
+        run: |
+          cd test
+          ./test.sh
+      - id: test-script-2
+        name: Test the initializers (Second run)
         run: |
           cd test
           ./test.sh
