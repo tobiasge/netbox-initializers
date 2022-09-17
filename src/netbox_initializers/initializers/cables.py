@@ -3,6 +3,7 @@ from typing import Tuple
 from circuits.models import Circuit, CircuitTermination, ProviderNetwork
 from dcim.models import (
     Cable,
+    CableTermination,
     ConsolePort,
     ConsoleServerPort,
     FrontPort,
@@ -93,21 +94,26 @@ def cable_in_cables(term_a: tuple, term_b: tuple) -> bool:
     Each tuple should consist termination object and termination type
     """
 
-    cable = Cable.objects.filter(
-        Q(
-            termination_a_id=term_a[0].id,
-            termination_a_type=term_a[1],
-            termination_b_id=term_b[0].id,
-            termination_b_type=term_b[1],
+    try:
+        cable_term_a = CableTermination.objects.get(
+            Q(
+                termination_id=term_a[0].id,
+                termination_type=term_a[1],
+            )
         )
-        | Q(
-            termination_a_id=term_b[0].id,
-            termination_a_type=term_b[1],
-            termination_b_id=term_a[0].id,
-            termination_b_type=term_a[1],
+        cable_term_b = CableTermination.objects.get(
+            Q(
+                termination_id=term_b[0].id,
+                termination_type=term_b[1],
+            )
         )
-    )
-    return cable.exists()
+    except CableTermination.DoesNotExist:
+        return False
+
+    cable_a = Cable.objects.get(Q(terminations=cable_term_a))
+    cable_b = Cable.objects.get(Q(terminations=cable_term_b))
+
+    return cable_a.id == cable_b.id
 
 
 def check_termination_types(type_a, type_b) -> Tuple[bool, str]:
@@ -223,12 +229,23 @@ class CableInitializer(BaseInitializer):
 
             check_terminations_are_free(term_a, term_b)
 
-            params["termination_a_id"] = term_a.id
-            params["termination_b_id"] = term_b.id
-            params["termination_a_type"] = term_a_ct
-            params["termination_b_type"] = term_b_ct
-
             cable = Cable.objects.create(**params)
+
+            params_a_term = {
+                "termination_id": term_a.id,
+                "termination_type": term_a_ct,
+                "cable": cable,
+                "cable_end": "A",
+            }
+            CableTermination.objects.create(**params_a_term)
+
+            params_b_term = {
+                "termination_id": term_b.id,
+                "termination_type": term_b_ct,
+                "cable": cable,
+                "cable_end": "B",
+            }
+            CableTermination.objects.create(**params_b_term)
 
             print(f"🧷 Created cable {cable} {cable_name}")
 
