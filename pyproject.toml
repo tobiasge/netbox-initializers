@@ -1,5 +1,11 @@
 [tool.poetry]
 authors = ["Tobias Genannt <tobias.genannt@gmail.com>"]
+classifiers = [
+  "Framework :: Django",
+  "Environment :: Plugins",
+  "Topic :: System :: Networking",
+  "Topic :: System :: Systems Administration"
+]
 description = "Load initial data into Netbox"
 license = "Apache-2.0"
 name = "netbox-initializers"
