@@ -1,0 +1,33 @@
+---
+name: Test with Netbox feature branch
+
+on:
+  schedule:
+    - cron: "35 07 * * *"
+  workflow_dispatch:
+
+jobs:
+  feature-tests:
+    runs-on: ubuntu-latest
+    name: Run initializer test script
+    steps:
+      - id: git-checkout
+        name: Checkout
+        uses: actions/checkout@v3
+      - id: code-update
+        name: Change test target to feature branch of Netbox
+        run: |
+          sed -i '/max_version/d' src/netbox_initializers/__init__.py
+          sed -i 's/v[0-9].[0-9]/feature/g' test/Dockerfile
+      - id: test-script-1
+        name: Test the initializers (First run)
+        env:
+          KEEP_VOLUMES: "true"
+        run: |
+          cd test
+          ./test.sh
+      - id: test-script-2
+        name: Test the initializers (Second run)
+        run: |
+          cd test
+          ./test.sh
