@@ -49,6 +49,12 @@ class CustomFieldInitializer(BaseInitializer):
                 if cf_details.get("weight", -1) >= 0:
                     custom_field.weight = cf_details["weight"]
 
+                if cf_details.get("group_name", False):
+                    custom_field.group_name = cf_details["group_name"]
+
+                if cf_details.get("ui_visibility", False):
+                    custom_field.ui_visibility = cf_details["ui_visibility"]
+
                 # object_type should only be applied when type is object, multiobject
                 if cf_details.get("object_type"):
                     if cf_details.get("type") not in (
