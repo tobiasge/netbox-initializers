@@ -1,4 +1,4 @@
-from dcim.models import DeviceRole, Platform
+from dcim.models import DeviceRole, Platform, Site
 from tenancy.models import Tenant
 from virtualization.models import Cluster, VirtualMachine
 
@@ -8,6 +8,7 @@ MATCH_PARAMS = ["cluster", "name"]
 REQUIRED_ASSOCS = {"cluster": (Cluster, "name")}
 OPTIONAL_ASSOCS = {
     "tenant": (Tenant, "name"),
+    "site": (Site, "name"),
     "platform": (Platform, "name"),
     "role": (DeviceRole, "name"),
 }
