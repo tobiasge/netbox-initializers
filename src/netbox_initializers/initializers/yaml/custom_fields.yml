@@ -13,6 +13,10 @@
 ##   - disabled
 ##   - loose
 ##   - exact
+##   ui_visibility:
+##   - read-write
+##   - read-only
+##   - hidden
 ##
 ## Examples:
 
@@ -22,6 +26,8 @@
 #   description: Enter text in a text field.
 #   required: false
 #   weight: 0
+#   group_name: group1
+#   ui_visibility: read-only
 #   on_objects:
 #   - dcim.models.Device
 #   - dcim.models.Rack
@@ -40,6 +46,7 @@
 #   validation_minimum: 0
 #   validation_maximum: 255
 #   weight: 10
+#   group_name: group1
 #   on_objects:
 #   - tenancy.models.Tenant
 # select_field:
