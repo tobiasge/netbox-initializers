@@ -26,3 +26,15 @@
 #   status: active
 #   tenant: tenant1
 #   vcpus: 8
+# - cluster: cluster2
+#   comments: VM3
+#   disk: 250
+#   memory: 4096
+#   name: virtual machine 3
+#   platform: Platform 2
+#   primary_ip4: 10.1.1.11/24
+#   primary_ip6: 2001:db8:a000:1::11/64
+#   site: SING 1
+#   status: active
+#   tenant: tenant1
+#   vcpus: 8
