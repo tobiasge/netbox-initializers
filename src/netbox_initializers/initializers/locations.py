@@ -3,7 +3,10 @@ from dcim.models import Location, Site
 from . import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "slug", "site"]
-REQUIRED_ASSOCS = {"site": (Site, "name")}
+OPTIONAL_ASSOCS = {
+    "site": (Site, "name"),
+    "parent": (Location, "name")
+}
 
 
 class LocationInitializer(BaseInitializer):
@@ -15,10 +18,11 @@ class LocationInitializer(BaseInitializer):
             return
         for params in locations:
 
-            for assoc, details in REQUIRED_ASSOCS.items():
-                model, field = details
-                query = {field: params.pop(assoc)}
-                params[assoc] = model.objects.get(**query)
+            for assoc, details in OPTIONAL_ASSOCS.items():
+                if assoc in params:
+                    model, field = details
+                    query = {field: params.pop(assoc)}
+                    params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
             location, created = Location.objects.get_or_create(**matching_params, defaults=defaults)
