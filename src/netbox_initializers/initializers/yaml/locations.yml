@@ -1,15 +1,10 @@
-# Examples:
-#
 # - name: cage 101
 #   slug: cage-101
 #   site: SING 1
-#
 # - name: Parent Location
 #   slug: parent-location
 #   site: SING 1
-#
 # - name: Child location
 #   slug: child-location
 #   site: SING 1
 #   parent: Parent Location
-#
