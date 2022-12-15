@@ -4,11 +4,12 @@ from extras.models import CustomLink
 from . import BaseInitializer, register_initializer
 
 
-def get_content_type_id(content_type):
+def get_content_type(content_type):
     try:
-        return ContentType.objects.get(model=content_type).id
+        return ContentType.objects.get(model=content_type)
     except ContentType.DoesNotExist:
         pass
+    return None
 
 
 class CustomLinkInitializer(BaseInitializer):
@@ -19,9 +20,9 @@ class CustomLinkInitializer(BaseInitializer):
         if custom_links is None:
             return
         for link in custom_links:
-            content_type = link.pop("content_type")
-            link["content_type_id"] = get_content_type_id(content_type)
-            if link["content_type_id"] is None:
+            content_type_name = link.pop("content_type")
+            content_type = get_content_type(content_type_name)
+            if content_type is None:
                 print(
                     "⚠️ Unable to create Custom Link '{0}': The content_type '{1}' is unknown".format(
                         link.get("name"), content_type
@@ -35,6 +36,8 @@ class CustomLinkInitializer(BaseInitializer):
             )
 
             if created:
+                custom_link.content_types.add(content_type)
+                custom_link.save()
                 print("🔗 Created Custom Link '{0}'".format(custom_link.name))
 
 
