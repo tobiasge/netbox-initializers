@@ -6,7 +6,7 @@ Load data from YAML files into Netbox
 
 First activate your virtual environment where Netbox is installed, the install the plugin version correspondig to your Netbox version.
 ```bash
-pip install "netbox-initializers==3.4.*"
+pip install "netbox-initializers==3.5.*"
 ```
 Then you need to add the plugin to the `PLUGINS` array in the Netbox configuration.
 ```python
@@ -37,5 +37,5 @@ To use the new plugin in a the Netbox Docker image, it musst be installad into t
 
 ```dockerfile
 FROM netboxcommunity/netbox:v3.4
-RUN /opt/netbox/venv/bin/pip install "netbox-initializers==3.4.*"
+RUN /opt/netbox/venv/bin/pip install "netbox-initializers==3.5.*"
 ```
