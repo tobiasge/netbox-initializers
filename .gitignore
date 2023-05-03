@@ -183,4 +183,4 @@ cython_debug/
 ## netbox-initializer
 #############################################
 test/initializer-data
-
+.python-version
