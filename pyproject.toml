@@ -15,7 +15,7 @@ version = "3.5.0"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-"ruamel.yaml" = "0.17.27"
+"ruamel.yaml" = "0.17.28"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
