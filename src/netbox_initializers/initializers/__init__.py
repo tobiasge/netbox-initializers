@@ -13,6 +13,7 @@ INITIALIZER_ORDER = (
     "custom_fields",
     "custom_links",
     "tags",
+    "config_templates",
     "webhooks",
     "tenant_groups",
     "tenants",
@@ -151,6 +152,7 @@ from .circuits import CircuitInitializer
 from .cluster_groups import ClusterGroupInitializer
 from .cluster_types import ClusterTypesInitializer
 from .clusters import ClusterInitializer
+from .config_templates import ConfigTemplateInitializer
 from .contact_groups import ContactGroupInitializer
 from .contact_roles import ContactRoleInitializer
 from .contacts import ContactInitializer
