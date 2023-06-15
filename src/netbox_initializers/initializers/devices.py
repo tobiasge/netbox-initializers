@@ -1,4 +1,5 @@
 from dcim.models import Device, DeviceRole, DeviceType, Location, Platform, Rack, Site
+from extras.models import ConfigTemplate
 from tenancy.models import Tenant
 from virtualization.models import Cluster
 
@@ -11,11 +12,12 @@ REQUIRED_ASSOCS = {
     "site": (Site, "name"),
 }
 OPTIONAL_ASSOCS = {
-    "tenant": (Tenant, "name"),
+    "cluster": (Cluster, "name"),
+    "config_template": (ConfigTemplate, "name"),
+    "location": (Location, "name"),
     "platform": (Platform, "name"),
     "rack": (Rack, "name"),
-    "cluster": (Cluster, "name"),
-    "location": (Location, "name"),
+    "tenant": (Tenant, "name"),
 }
 
 

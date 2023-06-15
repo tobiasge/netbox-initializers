@@ -1,0 +1,6 @@
+# - name: configtemplate1
+#   description: a foobar template
+#   template_code: |
+#     hi {{ foo }}
+#   environment_params: |
+#     {"foo": "bar"}
