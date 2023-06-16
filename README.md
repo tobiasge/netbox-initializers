@@ -36,6 +36,6 @@ The initializers where a part of the Docker image and where then extracted into 
 To use the new plugin in a the Netbox Docker image, it musst be installad into the image. To this, the following example can be used as a starting point:
 
 ```dockerfile
-FROM netboxcommunity/netbox:v3.4
+FROM netboxcommunity/netbox:v3.5
 RUN /opt/netbox/venv/bin/pip install "netbox-initializers==3.5.*"
 ```
