@@ -7,6 +7,8 @@
 #     text_field: Description for AMS1
 # - name: AMS 2
 #   slug: ams2
+#   asns:
+#   - 2
 #   region: Downtown
 #   status: active
 #   facility: Amsterdam 2
