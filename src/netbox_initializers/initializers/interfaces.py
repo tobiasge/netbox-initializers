@@ -1,9 +1,13 @@
 from dcim.models import Device, Interface
+from ipam.models import VLAN
 
 from . import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["device", "name"]
 REQUIRED_ASSOCS = {"device": (Device, "name")}
+OPTIONAL_ASSOCS = {
+    "untagged_vlan": (VLAN, "name"),
+}
 RELATED_ASSOCS = {
     "bridge": (Interface, "name"),
     "lag": (Interface, "name"),
@@ -28,6 +32,13 @@ class InterfaceInitializer(BaseInitializer):
                 query = {field: params.pop(assoc)}
 
                 params[assoc] = model.objects.get(**query)
+
+            for assoc, details in OPTIONAL_ASSOCS.items():
+                if assoc in params:
+                    model, field = details
+                    query = {field: params.pop(assoc)}
+
+                    params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
             interface, created = Interface.objects.get_or_create(
