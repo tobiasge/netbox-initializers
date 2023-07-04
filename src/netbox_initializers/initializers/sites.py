@@ -26,7 +26,20 @@ class SiteInitializer(BaseInitializer):
 
             matching_params, defaults = self.split_params(params)
 
+            asnFounds = []
             if defaults.get("asns", 0):
+                for asn in defaults["asns"]:
+                    found = ASN.objects.filter(asn=asn).first()
+                    if found:
+                        asnFounds += [found]
+
+                if len(defaults["asns"]) != len(asnFounds):
+                    print(
+                        "⚠️ Unable to create Site '{0}': all ASNs could not be found".format(
+                            params.get("name")
+                        )
+                    )
+
                 # asns will be assosciated below
                 del defaults["asns"]
 
@@ -35,15 +48,13 @@ class SiteInitializer(BaseInitializer):
             if created:
                 print("📍 Created site", site.name)
 
-            if params.get("asns", 0):
-                for asn in params["asns"]:
-                    found = ASN.objects.filter(asn=asn).first()
-
-                    if found:
-                        site.asns.add(found)
-                        print(" 👤 Assigned site %s asn %s" % (site.name, asn))
-
             self.set_custom_fields_values(site, custom_field_data)
+
+            for asn in asnFounds:
+                site.asns.add(asn)
+                print(" 👤 Assigned asn %s to site %s" % (asn, site.name))
+
+            site.save()
 
 
 register_initializer("sites", SiteInitializer)
