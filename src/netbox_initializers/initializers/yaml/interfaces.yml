@@ -29,6 +29,7 @@
 #   enabled: true
 #   type: 1000base-t
 #   name: eth0
+#   untagged_vlan: vlan2
 # - device: server02
 #   enabled: true
 #   type: virtual
