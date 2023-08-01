@@ -47,6 +47,7 @@ INITIALIZER_ORDER = (
     "ip_addresses",
     "primary_ips",
     "services",
+    "service_templates",
     "providers",
     "circuit_types",
     "circuits",
@@ -180,6 +181,7 @@ from .regions import RegionInitializer
 from .rirs import RIRInitializer
 from .route_targets import RouteTargetInitializer
 from .services import ServiceInitializer
+from .service_templates import ServiceTemplateInitializer
 from .sites import SiteInitializer
 from .tags import TagInitializer
 from .tenant_groups import TenantGroupInitializer
