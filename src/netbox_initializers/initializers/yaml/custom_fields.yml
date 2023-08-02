@@ -28,6 +28,7 @@
 #   weight: 0
 #   group_name: group1
 #   ui_visibility: read-only
+#   search_weight: 100
 #   on_objects:
 #   - dcim.models.Device
 #   - dcim.models.Rack
@@ -47,6 +48,7 @@
 #   validation_maximum: 255
 #   weight: 10
 #   group_name: group1
+#   is_cloneable: false
 #   on_objects:
 #   - tenancy.models.Tenant
 # select_field:
@@ -56,6 +58,7 @@
 #   filter_logic: exact
 #   weight: 30
 #   default: First Item
+#   is_cloneable: true
 #   on_objects:
 #   - dcim.models.Device
 #   choices:

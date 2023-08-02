@@ -55,6 +55,12 @@ class CustomFieldInitializer(BaseInitializer):
                 if cf_details.get("ui_visibility", False):
                     custom_field.ui_visibility = cf_details["ui_visibility"]
 
+                if cf_details.get("search_weight", -1) >= 0:
+                    custom_field.search_weight = cf_details["search_weight"]
+
+                if cf_details.get("is_cloneable", None) is not None:
+                    custom_field.is_cloneable = cf_details["is_cloneable"]
+
                 # object_type should only be applied when type is object, multiobject
                 if cf_details.get("object_type"):
                     if cf_details.get("type") not in (
