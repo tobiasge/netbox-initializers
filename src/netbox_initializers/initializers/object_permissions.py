@@ -12,7 +12,6 @@ class ObjectPermissionInitializer(BaseInitializer):
         if object_permissions is None:
             return
         for permission_name, permission_details in object_permissions.items():
-
             object_permission, created = ObjectPermission.objects.get_or_create(
                 name=permission_name,
                 defaults={

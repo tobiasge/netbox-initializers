@@ -124,8 +124,10 @@ class CustomFieldInitializer(BaseInitializer):
                         )
                         custom_field.delete()
                         continue
-                    choice_set = CustomFieldChoiceSet.objects.get_or_create(name=f"{cf_name}_choices")
-                    choice_set.extra_choices = choice_set
+                    choice_set = CustomFieldChoiceSet.objects.get_or_create(
+                        name=f"{cf_name}_choices"
+                    )
+                    choice_set.extra_choices = choices
                     choice_set.save()
                     custom_field.choice_set = choice_set
 

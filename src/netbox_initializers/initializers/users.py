@@ -14,7 +14,9 @@ class UserInitializer(BaseInitializer):
         for username, user_details in users.items():
             api_token = user_details.pop("api_token", Token.generate_key())
             password = user_details.pop("password", NetBoxUser.objects.make_random_password())
-            user, created = NetBoxUser.objects.get_or_create(username=username, defaults=user_details)
+            user, created = NetBoxUser.objects.get_or_create(
+                username=username, defaults=user_details
+            )
             if created:
                 user.set_password(password)
                 user.save()
