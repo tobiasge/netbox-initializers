@@ -1,4 +1,4 @@
-from extras.models import CustomField
+from extras.models import CustomField, CustomFieldChoiceSet
 
 from . import BaseInitializer, register_initializer
 
@@ -113,7 +113,7 @@ class CustomFieldInitializer(BaseInitializer):
                     custom_field.validation_maximum = cf_details["validation_maximum"]
 
                 # choices should only be applied when type is select, multiselect
-                if cf_details.get("choices"):
+                if choices := cf_details.get("choices"):
                     if cf_details.get("type") not in (
                         "select",
                         "multiselect",
@@ -124,18 +124,10 @@ class CustomFieldInitializer(BaseInitializer):
                         )
                         custom_field.delete()
                         continue
-                    custom_field.choices = []
-
-                    for choice_detail in cf_details.get("choices", []):
-                        if isinstance(choice_detail, dict) and "value" in choice_detail:
-                            # legacy mode
-                            print(
-                                f"⚠️ Please migrate the choice '{choice_detail['value']}' of '{cf_name}'"
-                                + " to the new format, as 'weight' is no longer supported!"
-                            )
-                            custom_field.choices.append(choice_detail["value"])
-                        else:
-                            custom_field.choices.append(choice_detail)
+                    choice_set = CustomFieldChoiceSet.objects.get_or_create(name=f"{cf_name}_choices")
+                    choice_set.extra_choices = choice_set
+                    choice_set.save()
+                    custom_field.choice_set = choice_set
 
                 custom_field.save()
 

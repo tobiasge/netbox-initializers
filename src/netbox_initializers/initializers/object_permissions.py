@@ -1,5 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
-from users.models import AdminGroup, AdminUser, ObjectPermission
+from users.models import NetBoxGroup, NetBoxUser, ObjectPermission
 
 from . import BaseInitializer, register_initializer
 
@@ -49,7 +49,7 @@ class ObjectPermissionInitializer(BaseInitializer):
 
             if permission_details.get("groups", 0):
                 for groupname in permission_details["groups"]:
-                    group = AdminGroup.objects.filter(name=groupname).first()
+                    group = NetBoxGroup.objects.filter(name=groupname).first()
 
                     if group:
                         object_permission.groups.add(group)
@@ -60,7 +60,7 @@ class ObjectPermissionInitializer(BaseInitializer):
 
             if permission_details.get("users", 0):
                 for username in permission_details["users"]:
-                    user = AdminUser.objects.filter(username=username).first()
+                    user = NetBoxUser.objects.filter(username=username).first()
 
                     if user:
                         object_permission.users.add(user)
