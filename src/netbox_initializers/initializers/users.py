@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-from users.models import Token
+from users.models import NetBoxUser, Token
 
 from . import BaseInitializer, register_initializer
 
@@ -14,8 +13,10 @@ class UserInitializer(BaseInitializer):
 
         for username, user_details in users.items():
             api_token = user_details.pop("api_token", Token.generate_key())
-            password = user_details.pop("password", User.objects.make_random_password())
-            user, created = User.objects.get_or_create(username=username, defaults=user_details)
+            password = user_details.pop("password", NetBoxUser.objects.make_random_password())
+            user, created = NetBoxUser.objects.get_or_create(
+                username=username, defaults=user_details
+            )
             if created:
                 user.set_password(password)
                 user.save()
