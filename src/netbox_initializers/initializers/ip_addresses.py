@@ -8,7 +8,7 @@ from virtualization.models import VirtualMachine, VMInterface
 
 from . import BaseInitializer, InitializationError, register_initializer
 
-MATCH_PARAMS = ["address", "vrf", "vrf_id"]
+MATCH_PARAMS = ["address", "vrf", "vrf_id", "assigned_object_id", "assigned_object_type"]
 OPTIONAL_ASSOCS = {
     "tenant": (Tenant, "name"),
     "vrf": (VRF, "name"),
