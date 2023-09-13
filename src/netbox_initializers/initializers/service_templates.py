@@ -13,9 +13,10 @@ class ServiceTemplateInitializer(BaseInitializer):
         if service_templates is None:
             return
         for params in service_templates:
-
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            service_template, created = ServiceTemplate.objects.get_or_create(**matching_params, defaults=defaults)
+            service_template, created = ServiceTemplate.objects.get_or_create(
+                **matching_params, defaults=defaults
+            )
 
             if created:
                 print("🧰 Created Service Template", service_template.name)

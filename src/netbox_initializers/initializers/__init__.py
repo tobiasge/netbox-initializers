@@ -180,8 +180,8 @@ from .racks import RackInitializer
 from .regions import RegionInitializer
 from .rirs import RIRInitializer
 from .route_targets import RouteTargetInitializer
-from .services import ServiceInitializer
 from .service_templates import ServiceTemplateInitializer
+from .services import ServiceInitializer
 from .sites import SiteInitializer
 from .tags import TagInitializer
 from .tenant_groups import TenantGroupInitializer
