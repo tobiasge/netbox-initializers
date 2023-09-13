@@ -1,0 +1,12 @@
+# - name: DNS
+#   protocol: TCP
+#   ports:
+#     - 53
+# - name: DNS
+#   protocol: UDP
+#   ports:
+#     - 53
+# - name: MISC
+#   protocol: UDP
+#   ports: 
+#     - 4000
