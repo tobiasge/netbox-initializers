@@ -20,20 +20,10 @@ class WebhookInitializer(BaseInitializer):
         if webhooks is None:
             return
         for hook in webhooks:
-            obj_types = hook.pop("object_types")
-
-            try:
-                obj_type_ids = [get_content_type_id(hook["name"], obj) for obj in obj_types]
-            except ContentType.DoesNotExist:
-                continue
-
             matching_params, defaults = self.split_params(hook)
             webhook, created = Webhook.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
-                webhook.content_types.set(obj_type_ids)
-                webhook.save()
-
                 print("🪝 Created Webhook {0}".format(webhook.name))
 
 
