@@ -19,7 +19,7 @@ jobs:
         run: |
           sed -i '/max_version/d' src/netbox_initializers/__init__.py
           sed -i '/min_version/d' src/netbox_initializers/__init__.py
-          sed -i 's/FROM netboxcommunity/netbox:v[0-9].[0-9]/FROM netboxcommunity/netbox:feature/g' test/Dockerfile
+          sed -i 's/FROM netboxcommunity\/netbox:v[0-9].[0-9]/FROM netboxcommunity\/netbox:feature/g' test/Dockerfile
       - id: test-script-1
         name: Test the initializers (First run)
         env:
