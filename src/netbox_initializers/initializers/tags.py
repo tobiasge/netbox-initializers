@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.models import ContentType
 from extras.models import Tag
 from utilities.choices import ColorChoices
 
@@ -19,11 +20,21 @@ class TagInitializer(BaseInitializer):
                     if color in color_tpl:
                         params["color"] = color_tpl[0]
 
+            object_types = params.pop("object_types", None)
             matching_params, defaults = self.split_params(params)
             tag, created = Tag.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
                 print("🎨 Created Tag", tag.name)
+
+                if object_types:
+                    for ot in object_types:
+                        ct = ContentType.objects.get(
+                            app_label=ot["app"],
+                            model=ot["model"],
+                        )
+                        tag.object_types.add(ct)
+                        print(f"🎨 Restricted Tag {tag.name} to {ot['app']}.{ot['model']}")
 
 
 register_initializer("tags", TagInitializer)
