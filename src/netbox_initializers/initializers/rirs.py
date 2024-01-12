@@ -12,11 +12,14 @@ class RIRInitializer(BaseInitializer):
             return
 
         for params in rirs:
+            tags = params.pop("tags", None)
             matching_params, defaults = self.split_params(params)
             rir, created = RIR.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
                 print("🗺️ Created RIR", rir.name)
+
+            self.set_tags(rir, tags)
 
 
 register_initializer("rirs", RIRInitializer)

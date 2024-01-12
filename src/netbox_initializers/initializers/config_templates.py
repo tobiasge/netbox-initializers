@@ -22,6 +22,7 @@ class ConfigTemplateInitializer(BaseInitializer):
         if config_templates is None:
             return
         for template in config_templates:
+            tags = template.pop("tags", None)
             matching_params, defaults = self.split_params(template)
             config_template, created = ConfigTemplate.objects.get_or_create(
                 **matching_params, defaults=defaults
@@ -30,6 +31,7 @@ class ConfigTemplateInitializer(BaseInitializer):
             if created:
                 config_template.save()
                 print("🪝 Created Config Template {0}".format(config_template.name))
+            self.set_tags(config_template, tags)
 
 
 register_initializer("config_templates", ConfigTemplateInitializer)

@@ -16,6 +16,7 @@ class VRFInitializer(BaseInitializer):
             return
         for params in vrfs:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -31,6 +32,7 @@ class VRFInitializer(BaseInitializer):
                 print("📦 Created VRF", vrf.name)
 
             self.set_custom_fields_values(vrf, custom_field_data)
+            self.set_tags(vrf, tags)
 
 
 register_initializer("vrfs", VRFInitializer)

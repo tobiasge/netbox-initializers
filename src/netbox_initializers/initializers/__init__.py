@@ -3,7 +3,7 @@ from typing import Tuple
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
-from extras.models import CustomField
+from extras.models import CustomField, Tag
 from ruamel.yaml import YAML
 
 INITIALIZER_ORDER = (
@@ -118,6 +118,27 @@ class BaseInitializer:
                 f"⚠️ Custom field(s) '{missing_cfs}' requested for {entity} but not found in Netbox!"
                 "Please chceck the custom_fields.yml"
             )
+
+        if save:
+            entity.save()
+
+    def set_tags(self, entity, tags):
+        if not tags:
+            return
+
+        if not hasattr(entity, "tags"):
+            raise Exception(f"⚠️ Tags cannot be applied to {entity}'s model")
+
+        ct = ContentType.objects.get_for_model(entity)
+
+        save = False
+        for tag in Tag.objects.filter(name__in=tags):
+            restricted_cts = tag.object_types.all()
+            if restricted_cts and ct not in restricted_cts:
+                raise Exception(f"⚠️ Tag {tag} cannot be applied to {entity}'s model")
+
+            entity.tags.add(tag)
+            save = True
 
         if save:
             entity.save()

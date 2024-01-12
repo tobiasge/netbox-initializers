@@ -13,6 +13,7 @@ class LocationInitializer(BaseInitializer):
         if locations is None:
             return
         for params in locations:
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -25,6 +26,8 @@ class LocationInitializer(BaseInitializer):
 
             if created:
                 print("🎨 Created location", location.name)
+
+            self.set_tags(location, tags)
 
 
 register_initializer("locations", LocationInitializer)

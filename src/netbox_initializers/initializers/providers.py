@@ -13,6 +13,7 @@ class ProviderInitializer(BaseInitializer):
             return
         for params in providers:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             asn_number = params.pop("asn")
             asn = ASN.objects.filter(asn=asn_number).first()
@@ -33,6 +34,7 @@ class ProviderInitializer(BaseInitializer):
                 print("📡 Created provider", provider.name)
 
             self.set_custom_fields_values(provider, custom_field_data)
+            self.set_tags(provider, tags)
 
 
 register_initializer("providers", ProviderInitializer)

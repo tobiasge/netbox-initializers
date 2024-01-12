@@ -21,6 +21,7 @@ class RackInitializer(BaseInitializer):
             return
         for params in racks:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
@@ -42,6 +43,7 @@ class RackInitializer(BaseInitializer):
                 print("🔳 Created rack", rack.site, rack.name)
 
             self.set_custom_fields_values(rack, custom_field_data)
+            self.set_tags(rack, tags)
 
 
 register_initializer("racks", RackInitializer)

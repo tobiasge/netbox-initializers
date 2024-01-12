@@ -85,6 +85,7 @@ class DeviceTypeInitializer(BaseInitializer):
             return
         for params in device_types:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
             components = [(v[0], v[1], params.pop(k, [])) for k, v in SUPPORTED_COMPONENTS.items()]
 
             for assoc, details in REQUIRED_ASSOCS.items():
@@ -109,6 +110,7 @@ class DeviceTypeInitializer(BaseInitializer):
                 print("🔡 Created device type", device_type.manufacturer, device_type.model)
 
             self.set_custom_fields_values(device_type, custom_field_data)
+            self.set_tags(device_type, tags)
 
             for component in components:
                 c_model, c_match_params, c_params = component

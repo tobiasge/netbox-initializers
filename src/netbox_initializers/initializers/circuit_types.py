@@ -11,6 +11,7 @@ class CircuitTypeInitializer(BaseInitializer):
         if circuit_types is None:
             return
         for params in circuit_types:
+            tags = params.pop("tags", None)
             custom_field_data = self.pop_custom_fields(params)
 
             matching_params, defaults = self.split_params(params)
@@ -22,6 +23,7 @@ class CircuitTypeInitializer(BaseInitializer):
                 print("⚡ Created Circuit Type", circuit_type.name)
 
             self.set_custom_fields_values(circuit_type, custom_field_data)
+            self.set_tags(circuit_type, tags)
 
 
 register_initializer("circuit_types", CircuitTypeInitializer)

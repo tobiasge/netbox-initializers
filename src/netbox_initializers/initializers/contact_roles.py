@@ -12,6 +12,7 @@ class ContactRoleInitializer(BaseInitializer):
             return
         for params in contact_roles:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             matching_params, defaults = self.split_params(params)
             contact_role, created = ContactRole.objects.get_or_create(
@@ -22,6 +23,7 @@ class ContactRoleInitializer(BaseInitializer):
                 print("🔳 Created Contact Role", contact_role.name)
 
             self.set_custom_fields_values(contact_role, custom_field_data)
+            self.set_tags(contact_role, tags)
 
 
 register_initializer("contact_roles", ContactRoleInitializer)

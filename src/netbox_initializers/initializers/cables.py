@@ -202,6 +202,8 @@ class CableInitializer(BaseInitializer):
         if cables is None:
             return
         for params in cables:
+            tags = params.pop("tags", None)
+
             params["termination_a_class"] = get_termination_class_by_name(
                 params.get("termination_a_class")
             )
@@ -248,6 +250,7 @@ class CableInitializer(BaseInitializer):
             CableTermination.objects.create(**params_b_term)
 
             print(f"🧷 Created cable {cable} {cable_name}")
+            self.set_tags(cable, tags)
 
 
 register_initializer("cables", CableInitializer)

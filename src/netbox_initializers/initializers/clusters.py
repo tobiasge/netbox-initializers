@@ -22,6 +22,7 @@ class ClusterInitializer(BaseInitializer):
             return
         for params in clusters:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
@@ -43,6 +44,7 @@ class ClusterInitializer(BaseInitializer):
                 print("🗄️ Created cluster", cluster.name)
 
             self.set_custom_fields_values(cluster, custom_field_data)
+            self.set_tags(cluster, tags)
 
 
 register_initializer("clusters", ClusterInitializer)

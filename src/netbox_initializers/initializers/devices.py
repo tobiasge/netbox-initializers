@@ -30,6 +30,7 @@ class DeviceInitializer(BaseInitializer):
             return
         for params in devices:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             # primary ips are handled later in `380_primary_ips.py`
             params.pop("primary_ip4", None)
@@ -57,6 +58,7 @@ class DeviceInitializer(BaseInitializer):
                 print("🖥️  Created device", device.name)
 
             self.set_custom_fields_values(device, custom_field_data)
+            self.set_tags(device, tags)
 
 
 register_initializer("devices", DeviceInitializer)

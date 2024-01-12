@@ -30,6 +30,7 @@ class IPAddressInitializer(BaseInitializer):
             return
         for params in ip_addresses:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             vm = params.pop("virtual_machine", None)
             device = params.pop("device", None)
@@ -70,6 +71,7 @@ class IPAddressInitializer(BaseInitializer):
                 print("🧬 Created IP Address", ip_address.address)
 
             self.set_custom_fields_values(ip_address, custom_field_data)
+            self.set_tags(ip_address, tags)
 
 
 register_initializer("ip_addresses", IPAddressInitializer)

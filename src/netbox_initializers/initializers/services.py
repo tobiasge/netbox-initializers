@@ -19,6 +19,7 @@ class ServiceInitializer(BaseInitializer):
         if services is None:
             return
         for params in services:
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -31,6 +32,8 @@ class ServiceInitializer(BaseInitializer):
 
             if created:
                 print("🧰 Created Service", service.name)
+
+            self.set_tags(service, tags)
 
 
 register_initializer("services", ServiceInitializer)

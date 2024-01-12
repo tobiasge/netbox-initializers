@@ -15,6 +15,7 @@ class VLANGroupInitializer(BaseInitializer):
             return
         for params in vlan_groups:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -47,6 +48,7 @@ class VLANGroupInitializer(BaseInitializer):
                 print("🏘️ Created VLAN Group", vlan_group.name)
 
             self.set_custom_fields_values(vlan_group, custom_field_data)
+            self.set_tags(vlan_group, tags)
 
 
 register_initializer("vlan_groups", VLANGroupInitializer)

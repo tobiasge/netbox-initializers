@@ -20,11 +20,14 @@ class WebhookInitializer(BaseInitializer):
         if webhooks is None:
             return
         for hook in webhooks:
+            tags = hook.pop("tags", None)
             matching_params, defaults = self.split_params(hook)
             webhook, created = Webhook.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
                 print("🪝 Created Webhook {0}".format(webhook.name))
+
+            self.set_tags(webhook, tags)
 
 
 register_initializer("webhooks", WebhookInitializer)

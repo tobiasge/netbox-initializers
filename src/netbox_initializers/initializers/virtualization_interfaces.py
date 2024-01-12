@@ -15,6 +15,7 @@ class VMInterfaceInitializer(BaseInitializer):
             return
         for params in interfaces:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
@@ -31,6 +32,7 @@ class VMInterfaceInitializer(BaseInitializer):
                 print("🧷 Created interface", interface.name, interface.virtual_machine.name)
 
             self.set_custom_fields_values(interface, custom_field_data)
+            self.set_tags(interface, tags)
 
 
 register_initializer("virtualization_interfaces", VMInterfaceInitializer)

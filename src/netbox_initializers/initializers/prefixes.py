@@ -25,6 +25,7 @@ class PrefixInitializer(BaseInitializer):
             return
         for params in prefixes:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             params["prefix"] = IPNetwork(params["prefix"])
 
@@ -41,6 +42,7 @@ class PrefixInitializer(BaseInitializer):
                 print("📌 Created Prefix", prefix.prefix)
 
             self.set_custom_fields_values(prefix, custom_field_data)
+            self.set_tags(prefix, tags)
 
 
 register_initializer("prefixes", PrefixInitializer)

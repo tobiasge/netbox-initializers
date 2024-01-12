@@ -20,6 +20,7 @@ class AggregateInitializer(BaseInitializer):
             return
         for params in aggregates:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             params["prefix"] = IPNetwork(params["prefix"])
 
@@ -45,6 +46,7 @@ class AggregateInitializer(BaseInitializer):
                 print("🗞️ Created Aggregate", aggregate.prefix)
 
             self.set_custom_fields_values(aggregate, custom_field_data)
+            self.set_tags(aggregate, tags)
 
 
 register_initializer("aggregates", AggregateInitializer)
