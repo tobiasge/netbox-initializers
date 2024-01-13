@@ -82,11 +82,12 @@ class InterfaceInitializer(BaseInitializer):
                     related_obj, rel_obj_created = r_model.objects.get_or_create(**query)
 
                     if rel_obj_created:
-                        setattr(interface, f"{related_field}_id", related_obj.id)
-                        interface.save()
                         print(
                             f"🧷 Created {related_field} interface {interface} on {interface.device}"
                         )
+
+                    setattr(interface, f"{related_field}_id", related_obj.id)
+                    interface.save()
 
 
 register_initializer("interfaces", InterfaceInitializer)
