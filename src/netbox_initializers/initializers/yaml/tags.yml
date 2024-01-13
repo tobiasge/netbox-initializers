@@ -10,3 +10,9 @@
 # - name: Tag 4
 #   slug: tag-4
 #   color: Teal
+# - name: Tag 5
+#   slug: tag-5
+#   color: Teal
+#   object_types:
+#     - app: ipam
+#       model: ipaddress
