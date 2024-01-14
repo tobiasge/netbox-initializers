@@ -16,6 +16,7 @@ class PowerFeedInitializer(BaseInitializer):
             return
         for params in power_feeds:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
@@ -39,6 +40,7 @@ class PowerFeedInitializer(BaseInitializer):
                 print("⚡ Created Power Feed", power_feed.name)
 
             self.set_custom_fields_values(power_feed, custom_field_data)
+            self.set_tags(power_feed, tags)
 
 
 register_initializer("power_feeds", PowerFeedInitializer)

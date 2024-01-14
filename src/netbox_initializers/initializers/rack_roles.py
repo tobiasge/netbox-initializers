@@ -12,6 +12,7 @@ class RackRoleInitializer(BaseInitializer):
         if rack_roles is None:
             return
         for params in rack_roles:
+            tags = params.pop("tags", None)
             if "color" in params:
                 color = params.pop("color")
 
@@ -26,6 +27,8 @@ class RackRoleInitializer(BaseInitializer):
 
             if created:
                 print("🎨 Created rack role", rack_role.name)
+
+            self.set_tags(rack_role, tags)
 
 
 register_initializer("rack_roles", RackRoleInitializer)

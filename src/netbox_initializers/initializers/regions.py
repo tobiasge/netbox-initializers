@@ -13,6 +13,7 @@ class RegionInitializer(BaseInitializer):
         if regions is None:
             return
         for params in regions:
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -26,6 +27,8 @@ class RegionInitializer(BaseInitializer):
 
             if created:
                 print("🌐 Created region", region.name)
+
+            self.set_tags(region, tags)
 
 
 register_initializer("regions", RegionInitializer)

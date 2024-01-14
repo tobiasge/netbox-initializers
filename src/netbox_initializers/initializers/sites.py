@@ -16,6 +16,7 @@ class SiteInitializer(BaseInitializer):
             return
         for params in sites:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -49,6 +50,7 @@ class SiteInitializer(BaseInitializer):
                 print("📍 Created site", site.name)
 
             self.set_custom_fields_values(site, custom_field_data)
+            self.set_tags(site, tags)
 
             for asn in asnFounds:
                 site.asns.add(asn)

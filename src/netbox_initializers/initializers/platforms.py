@@ -15,6 +15,7 @@ class PlatformInitializer(BaseInitializer):
         if platforms is None:
             return
         for params in platforms:
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -28,6 +29,8 @@ class PlatformInitializer(BaseInitializer):
 
             if created:
                 print("💾 Created platform", platform.name)
+
+            self.set_tags(platform, tags)
 
 
 register_initializer("platforms", PlatformInitializer)

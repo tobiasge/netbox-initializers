@@ -14,6 +14,7 @@ class TenantInitializer(BaseInitializer):
             return
         for params in tenants:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -29,6 +30,7 @@ class TenantInitializer(BaseInitializer):
                 print("👩‍💻 Created Tenant", tenant.name)
 
             self.set_custom_fields_values(tenant, custom_field_data)
+            self.set_tags(tenant, tags)
 
 
 register_initializer("tenants", TenantInitializer)

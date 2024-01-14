@@ -12,6 +12,7 @@ class DeviceRoleInitializer(BaseInitializer):
         if device_roles is None:
             return
         for params in device_roles:
+            tags = params.pop("tags", None)
 
             if "color" in params:
                 color = params.pop("color")
@@ -27,6 +28,8 @@ class DeviceRoleInitializer(BaseInitializer):
 
             if created:
                 print("🎨 Created device role", device_role.name)
+
+            self.set_tags(device_role, tags)
 
 
 register_initializer("device_roles", DeviceRoleInitializer)

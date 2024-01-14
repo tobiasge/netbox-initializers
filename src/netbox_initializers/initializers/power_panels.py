@@ -16,6 +16,7 @@ class PowerPanelInitializer(BaseInitializer):
             return
         for params in power_panels:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
@@ -39,6 +40,7 @@ class PowerPanelInitializer(BaseInitializer):
                 print("⚡ Created Power Panel", power_panel.site, power_panel.name)
 
             self.set_custom_fields_values(power_panel, custom_field_data)
+            self.set_tags(power_panel, tags)
 
 
 register_initializer("power_panels", PowerPanelInitializer)

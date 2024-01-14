@@ -15,6 +15,7 @@ class RouteTargetInitializer(BaseInitializer):
             return
         for params in route_targets:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -32,6 +33,7 @@ class RouteTargetInitializer(BaseInitializer):
                 print("🎯 Created Route Target", route_target.name)
 
             self.set_custom_fields_values(route_target, custom_field_data)
+            self.set_tags(route_target, tags)
 
 
 register_initializer("route_targets", RouteTargetInitializer)

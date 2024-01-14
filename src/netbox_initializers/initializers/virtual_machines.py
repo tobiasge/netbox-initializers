@@ -23,6 +23,7 @@ class VirtualMachineInitializer(BaseInitializer):
             return
         for params in virtual_machines:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             # primary ips are handled later in `270_primary_ips.py`
             params.pop("primary_ip4", None)
@@ -52,6 +53,7 @@ class VirtualMachineInitializer(BaseInitializer):
                 print("🖥️ Created virtual machine", virtual_machine.name)
 
             self.set_custom_fields_values(virtual_machine, custom_field_data)
+            self.set_tags(virtual_machine, tags)
 
 
 register_initializer("virtual_machines", VirtualMachineInitializer)

@@ -23,6 +23,7 @@ class VLANInitializer(BaseInitializer):
             return
         for params in vlans:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -38,6 +39,7 @@ class VLANInitializer(BaseInitializer):
                 print("🏠 Created VLAN", vlan.name)
 
             self.set_custom_fields_values(vlan, custom_field_data)
+            self.set_tags(vlan, tags)
 
 
 register_initializer("vlans", VLANInitializer)

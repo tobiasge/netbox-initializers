@@ -17,6 +17,7 @@ class CircuitInitializer(BaseInitializer):
             return
         for params in circuits:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
@@ -38,6 +39,7 @@ class CircuitInitializer(BaseInitializer):
                 print("⚡ Created Circuit", circuit.cid)
 
             self.set_custom_fields_values(circuit, custom_field_data)
+            self.set_tags(circuit, tags)
 
 
 register_initializer("circuits", CircuitInitializer)

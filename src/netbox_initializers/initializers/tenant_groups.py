@@ -11,6 +11,7 @@ class TenantGroupInitializer(BaseInitializer):
         if tenant_groups is None:
             return
         for params in tenant_groups:
+            tags = params.pop("tags", None)
             matching_params, defaults = self.split_params(params)
             tenant_group, created = TenantGroup.objects.get_or_create(
                 **matching_params, defaults=defaults
@@ -18,6 +19,8 @@ class TenantGroupInitializer(BaseInitializer):
 
             if created:
                 print("🔳 Created Tenant Group", tenant_group.name)
+
+            self.set_tags(tenant_group, tags)
 
 
 register_initializer("tenant_groups", TenantGroupInitializer)

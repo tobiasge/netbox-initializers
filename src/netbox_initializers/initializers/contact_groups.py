@@ -14,6 +14,7 @@ class ContactGroupInitializer(BaseInitializer):
             return
         for params in contact_groups:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -31,6 +32,7 @@ class ContactGroupInitializer(BaseInitializer):
                 print("🔳 Created Contact Group", contact_group.name)
 
             self.set_custom_fields_values(contact_group, custom_field_data)
+            self.set_tags(contact_group, tags)
 
 
 register_initializer("contact_groups", ContactGroupInitializer)

@@ -14,6 +14,7 @@ class ContactInitializer(BaseInitializer):
             return
         for params in contacts:
             custom_field_data = self.pop_custom_fields(params)
+            tags = params.pop("tags", None)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
@@ -29,6 +30,7 @@ class ContactInitializer(BaseInitializer):
                 print("👩‍💻 Created Contact", contact.name)
 
             self.set_custom_fields_values(contact, custom_field_data)
+            self.set_tags(contact, tags)
 
 
 register_initializer("contacts", ContactInitializer)

@@ -11,6 +11,7 @@ class ManufacturerInitializer(BaseInitializer):
         if manufacturers is None:
             return
         for params in manufacturers:
+            tags = params.pop("tags", None)
             matching_params, defaults = self.split_params(params)
             manufacturer, created = Manufacturer.objects.get_or_create(
                 **matching_params, defaults=defaults
@@ -18,6 +19,8 @@ class ManufacturerInitializer(BaseInitializer):
 
             if created:
                 print("🏭 Created Manufacturer", manufacturer.name)
+
+            self.set_tags(manufacturer, tags)
 
 
 register_initializer("manufacturers", ManufacturerInitializer)

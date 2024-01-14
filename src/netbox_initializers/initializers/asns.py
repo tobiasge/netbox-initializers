@@ -16,6 +16,7 @@ class ASNInitializer(BaseInitializer):
         if asns is None:
             return
         for params in asns:
+            tags = params.pop("tags", None)
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
                 query = {field: params.pop(assoc)}
@@ -34,6 +35,8 @@ class ASNInitializer(BaseInitializer):
 
             if created:
                 print(f"🔡 Created ASN {asn.asn}")
+
+            self.set_tags(asn, tags)
 
 
 register_initializer("asns", ASNInitializer)
