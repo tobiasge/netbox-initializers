@@ -11,7 +11,7 @@ license = "Apache-2.0"
 name = "netbox-initializers"
 readme = "README.md"
 repository = "https://github.com/tobiasge/netbox-initializers"
-version = "3.7.0"
+version = "3.7.1"
 
 [tool.poetry.dependencies]
 python = "^3.8"
