@@ -7,3 +7,4 @@
 # - name: Platform 3
 #   slug: platform-3
 #   manufacturer: No Name
+#   config_template: configtemplate1

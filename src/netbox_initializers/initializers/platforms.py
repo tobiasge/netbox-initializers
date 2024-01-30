@@ -1,9 +1,11 @@
 from dcim.models import Manufacturer, Platform
+from extras.models import ConfigTemplate
 
 from . import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {
     "manufacturer": (Manufacturer, "name"),
+    "config_template": (ConfigTemplate, "name"),
 }
 
 
