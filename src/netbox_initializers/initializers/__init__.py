@@ -52,6 +52,7 @@ INITIALIZER_ORDER = (
     "circuit_types",
     "circuits",
     "cables",
+    "config_contexts",
     "contact_groups",
     "contact_roles",
     "contacts",
@@ -174,6 +175,7 @@ from .circuits import CircuitInitializer
 from .cluster_groups import ClusterGroupInitializer
 from .cluster_types import ClusterTypesInitializer
 from .clusters import ClusterInitializer
+from .config_contexts import ConfigContextInitializer
 from .config_templates import ConfigTemplateInitializer
 from .contact_groups import ContactGroupInitializer
 from .contact_roles import ContactRoleInitializer
