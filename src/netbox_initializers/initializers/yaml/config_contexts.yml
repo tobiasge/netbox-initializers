@@ -1,0 +1,42 @@
+# - name: configcontext1
+#   description: a foobar context
+#   weight: 1000
+#   is_active: true
+#   data:
+#     foor: bar
+#     baz:
+#       - one
+#       - two
+#       - three
+#   regions:
+#     - Singapore
+#     - Amsterdam
+#   sites:
+#     - AMS 1
+#     - AMS 2
+#   locations:
+#     - cage 101
+#     - Parent Location
+#   device_types:
+#     - Model 1
+#     - Model 2
+#   roles:
+#     - switch
+#     - server
+#   platforms:
+#     - Platform 1
+#     - Platform 2
+#   cluster_types:
+#     - Hyper-V
+#   cluster_groups:
+#     - Group 1
+#     - Group 2
+#   clusters:
+#     - cluster1
+#     - cluster2
+#   tenant_groups:
+#     - Tenant Group 1
+#     - Tenant Group 2
+#   tenants:
+#     - tenant1
+#     - tenant2
