@@ -17,6 +17,7 @@ INITIALIZER_ORDER = (
     "webhooks",
     "tenant_groups",
     "tenants",
+    "site_groups",
     "regions",
     "rirs",
     "asns",
@@ -205,6 +206,7 @@ from .rirs import RIRInitializer
 from .route_targets import RouteTargetInitializer
 from .service_templates import ServiceTemplateInitializer
 from .services import ServiceInitializer
+from .site_groups import SiteGroupInitializer
 from .sites import SiteInitializer
 from .tags import TagInitializer
 from .tenant_groups import TenantGroupInitializer

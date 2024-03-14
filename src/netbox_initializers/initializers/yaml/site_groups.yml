@@ -1,0 +1,7 @@
+# - name: Datacenter
+#   slug: datacenter
+# - name: Office
+#   slug: office
+# - name: Headquaters
+#   slug: headquarters
+#   parent: Office
