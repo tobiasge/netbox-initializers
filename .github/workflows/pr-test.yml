@@ -9,3 +9,5 @@ jobs:
     uses: ./.github/workflows/linter.yml
   tests:
     uses: ./.github/workflows/tests.yml
+  feature-tests:
+    uses: ./.github/workflows/feature-test.yml
