@@ -59,5 +59,5 @@
 # - name: gns3-tor
 #   device_role: switch
 #   device_type: TOR-8P
-#   site: gns3
-#   rack: gns3
+#   site: SING 1
+#   rack: rack-03
