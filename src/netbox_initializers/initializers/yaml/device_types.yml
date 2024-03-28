@@ -27,6 +27,14 @@
 #       mgmt_only: True
 #     - name: eth1
 #       type: 1000base-t
+# - model: TOR-8P
+#   manufacturer: GNS3
+#   part_number: vlab-eos
+#   slug: tor-8p
+#   interfaces:
+#     - name: Ethernet1
+#       type: 1000base-t
+#       description: UPLINK
 #   console_server_ports:
 #     - name_template: ttyS[1-48]
 #       type: rj-45
