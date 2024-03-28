@@ -28,7 +28,7 @@
 #     - name: eth1
 #       type: 1000base-t
 # - model: TOR-8P
-#   manufacturer: GNS3
+#   manufacturer: No Name
 #   part_number: vlab-eos
 #   slug: tor-8p
 #   interfaces:
