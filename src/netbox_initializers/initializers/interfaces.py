@@ -48,6 +48,10 @@ class InterfaceInitializer(BaseInitializer):
 
             if created:
                 print(f"🧷 Created interface {interface} on {interface.device}")
+            else:
+                for name in defaults:
+                    setattr(interface, name, defaults[name])
+                interface.save()
 
             self.set_custom_fields_values(interface, custom_field_data)
             self.set_tags(interface, tags)

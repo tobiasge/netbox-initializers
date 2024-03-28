@@ -34,3 +34,8 @@
 #   enabled: true
 #   type: virtual
 #   name: loopback
+
+## Example to add attributes on a templated interface
+# - name: Ethernet1
+#   mtu: 9100
+#   device: gns3-tor
