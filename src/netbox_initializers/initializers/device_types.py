@@ -49,9 +49,10 @@ def expand_templates(params: List[dict], device_type: DeviceType) -> List[dict]:
             elif template_value:
                 expanded_fields[field] = list(expand_alphanumeric_pattern(template_value))
 
-        if expanded_fields and has_plain_fields:
-            raise ValueError(f"Mix of plain and template keys provided for {templateable_fields}")
-        elif not expanded_fields:
+        #if expanded_fields and has_plain_fields:
+        #    raise ValueError(f"Mix of plain and template keys provided for {templateable_fields}")
+        #elif not expanded_fields:
+        if not expanded_fields:
             expanded.append(param)
             continue
 
