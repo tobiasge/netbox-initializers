@@ -1,6 +1,6 @@
-from django.contrib.contenttypes.models import ContentType
+from core.models import ObjectType
 from extras.models import Tag
-from utilities.choices import ColorChoices
+from netbox.choices import ColorChoices
 
 from . import BaseInitializer, register_initializer
 
@@ -29,7 +29,7 @@ class TagInitializer(BaseInitializer):
 
                 if object_types:
                     for ot in object_types:
-                        ct = ContentType.objects.get(
+                        ct = ObjectType.objects.get(
                             app_label=ot["app"],
                             model=ot["model"],
                         )

@@ -1,5 +1,5 @@
 from dcim.models import DeviceRole
-from utilities.choices import ColorChoices
+from netbox.choices import ColorChoices
 
 from . import BaseInitializer, register_initializer
 
