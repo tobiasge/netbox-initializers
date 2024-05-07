@@ -6,12 +6,12 @@ from . import BaseInitializer, register_initializer
 def get_class_for_class_path(class_path):
     import importlib
 
-    from django.contrib.contenttypes.models import ContentType
+    from core.models import ObjectType
 
     module_name, class_name = class_path.rsplit(".", 1)
     module = importlib.import_module(module_name)
     clazz = getattr(module, class_name)
-    return ContentType.objects.get_for_model(clazz)
+    return ObjectType.objects.get_for_model(clazz)
 
 
 class CustomFieldInitializer(BaseInitializer):
@@ -35,7 +35,7 @@ class CustomFieldInitializer(BaseInitializer):
                     custom_field.label = cf_details["label"]
 
                 for object_type in cf_details.get("on_objects", []):
-                    custom_field.content_types.add(get_class_for_class_path(object_type))
+                    custom_field.object_types.add(get_class_for_class_path(object_type))
 
                 if cf_details.get("required", False):
                     custom_field.required = cf_details["required"]

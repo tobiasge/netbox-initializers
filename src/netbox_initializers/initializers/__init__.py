@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Tuple
 
-from django.contrib.contenttypes.models import ContentType
+from core.models import ObjectType
 from django.core.exceptions import ObjectDoesNotExist
 from extras.models import CustomField, Tag
 from ruamel.yaml import YAML
@@ -105,8 +105,8 @@ class BaseInitializer:
             except ObjectDoesNotExist:
                 missing_cfs.append(key)
             else:
-                ct = ContentType.objects.get_for_model(entity)
-                if ct not in cf.content_types.all():
+                ct = ObjectType.objects.get_for_model(entity)
+                if ct not in cf.object_types.all():
                     print(
                         f"⚠️ Custom field {key} is not enabled for {entity}'s model!"
                         "Please check the 'on_objects' for that custom field in custom_fields.yml"
@@ -131,7 +131,7 @@ class BaseInitializer:
         if not hasattr(entity, "tags"):
             raise Exception(f"⚠️ Tags cannot be applied to {entity}'s model")
 
-        ct = ContentType.objects.get_for_model(entity)
+        ct = ObjectType.objects.get_for_model(entity)
 
         save = False
         for tag in Tag.objects.filter(name__in=tags):
