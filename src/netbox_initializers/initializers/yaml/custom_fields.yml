@@ -100,7 +100,7 @@
 #   filter_logic: loose
 #   on_objects:
 #   - dcim.models.Location
-#   object_type: ipam.models.IPAddress
+#   related_object_type: ipam.models.IPAddress
 # object_field:
 #   type: object
 #   label: ASN
@@ -109,4 +109,4 @@
 #   filter_logic: loose
 #   on_objects:
 #   - dcim.models.Device
-#   object_type: ipam.models.ASN
+#   related_object_type: ipam.models.ASN
