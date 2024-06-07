@@ -61,19 +61,30 @@ class CustomFieldInitializer(BaseInitializer):
                 if cf_details.get("is_cloneable", None) is not None:
                     custom_field.is_cloneable = cf_details["is_cloneable"]
 
-                # object_type should only be applied when type is object, multiobject
+                # object_type was renamed to related_object_type in netbox 4.0
                 if cf_details.get("object_type"):
+                    print(
+                        f"⚠️ Unable to create Custom Field '{cf_name}': please rename object_type "
+                        + "to related_object_type"
+                    )
+                    custom_field.delete()
+                    continue
+
+                # related_object_type should only be applied when type is object, multiobject
+                if cf_details.get("related_object_type"):
                     if cf_details.get("type") not in (
                         "object",
                         "multiobject",
                     ):
                         print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': object_type is "
+                            f"⚠️ Unable to create Custom Field '{cf_name}': related_object_type is "
                             + "supported only for object and multiobject types"
                         )
                         custom_field.delete()
                         continue
-                    custom_field.object_type = get_class_for_class_path(cf_details["object_type"])
+                    custom_field.related_object_type = get_class_for_class_path(
+                        cf_details["related_object_type"]
+                    )
 
                 # validation_regex should only be applied when type is text, longtext, url
                 if cf_details.get("validation_regex"):
