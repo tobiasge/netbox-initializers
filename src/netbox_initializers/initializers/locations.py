@@ -1,8 +1,9 @@
 from dcim.models import Location, Site
+from tenancy.models import Tenant
 
 from . import BaseInitializer, register_initializer
 
-OPTIONAL_ASSOCS = {"site": (Site, "name"), "parent": (Location, "name")}
+OPTIONAL_ASSOCS = {"site": (Site, "name"), "parent": (Location, "name"), "tenant": (Tenant, "name")}
 
 
 class LocationInitializer(BaseInitializer):

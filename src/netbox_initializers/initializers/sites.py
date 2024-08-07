@@ -56,7 +56,10 @@ class SiteInitializer(BaseInitializer):
             self.set_custom_fields_values(site, custom_field_data)
             self.set_tags(site, tags)
 
+            site_asns = site.asns.all()
             for asn in asnFounds:
+                if asn in site_asns:
+                    continue
                 site.asns.add(asn)
                 print(" 👤 Assigned asn %s to site %s" % (asn, site.name))
 

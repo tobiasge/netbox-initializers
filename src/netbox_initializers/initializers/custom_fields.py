@@ -25,6 +25,9 @@ class CustomFieldInitializer(BaseInitializer):
             custom_field, created = CustomField.objects.get_or_create(name=cf_name)
 
             if created:
+                for object_type in cf_details.get("on_objects", []):
+                    custom_field.object_types.add(get_class_for_class_path(object_type))
+
                 if cf_details.get("default", False):
                     custom_field.default = cf_details["default"]
 
@@ -33,9 +36,6 @@ class CustomFieldInitializer(BaseInitializer):
 
                 if cf_details.get("label", False):
                     custom_field.label = cf_details["label"]
-
-                for object_type in cf_details.get("on_objects", []):
-                    custom_field.object_types.add(get_class_for_class_path(object_type))
 
                 if cf_details.get("required", False):
                     custom_field.required = cf_details["required"]
@@ -52,8 +52,8 @@ class CustomFieldInitializer(BaseInitializer):
                 if cf_details.get("group_name", False):
                     custom_field.group_name = cf_details["group_name"]
 
-                if cf_details.get("ui_visibility", False):
-                    custom_field.ui_visibility = cf_details["ui_visibility"]
+                if cf_details.get("ui_visible", False):
+                    custom_field.ui_visible = cf_details["ui_visible"]
 
                 if cf_details.get("search_weight", -1) >= 0:
                     custom_field.search_weight = cf_details["search_weight"]

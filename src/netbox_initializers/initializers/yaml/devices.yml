@@ -33,6 +33,8 @@
 #   primary_ip4_vrf: vrf1
 #   primary_ip6: 2001:db8:a000:1::2/64
 #   primary_ip6_vrf: vrf1
+#   oob_ip: 192.168.100.2/24
+#   oob_ip_vrf: vrf2
 #   custom_field_data:
 #     text_field: Description
 # - name: server03

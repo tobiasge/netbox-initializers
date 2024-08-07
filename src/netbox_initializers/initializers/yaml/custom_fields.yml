@@ -13,9 +13,9 @@
 ##   - disabled
 ##   - loose
 ##   - exact
-##   ui_visibility:
-##   - read-write
-##   - read-only
+##   ui_visible:
+##   - aways
+##   - if-set
 ##   - hidden
 ##
 ## Examples:
@@ -27,7 +27,7 @@
 #   required: false
 #   weight: 0
 #   group_name: group1
-#   ui_visibility: read-only
+#   ui_visible: if-set
 #   search_weight: 100
 #   on_objects:
 #   - dcim.models.Device
