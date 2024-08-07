@@ -231,23 +231,8 @@ class CableInitializer(BaseInitializer):
 
             check_terminations_are_free(term_a, term_b)
 
-            cable = Cable.objects.create(**params)
-
-            params_a_term = {
-                "termination_id": term_a.id,
-                "termination_type": term_a_ct,
-                "cable": cable,
-                "cable_end": "A",
-            }
-            CableTermination.objects.create(**params_a_term)
-
-            params_b_term = {
-                "termination_id": term_b.id,
-                "termination_type": term_b_ct,
-                "cable": cable,
-                "cable_end": "B",
-            }
-            CableTermination.objects.create(**params_b_term)
+            cable = Cable(a_terminations = [term_a], b_terminations = [term_b], **params)
+            cable.save()
 
             print(f"🧷 Created cable {cable} {cable_name}")
             self.set_tags(cable, tags)
