@@ -3,6 +3,9 @@ from extras.models import ConfigTemplate
 from tenancy.models import Tenant
 from virtualization.models import Cluster
 
+from utilities.fields import CounterCacheField
+from django.apps import apps
+
 from . import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["device_type", "name", "site"]
@@ -23,6 +26,19 @@ OPTIONAL_ASSOCS = {
 
 class DeviceInitializer(BaseInitializer):
     data_file_name = "devices.yml"
+
+    def recalculate_counters(self, device: Device):
+        counter_fields = [
+            field for field in device._meta.get_fields() if type(field) is CounterCacheField
+        ]
+
+        updated_values = {}
+        for field in counter_fields:
+            model = apps.get_model(field.to_model_name)
+            count = model.objects.filter(**{field.to_field_name: device}).count()
+            updated_values[field.name] = count
+        
+        Device.objects.filter(pk = device.pk).update(**updated_values)
 
     def load_data(self):
         devices = self.load_yaml()
@@ -61,6 +77,9 @@ class DeviceInitializer(BaseInitializer):
 
             self.set_custom_fields_values(device, custom_field_data)
             self.set_tags(device, tags)
+
+            # If we set any tags or custom fields, we need to recalculate all `CounterCacheField`
+            self.recalculate_counters(device)
 
 
 register_initializer("devices", DeviceInitializer)
