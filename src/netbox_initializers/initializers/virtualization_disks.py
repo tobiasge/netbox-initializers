@@ -1,4 +1,4 @@
-from virtualization.models import VirtualMachine, VirtualDisk
+from virtualization.models import VirtualDisk, VirtualMachine
 
 from . import BaseInitializer, register_initializer
 
@@ -24,9 +24,7 @@ class VMDiskInitializer(BaseInitializer):
                 params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            disk, created = VirtualDisk.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
+            disk, created = VirtualDisk.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
                 print("💽 Created Disk", disk.name, disk.virtual_machine.name)

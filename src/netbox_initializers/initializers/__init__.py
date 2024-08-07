@@ -117,11 +117,11 @@ class BaseInitializer:
                     if cf.type == "object":
                         model = cf.related_object_type.model_class()
                         value = model.objects.get(**value).id
-                    
+
                     if cf.type == "multiobject":
                         yaml_value = value
                         model = cf.related_object_type.model_class()
-                        value = [ model.objects.get(**x).id for x in yaml_value ]
+                        value = [model.objects.get(**x).id for x in yaml_value]
 
                     entity.custom_field_data[key] = value
                     save = True

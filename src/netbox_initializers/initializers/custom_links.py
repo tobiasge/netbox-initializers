@@ -20,10 +20,12 @@ class CustomLinkInitializer(BaseInitializer):
         if custom_links is None:
             return
         for link in custom_links:
-            content_types = [ get_content_type(x) for x in link.pop("content_type") ]
+            content_types = [get_content_type(x) for x in link.pop("content_type")]
 
             if None in content_types:
-                print(f"⚠️ Unable to create Custom Link '{ link.get('name') }' due to unknown content_type")
+                print(
+                    f"⚠️ Unable to create Custom Link '{ link.get('name') }' due to unknown content_type"
+                )
                 continue
 
             matching_params, defaults = self.split_params(link)

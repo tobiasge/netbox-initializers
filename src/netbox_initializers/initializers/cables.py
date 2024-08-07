@@ -231,7 +231,7 @@ class CableInitializer(BaseInitializer):
 
             check_terminations_are_free(term_a, term_b)
 
-            cable = Cable(a_terminations = [term_a], b_terminations = [term_b], **params)
+            cable = Cable(a_terminations=[term_a], b_terminations=[term_b], **params)
             cable.save()
 
             print(f"🧷 Created cable {cable} {cable_name}")

@@ -18,7 +18,11 @@ from . import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["manufacturer", "model", "slug"]
 REQUIRED_ASSOCS = {"manufacturer": (Manufacturer, "name")}
-OPTIONAL_ASSOCS = {"region": (Region, "name"), "tenant": (Tenant, "name"), "default_platform": (Platform, "name")}
+OPTIONAL_ASSOCS = {
+    "region": (Region, "name"),
+    "tenant": (Tenant, "name"),
+    "default_platform": (Platform, "name")
+}
 NESTED_ASSOCS = {"rear_port": (RearPortTemplate, "name"), "power_port": (PowerPortTemplate, "name")}
 SUPPORTED_COMPONENTS = {
     "interfaces": (InterfaceTemplate, ["name"]),

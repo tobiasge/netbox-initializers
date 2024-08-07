@@ -1,10 +1,9 @@
 from dcim.models import Device, DeviceRole, DeviceType, Location, Platform, Rack, Site
+from django.apps import apps
 from extras.models import ConfigTemplate
 from tenancy.models import Tenant
-from virtualization.models import Cluster
-
 from utilities.fields import CounterCacheField
-from django.apps import apps
+from virtualization.models import Cluster
 
 from . import BaseInitializer, register_initializer
 
@@ -38,7 +37,7 @@ class DeviceInitializer(BaseInitializer):
             count = model.objects.filter(**{field.to_field_name: device}).count()
             updated_values[field.name] = count
         
-        Device.objects.filter(pk = device.pk).update(**updated_values)
+        Device.objects.filter(pk=device.pk).update(**updated_values)
 
     def load_data(self):
         devices = self.load_yaml()
