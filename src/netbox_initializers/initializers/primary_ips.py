@@ -7,6 +7,7 @@ from . import BaseInitializer, register_initializer
 OPTIONAL_ASSOCS = {
     "primary_ip4": (IPAddress, "address"),
     "primary_ip6": (IPAddress, "address"),
+    "oob_ip": (IPAddress, "address"),
 }
 
 
@@ -26,7 +27,7 @@ def get_vrf_id(vrf_name):
 
 def link_primary_ip(assets, asset_model):
     for params in assets:
-        primary_ip_fields = set(params) & {"primary_ip4", "primary_ip6"}
+        primary_ip_fields = set(params) & {"primary_ip4", "primary_ip6", "oob_ip"}
         if not primary_ip_fields:
             continue
 
