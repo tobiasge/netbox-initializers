@@ -52,8 +52,8 @@ class CustomFieldInitializer(BaseInitializer):
                 if cf_details.get("group_name", False):
                     custom_field.group_name = cf_details["group_name"]
 
-                if cf_details.get("ui_visibility", False):
-                    custom_field.ui_visibility = cf_details["ui_visibility"]
+                if cf_details.get("ui_visible", False):
+                    custom_field.ui_visible = cf_details["ui_visible"]
 
                 if cf_details.get("search_weight", -1) >= 0:
                     custom_field.search_weight = cf_details["search_weight"]
