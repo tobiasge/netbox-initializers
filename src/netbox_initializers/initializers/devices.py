@@ -36,7 +36,7 @@ class DeviceInitializer(BaseInitializer):
             model = apps.get_model(field.to_model_name)
             count = model.objects.filter(**{field.to_field_name: device}).count()
             updated_values[field.name] = count
-        
+
         Device.objects.filter(pk=device.pk).update(**updated_values)
 
     def load_data(self):
