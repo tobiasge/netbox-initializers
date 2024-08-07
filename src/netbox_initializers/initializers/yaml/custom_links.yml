@@ -14,8 +14,11 @@
 #   link_url: 'https://github.com/netbox-community/netbox-docker'
 #   new_window: False
 #   content_type: device
+
 # - name: link_to_localhost
 #   link_text: 'Link to localhost'
 #   link_url: 'http://localhost'
 #   new_window: True
-#   content_type: device
+#   content_type:
+#   - device
+#   - site

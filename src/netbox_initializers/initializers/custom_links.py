@@ -8,7 +8,7 @@ def get_content_type(content_type):
     try:
         return ObjectType.objects.get(model=content_type)
     except ObjectType.DoesNotExist:
-        pass
+        print(f"⚠️ The content_type '{content_type}' is unknown")
     return None
 
 
@@ -20,14 +20,10 @@ class CustomLinkInitializer(BaseInitializer):
         if custom_links is None:
             return
         for link in custom_links:
-            content_type_name = link.pop("content_type")
-            content_type = get_content_type(content_type_name)
-            if content_type is None:
-                print(
-                    "⚠️ Unable to create Custom Link '{0}': The content_type '{1}' is unknown".format(
-                        link.get("name"), content_type
-                    )
-                )
+            content_types = [ get_content_type(x) for x in link.pop("content_type") ]
+
+            if None in content_types:
+                print(f"⚠️ Unable to create Custom Link '{ link.get('name') }' due to unknown content_type")
                 continue
 
             matching_params, defaults = self.split_params(link)
@@ -36,9 +32,9 @@ class CustomLinkInitializer(BaseInitializer):
             )
 
             if created:
-                custom_link.object_types.add(content_type)
+                custom_link.object_types.set(content_types)
                 custom_link.save()
-                print("🔗 Created Custom Link '{0}'".format(custom_link.name))
+                print(f"🔗 Created Custom Link '{custom_link.name}'")
 
 
 register_initializer("custom_links", CustomLinkInitializer)
