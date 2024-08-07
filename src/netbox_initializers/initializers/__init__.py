@@ -113,13 +113,23 @@ class BaseInitializer:
                         "Please check the 'on_objects' for that custom field in custom_fields.yml"
                     )
                 elif key not in entity.custom_field_data:
+                    # If the type is a object, we need to get its related type
+                    if cf.type == "object":
+                        model = cf.related_object_type.model_class()
+                        value = model.objects.get(**value).id
+                    
+                    if cf.type == "multiobject":
+                        yaml_value = value
+                        model = cf.related_object_type.model_class()
+                        value = [ model.objects.get(**x).id for x in yaml_value ]
+
                     entity.custom_field_data[key] = value
                     save = True
 
         if missing_cfs:
             raise Exception(
                 f"⚠️ Custom field(s) '{missing_cfs}' requested for {entity} but not found in Netbox!"
-                "Please chceck the custom_fields.yml"
+                "Please check the custom_fields.yml"
             )
 
         if save:
