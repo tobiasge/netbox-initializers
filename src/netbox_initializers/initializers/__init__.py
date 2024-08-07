@@ -43,6 +43,7 @@ INITIALIZER_ORDER = (
     "vrfs",
     "aggregates",
     "virtual_machines",
+    "virtualization_disks",
     "virtualization_interfaces",
     "prefixes",
     "ip_addresses",
@@ -213,6 +214,7 @@ from .tenant_groups import TenantGroupInitializer
 from .tenants import TenantInitializer
 from .users import UserInitializer
 from .virtual_machines import VirtualMachineInitializer
+from .virtualization_disks import VMDiskInitializer
 from .virtualization_interfaces import VMInterfaceInitializer
 from .vlan_groups import VLANGroupInitializer
 from .vlans import VLANInitializer
