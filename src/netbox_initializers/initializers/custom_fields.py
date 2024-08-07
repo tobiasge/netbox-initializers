@@ -25,6 +25,9 @@ class CustomFieldInitializer(BaseInitializer):
             custom_field, created = CustomField.objects.get_or_create(name=cf_name)
 
             if created:
+                for object_type in cf_details.get("on_objects", []):
+                    custom_field.object_types.add(get_class_for_class_path(object_type))
+
                 if cf_details.get("default", False):
                     custom_field.default = cf_details["default"]
 
@@ -33,9 +36,6 @@ class CustomFieldInitializer(BaseInitializer):
 
                 if cf_details.get("label", False):
                     custom_field.label = cf_details["label"]
-
-                for object_type in cf_details.get("on_objects", []):
-                    custom_field.object_types.add(get_class_for_class_path(object_type))
 
                 if cf_details.get("required", False):
                     custom_field.required = cf_details["required"]
