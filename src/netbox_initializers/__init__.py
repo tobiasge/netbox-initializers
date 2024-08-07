@@ -8,7 +8,7 @@ class NetBoxInitializersConfig(PluginConfig):
     version = "4.0.0"
     base_url = "initializers"
     min_version = "4.0-beta1"
-    max_version = "4.0.99"
+    max_version = "4.1.99"
 
 
 config = NetBoxInitializersConfig
