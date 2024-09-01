@@ -1,4 +1,4 @@
-from dcim.models import Location, Rack, RackRole, Site
+from dcim.models import Location, Rack, RackRole, Site, RackType
 from tenancy.models import Tenant
 
 from . import BaseInitializer, register_initializer
@@ -9,6 +9,7 @@ OPTIONAL_ASSOCS = {
     "role": (RackRole, "name"),
     "tenant": (Tenant, "name"),
     "location": (Location, "name"),
+    "rack_type": (RackType, "slug"),
 }
 
 
