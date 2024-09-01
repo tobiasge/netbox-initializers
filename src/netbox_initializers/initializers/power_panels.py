@@ -1,6 +1,6 @@
 from dcim.models import Location, PowerPanel, Site
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "site"]
 REQUIRED_ASSOCS = {"site": (Site, "name")}

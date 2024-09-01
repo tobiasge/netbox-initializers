@@ -2,7 +2,7 @@ from dcim.models import DeviceRole, Platform, Site
 from tenancy.models import Tenant
 from virtualization.models import Cluster, VirtualMachine
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["cluster", "name"]
 REQUIRED_ASSOCS = {"cluster": (Cluster, "name")}

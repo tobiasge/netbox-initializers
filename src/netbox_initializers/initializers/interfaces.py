@@ -1,7 +1,7 @@
 from dcim.models import Device, Interface
 from ipam.models import VLAN
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["device", "name"]
 REQUIRED_ASSOCS = {"device": (Device, "name")}

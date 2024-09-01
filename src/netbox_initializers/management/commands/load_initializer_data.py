@@ -3,7 +3,7 @@ import traceback
 
 from django.core.management.base import BaseCommand, CommandError
 
-from netbox_initializers.initializers import INITIALIZER_ORDER, INITIALIZER_REGISTRY
+from netbox_initializers.initializers.base import INITIALIZER_ORDER, INITIALIZER_REGISTRY
 
 
 class Command(BaseCommand):

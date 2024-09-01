@@ -18,7 +18,7 @@ from dcim.models import (
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 CONSOLE_PORT_TERMINATION = ContentType.objects.get_for_model(ConsolePort)
 CONSOLE_SERVER_PORT_TERMINATION = ContentType.objects.get_for_model(ConsoleServerPort)

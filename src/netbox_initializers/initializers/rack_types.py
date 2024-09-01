@@ -1,6 +1,6 @@
 from dcim.models import Manufacturer, RackType
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["slug"]
 REQUIRED_ASSOCS = {"manufacturer": (Manufacturer, "slug")}

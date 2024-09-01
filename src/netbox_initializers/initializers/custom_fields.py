@@ -1,6 +1,6 @@
 from extras.models import CustomField, CustomFieldChoiceSet
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 def get_class_for_class_path(class_path):

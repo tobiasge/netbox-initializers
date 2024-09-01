@@ -1,7 +1,7 @@
 from dcim.models import Location, Rack, RackRole, RackType, Site
 from tenancy.models import Tenant
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "site"]
 REQUIRED_ASSOCS = {"site": (Site, "name")}

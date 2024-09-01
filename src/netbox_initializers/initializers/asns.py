@@ -1,7 +1,7 @@
 from ipam.models import ASN, RIR
 from tenancy.models import Tenant
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["asn", "rir"]
 REQUIRED_ASSOCS = {"rir": (RIR, "name")}

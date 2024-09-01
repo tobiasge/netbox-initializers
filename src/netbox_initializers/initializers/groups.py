@@ -1,6 +1,6 @@
 from users.models import Group, User
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class GroupInitializer(BaseInitializer):
