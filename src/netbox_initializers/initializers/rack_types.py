@@ -1,10 +1,10 @@
-from dcim.models import RackType
-from dcim.models import Manufacturer
+from dcim.models import Manufacturer, RackType
 
 from . import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["slug"]
 REQUIRED_ASSOCS = {"manufacturer": (Manufacturer, "slug")}
+
 
 class RackTypeInitializer(BaseInitializer):
     data_file_name = "rack_types.yml"
@@ -22,7 +22,9 @@ class RackTypeInitializer(BaseInitializer):
                 params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            rack_type, created = RackType.objects.get_or_create(**matching_params, defaults=defaults)
+            rack_type, created = RackType.objects.get_or_create(
+                **matching_params, defaults=defaults
+            )
 
             if created:
                 print("🔳 Created rack type", rack_type.model)

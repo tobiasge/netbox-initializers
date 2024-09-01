@@ -1,4 +1,4 @@
-from dcim.models import Location, Rack, RackRole, Site, RackType
+from dcim.models import Location, Rack, RackRole, RackType, Site
 from tenancy.models import Tenant
 
 from . import BaseInitializer, register_initializer

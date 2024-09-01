@@ -201,8 +201,8 @@ from .prefixes import PrefixInitializer
 from .primary_ips import PrimaryIPInitializer
 from .providers import ProviderInitializer
 from .rack_roles import RackRoleInitializer
-from .racks import RackInitializer
 from .rack_types import RackTypeInitializer
+from .racks import RackInitializer
 from .regions import RegionInitializer
 from .rirs import RIRInitializer
 from .route_targets import RouteTargetInitializer
