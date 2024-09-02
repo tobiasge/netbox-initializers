@@ -1,3 +1,4 @@
+# ruff: noqa: F401
 # All initializers must be imported here, to be registered
 from .aggregates import AggregateInitializer
 from .asns import ASNInitializer

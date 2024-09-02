@@ -14,7 +14,6 @@ class RackTypeInitializer(BaseInitializer):
         if rack_types is None:
             return
         for params in rack_types:
-
             for assoc, details in REQUIRED_ASSOCS.items():
                 model, field = details
                 query = {field: params.pop(assoc)}
