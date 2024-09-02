@@ -34,4 +34,3 @@ jobs:
           FILTER_REGEX_EXCLUDE: (.*/)?(LICENSE)
           YAML_CONFIG_FILE: .yamllint.yaml
           PYTHON_FLAKE8_CONFIG_FILE: .flake8
-
