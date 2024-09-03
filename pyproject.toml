@@ -1,34 +1,49 @@
-[tool.poetry]
-authors = ["Tobias Genannt <tobias.genannt@gmail.com>"]
+[project]
+name = "netbox-initializers"
+authors = [{ name = "Tobias Genannt", email = "tobias.genannt@gmail.com" }]
 classifiers = [
   "Framework :: Django",
   "Environment :: Plugins",
   "Topic :: System :: Networking",
-  "Topic :: System :: Systems Administration"
+  "Topic :: System :: Systems Administration",
 ]
 description = "Load initial data into Netbox"
-license = "Apache-2.0"
-name = "netbox-initializers"
 readme = "README.md"
 repository = "https://github.com/tobiasge/netbox-initializers"
-version = "4.0.0"
+license = "Apache-2.0"
+dynamic = ["version"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-"ruamel.yaml" = "0.18.6"
+requires-python = ">=3.10"
+dependencies = ["ruamel-yaml>=0.18.6"]
 
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.black]
-line_length = 100
-target-version = ['py310']
 
-[tool.isort]
-line_length = 100
-multi_line_output = 3
-profile = "black"
+[tool.hatch.version]
+path = "src/netbox_initializers/version.py"
 
-[tool.pylint.format]
-max-line-length = "100"
+[tool.uv]
+dev-dependencies = ["ruff==0.6.3"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+extend-select = ["I", "PL", "W191", "W291", "W292", "W293"]
+ignore = ["PLR0912", "PLR0915"]
+
+[tool.ruff.lint.isort]
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "first-party",
+  "local-folder",
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"

@@ -10,6 +10,6 @@
 #   virtual_machine: virtual machine 1
 # - name: MISC
 #   protocol: UDP
-#   ports: 
+#   ports:
 #     - 4000
 #   device: server01

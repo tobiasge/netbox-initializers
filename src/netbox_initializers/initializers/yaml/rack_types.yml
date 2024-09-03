@@ -1,0 +1,55 @@
+# # Examples:
+# - model: Rack Type 1
+#   manufacturer: manufacturer-1
+#   slug: rack-type-1
+#   form_factor: 4-post-cabinet
+#   width: 19
+#   u_height: 47
+#   custom_field_data:
+#     text_field: Description
+#   starting_unit: 2
+#   desc_units: true
+#   outer_width: 600
+#   outer_depth: 1000
+#   outer_unit: mm
+#   mounting_depth: 800
+#   weight: 100.3
+#   weight_unit: kg
+#   description: Description for Rack Type 1
+#   comments: Comments for Rack Type 1
+# - model: Rack Type 2
+#   manufacturer: manufacturer-2
+#   slug: rack-type-2
+#   form_factor: 2-post-frame
+#   width: 23
+#   u_height: 24
+#   custom_field_data:
+#     text_field: Description
+#   starting_unit: 1
+#   desc_units: false
+#   outer_width: 800
+#   outer_depth: 1200
+#   outer_unit: mm
+#   mounting_depth: 1000
+#   weight: 80.5
+#   weight_unit: kg
+#   description: Description for Rack Type 2
+#   comments: Comments for Rack Type 2
+# - model: Rack Type 3
+#   manufacturer: no-name
+#   slug: rack-type-3
+#   form_factor: wall-mount
+#   width: 10
+#   u_height: 12
+#   custom_field_data:
+#     text_field: Description
+#   starting_unit: 1
+#   desc_units: true
+#   outer_width: 500
+#   outer_depth: 300
+#   outer_unit: mm
+#   mounting_depth: 250
+#   weight: 30.2
+#   weight_unit: kg
+#   description: Description for Rack Type 3
+#   comments: Comments for Rack Type 3

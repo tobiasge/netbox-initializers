@@ -1,7 +1,7 @@
 from ipam.models import RouteTarget
 from tenancy.models import Tenant
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {"tenant": (Tenant, "name")}
 

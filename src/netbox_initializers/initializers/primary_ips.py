@@ -2,7 +2,7 @@ from dcim.models import Device
 from ipam.models import VRF, IPAddress
 from virtualization.models import VirtualMachine
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {
     "primary_ip4": (IPAddress, "address"),

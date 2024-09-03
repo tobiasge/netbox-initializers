@@ -1,6 +1,6 @@
 from dcim.models import Region
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {"parent": (Region, "name")}
 

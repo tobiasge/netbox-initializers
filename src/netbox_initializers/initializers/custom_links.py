@@ -1,7 +1,7 @@
 from core.models import ObjectType
 from extras.models import CustomLink
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 def get_content_type(content_type):

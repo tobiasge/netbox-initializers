@@ -1,6 +1,6 @@
 from virtualization.models import VirtualMachine, VMInterface
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "virtual_machine"]
 REQUIRED_ASSOCS = {"virtual_machine": (VirtualMachine, "name")}

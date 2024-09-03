@@ -3,7 +3,7 @@ from extras.models import ConfigContext
 from tenancy import models as tenancy
 from virtualization import models as virtualization
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name"]
 OPTIONAL_MANY_ASSOCS = {

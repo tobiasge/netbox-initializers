@@ -32,6 +32,7 @@
 #   on_objects:
 #   - dcim.models.Device
 #   - dcim.models.Rack
+#   - dcim.models.RackType
 #   - dcim.models.Site
 #   - dcim.models.DeviceType
 #   - ipam.models.IPAddress

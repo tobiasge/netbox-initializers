@@ -1,0 +1,90 @@
+version = 1
+requires-python = ">=3.10"
+
+[[package]]
+name = "netbox-initializers"
+version = "4.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "ruamel-yaml" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "ruamel-yaml", specifier = ">=0.18.6" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ruff", specifier = "==0.6.3" }]
+
+[[package]]
+name = "ruamel-yaml"
+version = "0.18.6"
+source = { registry = "https://nexus.scanplus.de/repository/pypi-group/simple" }
+dependencies = [
+    { name = "ruamel-yaml-clib", marker = "python_full_version < '3.13' and platform_python_implementation == 'CPython'" },
+]
+sdist = { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml/0.18.6/ruamel.yaml-0.18.6.tar.gz", hash = "sha256:8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b" }
+wheels = [
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml/0.18.6/ruamel.yaml-0.18.6-py3-none-any.whl", hash = "sha256:57b53ba33def16c4f3d807c0ccbc00f8a6081827e81ba2491691b76882d0c636" },
+]
+
+[[package]]
+name = "ruamel-yaml-clib"
+version = "0.2.8"
+source = { registry = "https://nexus.scanplus.de/repository/pypi-group/simple" }
+sdist = { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8.tar.gz", hash = "sha256:beb2e0404003de9a4cab9753a8805a8fe9320ee6673136ed7f04255fe60bb512" }
+wheels = [
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:b42169467c42b692c19cf539c38d4602069d8c1505e97b86387fcf7afb766e1d" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:07238db9cbdf8fc1e9de2489a4f68474e70dffcb32232db7c08fa61ca0c7c462" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:fff3573c2db359f091e1589c3d7c5fc2f86f5bdb6f24252c2d8e539d4e45f412" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-manylinux_2_24_aarch64.whl", hash = "sha256:aa2267c6a303eb483de8d02db2871afb5c5fc15618d894300b88958f729ad74f" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-musllinux_1_1_i686.whl", hash = "sha256:840f0c7f194986a63d2c2465ca63af8ccbbc90ab1c6001b1978f05119b5e7334" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:024cfe1fc7c7f4e1aff4a81e718109e13409767e4f871443cbff3dba3578203d" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-win32.whl", hash = "sha256:c69212f63169ec1cfc9bb44723bf2917cbbd8f6191a00ef3410f5a7fe300722d" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp310-cp310-win_amd64.whl", hash = "sha256:cabddb8d8ead485e255fe80429f833172b4cadf99274db39abc080e068cbcc31" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:bef08cd86169d9eafb3ccb0a39edb11d8e25f3dae2b28f5c52fd997521133069" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-macosx_13_0_arm64.whl", hash = "sha256:b16420e621d26fdfa949a8b4b47ade8810c56002f5389970db4ddda51dbff248" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:25c515e350e5b739842fc3228d662413ef28f295791af5e5110b543cf0b57d9b" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-manylinux_2_24_aarch64.whl", hash = "sha256:1707814f0d9791df063f8c19bb51b0d1278b8e9a2353abbb676c2f685dee6afe" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-musllinux_1_1_i686.whl", hash = "sha256:46d378daaac94f454b3a0e3d8d78cafd78a026b1d71443f4966c696b48a6d899" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:09b055c05697b38ecacb7ac50bdab2240bfca1a0c4872b0fd309bb07dc9aa3a9" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-win32.whl", hash = "sha256:53a300ed9cea38cf5a2a9b069058137c2ca1ce658a874b79baceb8f892f915a7" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp311-cp311-win_amd64.whl", hash = "sha256:c2a72e9109ea74e511e29032f3b670835f8a59bbdc9ce692c5b4ed91ccf1eedb" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:ebc06178e8821efc9692ea7544aa5644217358490145629914d8020042c24aa1" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-macosx_13_0_arm64.whl", hash = "sha256:edaef1c1200c4b4cb914583150dcaa3bc30e592e907c01117c08b13a07255ec2" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:d176b57452ab5b7028ac47e7b3cf644bcfdc8cacfecf7e71759f7f51a59e5c92" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-manylinux_2_24_aarch64.whl", hash = "sha256:1dc67314e7e1086c9fdf2680b7b6c2be1c0d8e3a8279f2e993ca2a7545fecf62" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-musllinux_1_1_i686.whl", hash = "sha256:3213ece08ea033eb159ac52ae052a4899b56ecc124bb80020d9bbceeb50258e9" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:aab7fd643f71d7946f2ee58cc88c9b7bfc97debd71dcc93e03e2d174628e7e2d" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-win32.whl", hash = "sha256:5c365d91c88390c8d0a8545df0b5857172824b1c604e867161e6b3d59a827eaa" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruamel-yaml-clib/0.2.8/ruamel.yaml.clib-0.2.8-cp312-cp312-win_amd64.whl", hash = "sha256:1758ce7d8e1a29d23de54a16ae867abd370f01b5a69e1a3ba75223eaa3ca1a1b" },
+]
+
+[[package]]
+name = "ruff"
+version = "0.6.3"
+source = { registry = "https://nexus.scanplus.de/repository/pypi-group/simple" }
+sdist = { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3.tar.gz", hash = "sha256:183b99e9edd1ef63be34a3b51fee0a9f4ab95add123dbf89a71f7b1f0c991983" }
+wheels = [
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-linux_armv6l.whl", hash = "sha256:97f58fda4e309382ad30ede7f30e2791d70dd29ea17f41970119f55bdb7a45c3" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:3b061e49b5cf3a297b4d1c27ac5587954ccb4ff601160d3d6b2f70b1622194dc" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-macosx_11_0_arm64.whl", hash = "sha256:34e2824a13bb8c668c71c1760a6ac7d795ccbd8d38ff4a0d8471fdb15de910b1" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:bddfbb8d63c460f4b4128b6a506e7052bad4d6f3ff607ebbb41b0aa19c2770d1" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:ced3eeb44df75353e08ab3b6a9e113b5f3f996bea48d4f7c027bc528ba87b672" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:47021dff5445d549be954eb275156dfd7c37222acc1e8014311badcb9b4ec8c1" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:7d7bd20dc07cebd68cc8bc7b3f5ada6d637f42d947c85264f94b0d1cd9d87384" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:500f166d03fc6d0e61c8e40a3ff853fa8a43d938f5d14c183c612df1b0d6c58a" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:42844ff678f9b976366b262fa2d1d1a3fe76f6e145bd92c84e27d172e3c34500" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:70452a10eb2d66549de8e75f89ae82462159855e983ddff91bc0bce6511d0470" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:65a533235ed55f767d1fc62193a21cbf9e3329cf26d427b800fdeacfb77d296f" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:d2e2c23cef30dc3cbe9cc5d04f2899e7f5e478c40d2e0a633513ad081f7361b5" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-musllinux_1_2_i686.whl", hash = "sha256:d8a136aa7d228975a6aee3dd8bea9b28e2b43e9444aa678fb62aeb1956ff2351" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:f92fe93bc72e262b7b3f2bba9879897e2d58a989b4714ba6a5a7273e842ad2f8" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-win32.whl", hash = "sha256:7a62d3b5b0d7f9143d94893f8ba43aa5a5c51a0ffc4a401aa97a81ed76930521" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-win_amd64.whl", hash = "sha256:746af39356fee2b89aada06c7376e1aa274a23493d7016059c3a72e3b296befb" },
+    { url = "https://nexus.scanplus.de/repository/pypi-group/packages/ruff/0.6.3/ruff-0.6.3-py3-none-win_arm64.whl", hash = "sha256:14a9528a8b70ccc7a847637c29e56fd1f9183a9db743bbc5b8e0c4ad60592a82" },
+]

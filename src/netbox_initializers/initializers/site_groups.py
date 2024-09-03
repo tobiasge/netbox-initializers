@@ -1,6 +1,6 @@
 from dcim.models import SiteGroup
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {"parent": (SiteGroup, "name")}
 

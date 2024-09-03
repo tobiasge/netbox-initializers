@@ -1,7 +1,7 @@
 from dcim.models import Manufacturer, Platform
 from extras.models import ConfigTemplate
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {
     "manufacturer": (Manufacturer, "name"),
