@@ -20,7 +20,6 @@ dependencies = ["ruamel-yaml>=0.18.6"]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-
 [tool.hatch.version]
 path = "src/netbox_initializers/version.py"
 
