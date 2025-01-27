@@ -1,6 +1,6 @@
 from dcim.models import Location, Site
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {"site": (Site, "name"), "parent": (Location, "name")}
 

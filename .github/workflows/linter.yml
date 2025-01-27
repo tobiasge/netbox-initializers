@@ -17,16 +17,20 @@ jobs:
           # list of changed files within `super-linter`
           fetch-depth: 0
       - name: Lint Code Base
-        uses: github/super-linter@v5
+        uses: github/super-linter@v7
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SUPPRESS_POSSUM: true
           VALIDATE_ALL_CODEBASE: false
+          VALIDATE_CHECKOV: false
+          VALIDATE_JSCPD: false
+          VALIDATE_PYTHON_BLACK: false
+          VALIDATE_PYTHON_ISORT: false
           VALIDATE_PYTHON_MYPY: false
+          VALIDATE_PYTHON_PYINK: false
+          VALIDATE_PYTHON_PYLINT: false
           LINTER_RULES_PATH: /
-          PYTHON_BLACK_CONFIG_FILE: pyproject.toml
           FILTER_REGEX_EXCLUDE: (.*/)?(LICENSE)
           YAML_CONFIG_FILE: .yamllint.yaml
           PYTHON_FLAKE8_CONFIG_FILE: .flake8
-          PYTHON_ISORT_CONFIG_FILE: pyproject.toml

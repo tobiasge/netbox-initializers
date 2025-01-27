@@ -1,6 +1,6 @@
 from virtualization.models import ClusterType
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class ClusterTypesInitializer(BaseInitializer):

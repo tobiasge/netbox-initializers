@@ -1,6 +1,6 @@
 from ipam.models import Role
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class RoleInitializer(BaseInitializer):

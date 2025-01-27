@@ -1,7 +1,7 @@
 from dcim.models import RackRole
-from utilities.choices import ColorChoices
+from netbox.choices import ColorChoices
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class RackRoleInitializer(BaseInitializer):

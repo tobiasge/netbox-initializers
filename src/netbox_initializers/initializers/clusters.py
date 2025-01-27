@@ -2,12 +2,12 @@ from dcim.models import Site
 from tenancy.models import Tenant
 from virtualization.models import Cluster, ClusterGroup, ClusterType
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "type"]
 REQUIRED_ASSOCS = {"type": (ClusterType, "name")}
 OPTIONAL_ASSOCS = {
-    "site": (Site, "name"),
+    "scope": (Site, "name"),
     "group": (ClusterGroup, "name"),
     "tenant": (Tenant, "name"),
 }

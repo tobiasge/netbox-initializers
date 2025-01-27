@@ -1,15 +1,14 @@
 ---
-version: '3.4'
 services:
   netbox:
     depends_on:
-    - postgres
-    - redis
-    - redis-cache
-    user: 'unit:root'
+      - postgres
+      - redis
+      - redis-cache
+    user: "unit:root"
     env_file: env/netbox.env
     volumes:
-    - ./initializer-data:/etc/netbox/initializer-data:z,ro
+      - ./initializer-data:/etc/netbox/initializer-data:z,ro
     build:
       context: ..
       dockerfile: test/Dockerfile
@@ -18,24 +17,24 @@ services:
     image: postgres:15-alpine
     env_file: env/postgres.env
     volumes:
-    - netbox-postgres-data:/var/lib/postgresql/data
+      - netbox-postgres-data:/var/lib/postgresql/data
 
   # redis
   redis:
     image: redis:7-alpine
     command:
-    - sh
-    - -c # this is to evaluate the $REDIS_PASSWORD from the env
-    - redis-server --appendonly yes --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
+      - sh
+      - -c # this is to evaluate the $REDIS_PASSWORD from the env
+      - redis-server --appendonly yes --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
     env_file: env/redis.env
     volumes:
-    - netbox-redis-data:/data
+      - netbox-redis-data:/data
   redis-cache:
     image: redis:7-alpine
     command:
-    - sh
-    - -c # this is to evaluate the $REDIS_PASSWORD from the env
-    - redis-server --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
+      - sh
+      - -c # this is to evaluate the $REDIS_PASSWORD from the env
+      - redis-server --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
     env_file: env/redis-cache.env
 
 volumes:

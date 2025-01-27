@@ -1,6 +1,6 @@
 from tenancy.models import ContactGroup
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {"parent": (ContactGroup, "name")}
 

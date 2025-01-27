@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from extras.models import ConfigTemplate
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "description", "template_code", "environment_params"]
 

@@ -12,7 +12,7 @@ Checkout the branch for which the release is to be build. If no branch exists fo
 
 ### Set version number
 
-For patch releases the version number in `pyproject.toml` and the `NetBoxInitializersConfig` needs to be updated. If the release is for a new Netbox version additional changes need to be made in `README.md` and `Dockerfile` (for tests).
+For patch releases the version number in `src/netbox_initializers/version.py` needs to be updated. If the release is for a new Netbox version additional changes need to be made in `README.md` and `Dockerfile` (for tests).
 
 ### Build the release automatically
 
@@ -25,17 +25,17 @@ After changing the version numbers and committing them create a new release with
 Install the needed Python packages for the build:
 
 ```bash
-pip install --upgrade poetry
+pip install --upgrade uv
 ```
 
 Then run the build for the wheel and source distributions:
 
 ```bash
-poetry build
+uvx --from build pyproject-build --installer uv
 ```
 
 #### Upload packages to PyPi
 
 ```bash
-poetry publish
+uvx twine upload dist/*
 ```

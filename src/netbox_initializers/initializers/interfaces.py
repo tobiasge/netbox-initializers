@@ -1,7 +1,7 @@
 from dcim.models import Device, Interface
 from ipam.models import VLAN
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["device", "name"]
 REQUIRED_ASSOCS = {"device": (Device, "name")}
@@ -48,6 +48,10 @@ class InterfaceInitializer(BaseInitializer):
 
             if created:
                 print(f"🧷 Created interface {interface} on {interface.device}")
+            else:
+                for name in defaults:
+                    setattr(interface, name, defaults[name])
+                interface.save()
 
             self.set_custom_fields_values(interface, custom_field_data)
             self.set_tags(interface, tags)

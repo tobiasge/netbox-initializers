@@ -1,7 +1,7 @@
-from django.contrib.contenttypes.models import ContentType
-from users.models import NetBoxGroup, NetBoxUser, ObjectPermission
+from core.models import ObjectType
+from users.models import Group, ObjectPermission, User
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class ObjectPermissionInitializer(BaseInitializer):
@@ -28,12 +28,12 @@ class ObjectPermissionInitializer(BaseInitializer):
                 object_types = permission_details["object_types"]
 
                 if object_types == "all":
-                    object_permission.object_types.set(ContentType.objects.all())
+                    object_permission.object_types.set(ObjectType.objects.all())
 
                 else:
                     for app_label, models in object_types.items():
                         if models == "all":
-                            app_models = ContentType.objects.filter(app_label=app_label)
+                            app_models = ObjectType.objects.filter(app_label=app_label)
 
                             for app_model in app_models:
                                 object_permission.object_types.add(app_model.id)
@@ -41,14 +41,14 @@ class ObjectPermissionInitializer(BaseInitializer):
                             # There is
                             for model in models:
                                 object_permission.object_types.add(
-                                    ContentType.objects.get(app_label=app_label, model=model)
+                                    ObjectType.objects.get(app_label=app_label, model=model)
                                 )
             if created:
                 print("🔓 Created object permission", object_permission.name)
 
             if permission_details.get("groups", 0):
                 for groupname in permission_details["groups"]:
-                    group = NetBoxGroup.objects.filter(name=groupname).first()
+                    group = Group.objects.filter(name=groupname).first()
 
                     if group:
                         object_permission.groups.add(group)
@@ -59,7 +59,7 @@ class ObjectPermissionInitializer(BaseInitializer):
 
             if permission_details.get("users", 0):
                 for username in permission_details["users"]:
-                    user = NetBoxUser.objects.filter(username=username).first()
+                    user = User.objects.filter(username=username).first()
 
                     if user:
                         object_permission.users.add(user)

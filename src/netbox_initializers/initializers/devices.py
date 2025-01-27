@@ -3,11 +3,11 @@ from extras.models import ConfigTemplate
 from tenancy.models import Tenant
 from virtualization.models import Cluster
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["device_type", "name", "site"]
 REQUIRED_ASSOCS = {
-    "device_role": (DeviceRole, "name"),
+    "role": (DeviceRole, "name"),
     "device_type": (DeviceType, "model"),
     "site": (Site, "name"),
 }

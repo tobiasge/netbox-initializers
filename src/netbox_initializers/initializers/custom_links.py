@@ -1,13 +1,13 @@
-from django.contrib.contenttypes.models import ContentType
+from core.models import ObjectType
 from extras.models import CustomLink
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 def get_content_type(content_type):
     try:
-        return ContentType.objects.get(model=content_type)
-    except ContentType.DoesNotExist:
+        return ObjectType.objects.get(model=content_type)
+    except ObjectType.DoesNotExist:
         pass
     return None
 
@@ -36,7 +36,7 @@ class CustomLinkInitializer(BaseInitializer):
             )
 
             if created:
-                custom_link.content_types.add(content_type)
+                custom_link.object_types.add(content_type)
                 custom_link.save()
                 print("🔗 Created Custom Link '{0}'".format(custom_link.name))
 

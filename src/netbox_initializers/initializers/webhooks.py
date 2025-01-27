@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from extras.models import Webhook
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 def get_content_type_id(hook_name, content_type):

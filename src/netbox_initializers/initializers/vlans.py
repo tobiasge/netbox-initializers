@@ -2,7 +2,7 @@ from dcim.models import Site
 from ipam.models import VLAN, Role, VLANGroup
 from tenancy.models import Tenant, TenantGroup
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["name", "vid"]
 OPTIONAL_ASSOCS = {

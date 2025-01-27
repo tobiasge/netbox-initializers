@@ -1,7 +1,7 @@
 from circuits.models import Circuit, CircuitType, Provider
 from tenancy.models import Tenant
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["cid", "provider", "type"]
 REQUIRED_ASSOCS = {"provider": (Provider, "name"), "type": (CircuitType, "name")}

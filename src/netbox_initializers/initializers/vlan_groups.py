@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from ipam.models import VLANGroup
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 OPTIONAL_ASSOCS = {"scope": (None, "name")}
 

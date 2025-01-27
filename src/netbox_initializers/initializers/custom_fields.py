@@ -1,17 +1,17 @@
 from extras.models import CustomField, CustomFieldChoiceSet
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 def get_class_for_class_path(class_path):
     import importlib
 
-    from django.contrib.contenttypes.models import ContentType
+    from core.models import ObjectType
 
     module_name, class_name = class_path.rsplit(".", 1)
     module = importlib.import_module(module_name)
     clazz = getattr(module, class_name)
-    return ContentType.objects.get_for_model(clazz)
+    return ObjectType.objects.get_for_model(clazz)
 
 
 class CustomFieldInitializer(BaseInitializer):
@@ -35,7 +35,7 @@ class CustomFieldInitializer(BaseInitializer):
                     custom_field.label = cf_details["label"]
 
                 for object_type in cf_details.get("on_objects", []):
-                    custom_field.content_types.add(get_class_for_class_path(object_type))
+                    custom_field.object_types.add(get_class_for_class_path(object_type))
 
                 if cf_details.get("required", False):
                     custom_field.required = cf_details["required"]
@@ -61,19 +61,30 @@ class CustomFieldInitializer(BaseInitializer):
                 if cf_details.get("is_cloneable", None) is not None:
                     custom_field.is_cloneable = cf_details["is_cloneable"]
 
-                # object_type should only be applied when type is object, multiobject
+                # object_type was renamed to related_object_type in netbox 4.0
                 if cf_details.get("object_type"):
+                    print(
+                        f"⚠️ Unable to create Custom Field '{cf_name}': please rename object_type "
+                        + "to related_object_type"
+                    )
+                    custom_field.delete()
+                    continue
+
+                # related_object_type should only be applied when type is object, multiobject
+                if cf_details.get("related_object_type"):
                     if cf_details.get("type") not in (
                         "object",
                         "multiobject",
                     ):
                         print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': object_type is "
+                            f"⚠️ Unable to create Custom Field '{cf_name}': related_object_type is "
                             + "supported only for object and multiobject types"
                         )
                         custom_field.delete()
                         continue
-                    custom_field.object_type = get_class_for_class_path(cf_details["object_type"])
+                    custom_field.related_object_type = get_class_for_class_path(
+                        cf_details["related_object_type"]
+                    )
 
                 # validation_regex should only be applied when type is text, longtext, url
                 if cf_details.get("validation_regex"):

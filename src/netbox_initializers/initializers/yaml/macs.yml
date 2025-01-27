@@ -1,0 +1,10 @@
+# - mac_address: 00:01:11:11:11:11
+#   description: MAC address 1
+# - mac_address: 00:01:22:22:22:22
+#   description: Mac address 2
+# - mac_address: 00:01:33:33:33:33
+#   description: mac address 3
+# - mac_address: 00:02:44:44:44:44
+#   description: mac address 4
+# - mac_address: 00:02:55:55:55:55
+#   description: mac address 5

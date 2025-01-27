@@ -1,6 +1,6 @@
 from tenancy.models import TenantGroup
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class TenantGroupInitializer(BaseInitializer):

@@ -14,7 +14,7 @@ from dcim.models.device_component_templates import (
 from tenancy.models import Tenant
 from utilities.forms.utils import expand_alphanumeric_pattern
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 MATCH_PARAMS = ["manufacturer", "model", "slug"]
 REQUIRED_ASSOCS = {"manufacturer": (Manufacturer, "name")}

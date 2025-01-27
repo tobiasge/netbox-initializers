@@ -1,6 +1,7 @@
-from users.models import NetBoxUser, Token
+from django.utils.crypto import get_random_string
+from users.models import Token, User
 
-from . import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 class UserInitializer(BaseInitializer):
@@ -13,10 +14,8 @@ class UserInitializer(BaseInitializer):
 
         for username, user_details in users.items():
             api_token = user_details.pop("api_token", Token.generate_key())
-            password = user_details.pop("password", NetBoxUser.objects.make_random_password())
-            user, created = NetBoxUser.objects.get_or_create(
-                username=username, defaults=user_details
-            )
+            password = user_details.pop("password", get_random_string(length=25))
+            user, created = User.objects.get_or_create(username=username, defaults=user_details)
             if created:
                 user.set_password(password)
                 user.save()
