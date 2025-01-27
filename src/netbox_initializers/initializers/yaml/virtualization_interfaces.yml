@@ -6,7 +6,7 @@
 #   virtual_machine: virtual machine 1
 # - description: Network Interface 2
 #   enabled: true
-#   mac_addresses: 
+#   mac_addresses:
 #     - 00:01:22:22:22:22
 #     - 00:01:33:33:33:33
 #   primary_mac_address: 00:01:33:33:33:33
@@ -20,7 +20,7 @@
 #   virtual_machine: virtual machine 2
 # - description: Network Interface 4
 #   enabled: true
-#   mac_addresses: 
+#   mac_addresses:
 #     - 00:02:44:44:44:44
 #     - 00:02:55:55:55:55
 #   mtu: 1500

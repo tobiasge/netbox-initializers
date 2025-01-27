@@ -56,7 +56,9 @@ def get_termination_object(params: dict, side: str):
         term_side = circuit_params.pop("term_side").upper()
 
         if scope := circuit_params.pop("scope", None):
-            circuit_params["termination_type"], circuit_params["termination_id"] = get_scope_details(scope, CIRCUIT_TERMINATION_TERMINATION_TYPES)
+            scope_type, scope_id = get_scope_details(scope, CIRCUIT_TERMINATION_TERMINATION_TYPES)
+            circuit_params["termination_type"] = scope_type
+            circuit_params["termination_id"] = scope_id
         else:
             raise ValueError(
                 f"⚠️ Missing required parameter: 'scope'"

@@ -1,8 +1,7 @@
+from dcim.constants import LOCATION_SCOPE_TYPES
 from ipam.models import VLAN, VRF, Prefix, Role
 from netaddr import IPNetwork
 from tenancy.models import Tenant, TenantGroup
-from dcim.constants import LOCATION_SCOPE_TYPES
-from django.contrib.contenttypes.models import ContentType
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 from netbox_initializers.initializers.utils import get_scope_details

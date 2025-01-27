@@ -53,7 +53,7 @@
 #   termination_b_circuit:
 #     term_side: A
 #     cid: Circuit_ID-1
-#     scope: 
+#     scope:
 #       type: site
 #       name: AMS 1
 #   type: cat6
