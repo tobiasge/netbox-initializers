@@ -7,7 +7,7 @@ from netbox_initializers.initializers.base import BaseInitializer, register_init
 MATCH_PARAMS = ["name", "type"]
 REQUIRED_ASSOCS = {"type": (ClusterType, "name")}
 OPTIONAL_ASSOCS = {
-    "site": (Site, "name"),
+    "scope": (Site, "name"),
     "group": (ClusterGroup, "name"),
     "tenant": (Tenant, "name"),
 }

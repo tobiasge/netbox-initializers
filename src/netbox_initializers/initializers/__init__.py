@@ -22,6 +22,7 @@ from .groups import GroupInitializer
 from .interfaces import InterfaceInitializer
 from .ip_addresses import IPAddressInitializer
 from .locations import LocationInitializer
+from .macs import MACAddressInitializer
 from .manufacturers import ManufacturerInitializer
 from .object_permissions import ObjectPermissionInitializer
 from .platforms import PlatformInitializer
