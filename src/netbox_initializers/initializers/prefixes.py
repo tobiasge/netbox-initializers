@@ -1,13 +1,14 @@
-from dcim.models import Site
 from ipam.models import VLAN, VRF, Prefix, Role
 from netaddr import IPNetwork
 from tenancy.models import Tenant, TenantGroup
+from dcim.constants import LOCATION_SCOPE_TYPES
+from django.contrib.contenttypes.models import ContentType
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.utils import get_scope_details
 
-MATCH_PARAMS = ["prefix", "site", "vrf", "vlan"]
+MATCH_PARAMS = ["prefix", "scope", "vrf", "vlan"]
 OPTIONAL_ASSOCS = {
-    "site": (Site, "name"),
     "tenant": (Tenant, "name"),
     "tenant_group": (TenantGroup, "name"),
     "vlan": (VLAN, "name"),
@@ -28,6 +29,9 @@ class PrefixInitializer(BaseInitializer):
             tags = params.pop("tags", None)
 
             params["prefix"] = IPNetwork(params["prefix"])
+
+            if scope := params.pop("scope"):
+                params["scope_type"], params["scope_id"] = get_scope_details(scope, LOCATION_SCOPE_TYPES)
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:

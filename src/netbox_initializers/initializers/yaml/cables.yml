@@ -16,7 +16,9 @@
 # # termination_x_circuit:
 # #   term_side -> termination side of a circuit. Must be A or B
 # #   cid -> circuit ID value
-# #   site OR provider_network -> name of Site or ProviderNetwork respectively. If both provided, Site takes precedence
+# #   scope:
+# #     type -> select one of the following: region, site, sitegroup, location
+# #     name -> name of the object in the respective scope type
 # # ```
 # #
 # # If a termination is a power feed then the required parameter is termination_x_feed.
@@ -51,7 +53,9 @@
 #   termination_b_circuit:
 #     term_side: A
 #     cid: Circuit_ID-1
-#     site: AMS 1
+#     scope: 
+#       type: site
+#       name: AMS 1
 #   type: cat6
 
 # - termination_a_name: psu0
