@@ -1,6 +1,6 @@
 from typing import Tuple
-
-from circuits.models import Circuit, CircuitTermination, ProviderNetwork
+from circuits.constants import CIRCUIT_TERMINATION_TERMINATION_TYPES
+from circuits.models import Circuit, CircuitTermination
 from dcim.models import (
     Cable,
     CableTermination,
@@ -13,12 +13,12 @@ from dcim.models import (
     PowerPanel,
     PowerPort,
     RearPort,
-    Site,
 )
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.utils import get_scope_details
 
 CONSOLE_PORT_TERMINATION = ContentType.objects.get_for_model(ConsolePort)
 CONSOLE_SERVER_PORT_TERMINATION = ContentType.objects.get_for_model(ConsoleServerPort)
@@ -55,16 +55,13 @@ def get_termination_object(params: dict, side: str):
         circuit = Circuit.objects.get(cid=circuit_params.pop("cid"))
         term_side = circuit_params.pop("term_side").upper()
 
-        site_name = circuit_params.pop("site", None)
-        provider_network = circuit_params.pop("provider_network", None)
-
-        if site_name:
-            circuit_params["site"] = Site.objects.get(name=site_name)
-        elif provider_network:
-            circuit_params["provider_network"] = ProviderNetwork.objects.get(name=provider_network)
+        if scope := circuit_params.pop("scope", None):
+            scope_type, scope_id = get_scope_details(scope, CIRCUIT_TERMINATION_TERMINATION_TYPES)
+            circuit_params["termination_type"] = scope_type
+            circuit_params["termination_id"] = scope_id
         else:
             raise ValueError(
-                f"⚠️ Missing one of required parameters: 'site' or 'provider_network' "
+                f"⚠️ Missing required parameter: 'scope'"
                 f"for side {term_side} of circuit {circuit}"
             )
 

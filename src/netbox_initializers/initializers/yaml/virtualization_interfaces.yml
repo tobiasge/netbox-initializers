@@ -1,12 +1,28 @@
 # - description: Network Interface 1
 #   enabled: true
-#   mac_address: 00:77:77:77:77:77
+#   primary_mac_address: 00:01:11:11:11:11
 #   mtu: 1500
 #   name: Network Interface 1
 #   virtual_machine: virtual machine 1
 # - description: Network Interface 2
 #   enabled: true
-#   mac_address: 00:55:55:55:55:55
+#   mac_addresses:
+#     - 00:01:22:22:22:22
+#     - 00:01:33:33:33:33
+#   primary_mac_address: 00:01:33:33:33:33
 #   mtu: 1500
 #   name: Network Interface 2
 #   virtual_machine: virtual machine 1
+# - description: Network Interface 3
+#   enabled: true
+#   mtu: 1500
+#   name: Network Interface 3
+#   virtual_machine: virtual machine 2
+# - description: Network Interface 4
+#   enabled: true
+#   mac_addresses:
+#     - 00:02:44:44:44:44
+#     - 00:02:55:55:55:55
+#   mtu: 1500
+#   name: Network Interface 4
+#   virtual_machine: virtual machine 2

@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Tuple
 
 from core.models import ObjectType
+from dcim.models import MACAddress
 from django.core.exceptions import ObjectDoesNotExist
 from extras.models import CustomField, Tag
 from ruamel.yaml import YAML
@@ -90,6 +91,22 @@ class BaseInitializer:
         if save:
             entity.save()
 
+    def set_mac_addresses(self, entity, mac_addresses):
+        if not mac_addresses:
+            return
+
+        if not hasattr(entity, "mac_addresses"):
+            raise Exception(f"⚠️ MAC Address cannot be applied to {entity}'s model")
+
+        save = False
+        for mac_address in MACAddress.objects.filter(mac_address__in=mac_addresses):
+
+            entity.mac_addresses.add(mac_address)
+            save = True
+
+        if save:
+            entity.save()
+
     def split_params(self, params: dict, unique_params: list = None) -> Tuple[dict, dict]:
         """Split params dict into dict with matching params and a dict with default values"""
 
@@ -140,6 +157,7 @@ INITIALIZER_ORDER = (
     "prefix_vlan_roles",
     "vlan_groups",
     "vlans",
+    "macs",
     "devices",
     "interfaces",
     "route_targets",
