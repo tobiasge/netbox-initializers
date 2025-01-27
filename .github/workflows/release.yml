@@ -24,13 +24,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install uv
-        run: pip install uv
+        uses: astral-sh/setup-uv@v5
       - id: build-and-publish
         name: Build and publish to pypi
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-          TWINE_NON_INTERACTIVE: "true"
+          UV_PUBLISH_USERNAME: __token__
+          UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
-          uvx --from build pyproject-build
-          uvx twine upload dist/*
+          uv build
+          uv publish
