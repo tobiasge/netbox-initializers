@@ -3,7 +3,6 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "netbox-initializers"
-version = "4.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "ruamel-yaml" },
