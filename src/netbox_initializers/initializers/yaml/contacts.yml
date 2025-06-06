@@ -5,14 +5,16 @@
 #   address: 1200 Nowhere Blvd, Scranton NJ, 555111
 #   comments: This is a very important contact
 # - name: Ali Gator
-#   group: Network-Team
+#   groups:
+#     - Network-Team
 #   title: Consultant for Widget Corp
 #   phone: 221-555-1213
 #   email: Consultant@widgetcorp.com
 #   address: 1200 Nowhere Blvd, Scranton NJ, 555111
 #   comments: This is a very important contact
 # - name: Karlchen Maier
-#   group: New Contact Group
+#   groups:
+#     - New Contact Group
 #   title: COO of Widget Corp
 #   phone: 221-555-1214
 #   email: Karlchen@widgetcorp.com
