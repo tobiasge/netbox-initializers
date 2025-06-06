@@ -8,9 +8,9 @@ from netbox_initializers.initializers.base import BaseInitializer, register_init
 
 MATCH_PARAMS = ["name", "parent_type", "parent_id"]
 OPTIONAL_ASSOCS = {
-    "device": (Device, "name"),
-    "virtual_machine": (VirtualMachine, "name"),
-    "fhrp_group": (FHRPGroup, "name"),
+    "device": Device,
+    "virtual_machine": VirtualMachine,
+    "fhrp_group": FHRPGroup,
 }
 
 
