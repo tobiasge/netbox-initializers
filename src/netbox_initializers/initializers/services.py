@@ -1,7 +1,4 @@
-from dcim.models import Device
 from ipam.models import Service
-from ipam.models import FHRPGroup
-from virtualization.models import VirtualMachine
 from django.contrib.contenttypes.models import ContentType
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
@@ -26,7 +23,6 @@ class ServiceInitializer(BaseInitializer):
                 )
             app_label, model = str(scope_type).split(".")
             parent_model = ContentType.objects.get(app_label=app_label, model=model).model_class()
-            #parent_model = ContentType.objects.filter(app_label=app_label, model=model).first()
             parent = parent_model.objects.get(name=params.pop("parent_name"))
 
             params["parent_object_type"] = ContentType.objects.get_for_model(parent)

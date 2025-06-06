@@ -13,7 +13,7 @@ class ContactInitializer(BaseInitializer):
             custom_field_data = self.pop_custom_fields(params)
             tags = params.pop("tags", None)
             
-            # Group foreign key on the Contact model is a many-to-many groups field
+            # Group foreign key on the Contact model is a now many-to-many groups field
             groups = params.pop("groups", None)  # Extract the groups from params if they exist
             group_objects = []
             if groups:
