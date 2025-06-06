@@ -13,9 +13,8 @@ class ContactInitializer(BaseInitializer):
             custom_field_data = self.pop_custom_fields(params)
             tags = params.pop("tags", None)
             
-            # From Netbox 4.3.0 changelog:
-            # "The group foreign key on the Contact model has been replaced with a many-to-many groups field."
-            groups = params.pop("groups", None)  # Extract the groups from params if present
+            # Group foreign key on the Contact model is a many-to-many groups field
+            groups = params.pop("groups", None)  # Extract the groups from params if they exist
             group_objects = []
             if groups:
                 for group_name in groups:  # Iterate through the group names
