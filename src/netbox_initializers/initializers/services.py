@@ -25,8 +25,8 @@ class ServiceInitializer(BaseInitializer):
                     f"Services '{params['name']}': parent_type is missing from Services"
                 )
             app_label, model = str(scope_type).split(".")
-            #parent_model = ContentType.objects.get(app_label=app_label, model=model).model_class()
-            parent_model = ContentType.objects.filter(app_label=app_label, model=model).first()
+            parent_model = ContentType.objects.get(app_label=app_label, model=model).model_class()
+            #parent_model = ContentType.objects.filter(app_label=app_label, model=model).first()
             parent = parent_model.objects.get(name=params.pop("parent_name"))
 
             params["parent_object_type"] = ContentType.objects.get_for_model(parent)
