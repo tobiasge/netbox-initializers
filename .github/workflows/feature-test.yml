@@ -2,8 +2,8 @@
 name: Test with Netbox feature branch
 
 on:
-#  schedule:
-#    - cron: "35 07 * * *"
+  schedule:
+    - cron: "35 07 * * *"
   workflow_dispatch:
   workflow_call:
 
