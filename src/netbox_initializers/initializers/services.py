@@ -5,6 +5,7 @@ from netbox_initializers.initializers.base import BaseInitializer, register_init
 
 MATCH_PARAMS = ["name", "parent_object_type", "parent_object_id"]
 
+
 class ServiceInitializer(BaseInitializer):
     data_file_name = "services.yml"
 
