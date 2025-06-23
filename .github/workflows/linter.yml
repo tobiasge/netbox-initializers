@@ -2,6 +2,9 @@
 name: Run github/super-linter
 
 on:
+  schedule:
+    - cron: "35 07 * * *"
+  workflow_dispatch:
   workflow_call:
 
 jobs:
