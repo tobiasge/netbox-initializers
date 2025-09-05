@@ -28,7 +28,7 @@ build-backend = "hatchling.build"
 path = "src/netbox_initializers/version.py"
 
 [tool.uv]
-dev-dependencies = ["ruff==0.9.3"]
+dev-dependencies = ["ruff==0.12"]
 
 [tool.ruff]
 line-length = 100
