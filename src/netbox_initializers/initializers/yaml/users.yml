@@ -11,5 +11,4 @@
 #   api_token: 0123456789jdoe789abcdef01234567jdoe
 #   is_active: True
 #   is_superuser: False
-#   is_staff: False
 #   email: john.doe@example.com
