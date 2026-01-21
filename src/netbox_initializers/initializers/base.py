@@ -52,7 +52,7 @@ class BaseInitializer:
                 missing_cfs.append(key)
             else:
                 ct = ObjectType.objects.get_for_model(entity)
-                if ct not in cf.object_types.all():
+                if not cf.object_types.filter(pk=ct.pk).exists():
                     print(
                         f"⚠️ Custom field {key} is not enabled for {entity}'s model!"
                         "Please check the 'on_objects' for that custom field in custom_fields.yml"
