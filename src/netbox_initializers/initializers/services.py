@@ -1,5 +1,5 @@
-from ipam.models import Service
 from django.contrib.contenttypes.models import ContentType
+from ipam.models import Service
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
@@ -19,9 +19,7 @@ class ServiceInitializer(BaseInitializer):
             # Get model from Contenttype
             scope_type = params.pop("parent_type", None)
             if not scope_type:
-                print(
-                    f"Services '{params['name']}': parent_type is missing from Services"
-                )
+                print(f"Services '{params['name']}': parent_type is missing from Services")
             app_label, model = str(scope_type).split(".")
             parent_model = ContentType.objects.get(app_label=app_label, model=model).model_class()
             parent = parent_model.objects.get(name=params.pop("parent_name"))

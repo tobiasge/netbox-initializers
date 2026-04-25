@@ -30,7 +30,9 @@ class PrefixInitializer(BaseInitializer):
             params["prefix"] = IPNetwork(params["prefix"])
 
             if scope := params.pop("scope"):
-                params["scope_type"], params["scope_id"] = get_scope_details(scope, LOCATION_SCOPE_TYPES)
+                params["scope_type"], params["scope_id"] = get_scope_details(
+                    scope, LOCATION_SCOPE_TYPES
+                )
 
             for assoc, details in OPTIONAL_ASSOCS.items():
                 if assoc in params:
