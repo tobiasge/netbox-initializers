@@ -7,6 +7,7 @@ from dcim.models.device_component_templates import (
     DeviceBayTemplate,
     FrontPortTemplate,
     InterfaceTemplate,
+    PortTemplateMapping,
     PowerOutletTemplate,
     PowerPortTemplate,
     RearPortTemplate,
@@ -129,6 +130,18 @@ class DeviceTypeInitializer(BaseInitializer):
                             c_param[n_assoc] = n_model.objects.get(**n_query)
 
                 for new_param in expanded_c_params:
+                    # FrontPortTemplate: rear_port/rear_port_position moved to PortTemplateMapping
+                    port_mapping_params = {}
+                    if c_model is FrontPortTemplate:
+                        rear_port = new_param.pop("rear_port", None)
+                        if rear_port is not None:
+                            port_mapping_params = {
+                                "rear_port": rear_port,
+                                "rear_port_position": new_param.pop("rear_port_position", 1),
+                                "front_port_position": new_param.pop("front_port_position", 1),
+                                "device_type": device_type,
+                            }
+
                     new_matching_params, new_defaults = self.split_params(new_param, c_match_params)
                     new_obj, new_obj_created = c_model.objects.get_or_create(
                         **new_matching_params, defaults=new_defaults
@@ -136,6 +149,14 @@ class DeviceTypeInitializer(BaseInitializer):
                     if new_obj_created:
                         print(
                             f"🧷  Created {c_model._meta} {new_obj} component for device type {device_type}"
+                        )
+
+                    if port_mapping_params:
+                        front_port_position = port_mapping_params.pop("front_port_position")
+                        PortTemplateMapping.objects.get_or_create(
+                            front_port=new_obj,
+                            front_port_position=front_port_position,
+                            defaults=port_mapping_params,
                         )
 
 
