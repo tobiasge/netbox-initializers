@@ -100,7 +100,6 @@ class BaseInitializer:
 
         save = False
         for mac_address in MACAddress.objects.filter(mac_address__in=mac_addresses):
-
             entity.mac_addresses.add(mac_address)
             save = True
 

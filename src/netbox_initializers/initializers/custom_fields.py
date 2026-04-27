@@ -1,12 +1,12 @@
+import importlib
+
+from core.models import ObjectType
 from extras.models import CustomField, CustomFieldChoiceSet
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
 
 def get_class_for_class_path(class_path):
-    import importlib
-
-    from core.models import ObjectType
 
     module_name, class_name = class_path.rsplit(".", 1)
     module = importlib.import_module(module_name)

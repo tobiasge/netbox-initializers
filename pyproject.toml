@@ -12,7 +12,7 @@ readme = "README.md"
 license = "Apache-2.0"
 dynamic = ["version"]
 
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = ["ruamel-yaml>=0.18.10"]
 
 [project.urls]
@@ -27,8 +27,8 @@ build-backend = "hatchling.build"
 [tool.hatch.version]
 path = "src/netbox_initializers/version.py"
 
-[tool.uv]
-dev-dependencies = ["ruff==0.12"]
+[dependency-groups]
+dev = ["ruff==0.15.12"]
 
 [tool.ruff]
 line-length = 100

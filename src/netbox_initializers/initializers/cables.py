@@ -1,4 +1,5 @@
 from typing import Tuple
+
 from circuits.constants import CIRCUIT_TERMINATION_TERMINATION_TYPES
 from circuits.models import Circuit, CircuitTermination
 from dcim.models import (
@@ -61,8 +62,7 @@ def get_termination_object(params: dict, side: str):
             circuit_params["termination_id"] = scope_id
         else:
             raise ValueError(
-                f"⚠️ Missing required parameter: 'scope'"
-                f"for side {term_side} of circuit {circuit}"
+                f"⚠️ Missing required parameter: 'scope'for side {term_side} of circuit {circuit}"
             )
 
         termination, created = CircuitTermination.objects.get_or_create(

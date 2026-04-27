@@ -54,8 +54,8 @@
 #   config_template: configtemplate1
 #   custom_field_data:
 #     text_field: Description
-#
-## Templated device
+
+# # Templated device
 # - name: gns3-tor
 #   role: switch
 #   device_type: TOR-8P
