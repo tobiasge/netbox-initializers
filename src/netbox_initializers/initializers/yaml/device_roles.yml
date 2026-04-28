@@ -1,8 +1,18 @@
+# - name: Network Structure
+#   slug: network-structure
+#   description: Network infrastructure device providing connectivity between systems
+# - name: Gateway
+#   slug: gateway
+#   parent: network-structure
+#   description: Network edge device category (routing, firewalling, protocol coupling)
+#   color: White
 # - name: switch
 #   slug: switch
+#   parent: network-structure
 #   color: Grey
 # - name: router
 #   slug: router
+#   parent: gateway
 #   color: Cyan
 # - name: load-balancer
 #   slug: load-balancer
