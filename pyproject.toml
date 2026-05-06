@@ -32,7 +32,7 @@ dev = ["ruff==0.15.12"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 extend-select = ["I", "PL", "W191", "W291", "W292", "W293"]
