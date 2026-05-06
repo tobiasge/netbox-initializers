@@ -1,6 +1,6 @@
 from dcim.models import DeviceRole
-from netbox.choices import ColorChoices
 from django.core.exceptions import ObjectDoesNotExist
+from netbox.choices import ColorChoices
 
 from netbox_initializers.initializers.base import BaseInitializer, register_initializer
 
@@ -27,7 +27,9 @@ class DeviceRoleInitializer(BaseInitializer):
                     try:
                         parent_obj = DeviceRole.objects.get(name=parent_value)
                     except ObjectDoesNotExist:
-                        raise ValueError(f"DeviceRole parent '{parent_value}' not found by slug or name")
+                        raise ValueError(
+                            f"DeviceRole parent '{parent_value}' not found by slug or name"
+                        )
 
                 if parent_obj:
                     params["parent"] = parent_obj
@@ -40,7 +42,9 @@ class DeviceRoleInitializer(BaseInitializer):
                         params["color"] = color_tpl[0]
 
             matching_params, defaults = self.split_params(params)
-            device_role, created = DeviceRole.objects.get_or_create(**matching_params, defaults=defaults)
+            device_role, created = DeviceRole.objects.get_or_create(
+                **matching_params, defaults=defaults
+            )
 
             if created:
                 print("🎨 Created device role", device_role.name)
