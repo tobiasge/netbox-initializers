@@ -31,8 +31,8 @@ path = "src/netbox_initializers/version.py"
 dev = ["ruff==0.16.2"]
 
 [tool.ruff]
-line-length = 100
-target-version = "py312"
+line-length = 120
+target-version = "py314"
 
 [tool.ruff.lint]
 extend-select = ["I", "PL", "W191", "W291", "W292", "W293"]

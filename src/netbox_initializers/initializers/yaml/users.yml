@@ -1,3 +1,12 @@
+# test_superuser:
+#   first_name: Test
+#   last_name: Admin
+#   token:
+#     key: ifiap3Roh1oh # Random identifier (12 characters) for the token, but not secret.  #gitleaks:allow
+#     value: aexophoo0Aizoo2aithi2aofeice7EeMe9shizei6Eghieghoh # must be looooong!  #gitleaks:allow
+#   is_active: true
+#   is_superuser: true
+#   email: admin@example.com
 # technical_user:
 #   token:
 #     key: Xaeboophoo8e # Random identifier (12 characters) for the token, but not secret.  #gitleaks:allow
