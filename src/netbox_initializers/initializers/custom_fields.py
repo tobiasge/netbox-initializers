@@ -123,14 +123,14 @@ class CustomFieldInitializer(BaseInitializer):
                         continue
                     custom_field.validation_maximum = cf_details["validation_maximum"]
 
-                # choices should only be applied when type is select, multiselect
-                if choices := cf_details.get("choices"):
+                # choice_set should only be applied when type is select, multiselect
+                if choice_set_choices := cf_details.get("choice_set"):
                     if cf_details.get("type") not in (
                         "select",
                         "multiselect",
                     ):
                         print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': choices is supported only "
+                            f"⚠️ Unable to create Custom Field '{cf_name}': choice_set is supported only "
                             + "for select and multiselect types"
                         )
                         custom_field.delete()
@@ -138,7 +138,12 @@ class CustomFieldInitializer(BaseInitializer):
                     choice_set, _ = CustomFieldChoiceSet.objects.get_or_create(
                         name=f"{cf_name}_choices"
                     )
-                    choice_set.extra_choices = choices
+                    # NetBox stores choices as [value, label] pairs. Allow the YAML to
+                    # provide either plain values or explicit [value, label] pairs.
+                    choice_set.extra_choices = [
+                        choice if isinstance(choice, (list, tuple)) else [choice, choice]
+                        for choice in choice_set_choices
+                    ]
                     choice_set.save()
                     custom_field.choice_set = choice_set
 

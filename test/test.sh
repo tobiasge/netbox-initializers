@@ -42,7 +42,30 @@ test_cleanup() {
 
 test_initializers() {
   echo "🏭 Testing Initializers"
-  $doco run --rm netbox /opt/netbox/docker-entrypoint.sh ./manage.py load_initializer_data --path /etc/netbox/initializer-data || exit 1
+  $doco run --rm netbox ./manage.py load_initializer_data --path /etc/netbox/initializer-data || exit 1
+}
+
+test_api_verification() {
+  echo "🔍 Verifying data via NetBox API"
+
+  # Start the NetBox web server so the REST API is available
+  $doco up -d netbox || exit 1
+
+  # Wait for the API to become available
+  echo "⏳ Waiting for the NetBox API to be ready"
+  for _ in $(seq 1 30); do
+    if $doco exec -T netbox python3 -c \
+      "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/')" \
+      >/dev/null 2>&1; then
+      echo "✅ NetBox API is ready"
+      break
+    fi
+    sleep 5
+  done
+
+  # Copy the verification script into the running container and run it
+  $doco cp ./verify_api.py netbox:/tmp/verify_api.py || exit 1
+  $doco exec -T netbox python3 /tmp/verify_api.py || exit 1
 }
 
 echo "🐳🐳🐳 Start testing"
@@ -56,6 +79,10 @@ gh_echo "::endgroup::"
 
 gh_echo "::group::Initializer tests"
 test_initializers
+gh_echo "::endgroup::"
+
+gh_echo "::group::API verification"
+test_api_verification
 gh_echo "::endgroup::"
 
 echo "🐳🐳🐳 Done testing"
