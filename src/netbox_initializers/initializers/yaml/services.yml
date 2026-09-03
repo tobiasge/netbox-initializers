@@ -1,18 +1,15 @@
 # - name: DNS
-#   protocol: TCP
-#   ports:
-#     - 53
+#   port_mappings:
+#     - tcp/53
 #   parent_type: virtualization.virtualmachine
 #   parent_name: virtual machine 1
 # - name: DNS
-#   protocol: UDP
-#   ports:
-#     - 53
+#   port_mappings:
+#     - udp/53
 #   parent_type: virtualization.virtualmachine
 #   parent_name: virtual machine 1
 # - name: MISC
-#   protocol: UDP
-#   ports:
-#     - 4000
+#   port_mappings:
+#     - udp/4000
 #   parent_type: dcim.device
 #   parent_name: server01
