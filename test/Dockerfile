@@ -1,4 +1,4 @@
-FROM netboxcommunity/netbox:v4.6
+FROM netboxcommunity/netbox:v4.7
 
 COPY ../ /opt/netbox-initializers/
 COPY ./test/config/plugins.py /etc/netbox/config/
