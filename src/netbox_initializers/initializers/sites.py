@@ -1,66 +1,57 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from dcim.models import Region, Site, SiteGroup
 from ipam.models import ASN
 from tenancy.models import Tenant
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-OPTIONAL_ASSOCS = {
-    "region": (Region, "name"),
-    "group": (SiteGroup, "name"),
-    "tenant": (Tenant, "name"),
-}
+from netbox_initializers.initializers.base import BaseModelInitializer, Writer, register_initializer
 
 
-class SiteInitializer(BaseInitializer):
+class SiteInitializer(BaseModelInitializer):
     data_file_name = "sites.yml"
+    model = Site
+    verbose_name = "site"
+    emoji = "📍"
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {
+        "region": (Region, "name"),
+        "group": (SiteGroup, "name"),
+        "tenant": (Tenant, "name"),
+    }
 
-    def load_data(self):
-        sites = self.load_yaml()
-        if sites is None:
-            return
-        for params in sites:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
+    def __init__(
+        self,
+        data_file_path: str,
+        stdout: Writer | None = None,
+        stderr: Writer | None = None,
+        verbosity: int = 1,
+    ) -> None:
+        super().__init__(data_file_path, stdout=stdout, stderr=stderr, verbosity=verbosity)
+        self._asns_found: list[ASN] = []
 
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
+    def prepare_params(self, params: dict[str, object]) -> dict[str, object] | None:
+        site_name = params.get("name")
+        self._asns_found = []
+        asns = params.get("asns")
+        if isinstance(asns, list):
+            for asn in asns:
+                found = ASN.objects.filter(asn=asn).first()
+                if found:
+                    self._asns_found.append(found)
 
-                    params[assoc] = model.objects.get(**query)
+            if len(asns) != len(self._asns_found):
+                self.log_warning(f"⚠️ Unable to create Site '{site_name}': all ASNs could not be found")
+                return None
 
-            matching_params, defaults = self.split_params(params)
+            del params["asns"]
+        return params
 
-            asnFounds = []
-            if defaults.get("asns", 0):
-                for asn in defaults["asns"]:
-                    found = ASN.objects.filter(asn=asn).first()
-                    if found:
-                        asnFounds += [found]
-
-                if len(defaults["asns"]) != len(asnFounds):
-                    print(
-                        "⚠️ Unable to create Site '{0}': all ASNs could not be found".format(
-                            params.get("name")
-                        )
-                    )
-
-                # asns will be assosciated below
-                del defaults["asns"]
-
-            site, created = Site.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                print("📍 Created site", site.name)
-
-            self.set_custom_fields_values(site, custom_field_data)
-            self.set_tags(site, tags)
-
-            for asn in asnFounds:
-                site.asns.add(asn)
-                print(" 👤 Assigned asn %s to site %s" % (asn, site.name))
-
-            site.save()
+    def post_create(self, entity, params: dict[str, object], created: bool) -> None:
+        if self._asns_found:
+            for asn in self._asns_found:
+                entity.asns.add(asn)
+                self.log(f" 🔢 Assigned ASN {asn} to site {entity.name}")
+            entity.save()
 
 
 register_initializer("sites", SiteInitializer)

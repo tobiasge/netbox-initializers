@@ -1,28 +1,14 @@
 from ipam.models import ServiceTemplate
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-MATCH_PARAMS = ["name"]
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class ServiceTemplateInitializer(BaseInitializer):
+class ServiceTemplateInitializer(BaseModelInitializer):
     data_file_name = "service_templates.yml"
-
-    def load_data(self):
-        service_templates = self.load_yaml()
-        if service_templates is None:
-            return
-        for params in service_templates:
-            tags = params.pop("tags", None)
-            matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            service_template, created = ServiceTemplate.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
-
-            if created:
-                print("🧰 Created Service Template", service_template.name)
-
-            self.set_tags(service_template, tags)
+    model = ServiceTemplate
+    verbose_name = "Service Template"
+    emoji = "🧰"
+    match_params = ("name",)
 
 
 register_initializer("service_templates", ServiceTemplateInitializer)

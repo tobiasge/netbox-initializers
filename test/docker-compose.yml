@@ -9,6 +9,7 @@ services:
     env_file: env/netbox.env
     volumes:
       - ./initializer-data:/etc/netbox/initializer-data:z,ro
+      - ./verify_api.py:/tmp/verify_api.py:z,ro
     build:
       context: ..
       dockerfile: test/Dockerfile
@@ -21,7 +22,7 @@ services:
 
   # redis
   redis:
-    image: docker.io/valkey/valkey:9.0-alpine
+    image: docker.io/valkey/valkey:9.1-alpine
     command:
       - sh
       - -c # this is to evaluate the $REDIS_PASSWORD from the env
@@ -30,7 +31,7 @@ services:
     volumes:
       - netbox-redis-data:/data
   redis-cache:
-    image: docker.io/valkey/valkey:9.0-alpine
+    image: docker.io/valkey/valkey:9.1-alpine
     command:
       - sh
       - -c # this is to evaluate the $REDIS_PASSWORD from the env

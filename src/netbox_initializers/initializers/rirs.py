@@ -1,25 +1,13 @@
 from ipam.models import RIR
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class RIRInitializer(BaseInitializer):
+class RIRInitializer(BaseModelInitializer):
     data_file_name = "rirs.yml"
-
-    def load_data(self):
-        rirs = self.load_yaml()
-        if rirs is None:
-            return
-
-        for params in rirs:
-            tags = params.pop("tags", None)
-            matching_params, defaults = self.split_params(params)
-            rir, created = RIR.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                print("🗺️ Created RIR", rir.name)
-
-            self.set_tags(rir, tags)
+    model = RIR
+    verbose_name = "RIR"
+    emoji = "🗺️"
 
 
 register_initializer("rirs", RIRInitializer)

@@ -26,10 +26,10 @@ class Command(BaseCommand):
         if not os.path.isdir(target_path):
             raise CommandError("Path must be a directory.")
 
-        intializer_base_path = os.path.dirname(netbox_initializers.initializers.__file__)
-        intializer_path = f"{intializer_base_path}/yaml"
+        initializer_base_path = os.path.dirname(netbox_initializers.initializers.__file__)
+        initializer_path = f"{initializer_base_path}/yaml"
         warnings = 0
-        with os.scandir(intializer_path) as yaml_files:
+        with os.scandir(initializer_path) as yaml_files:
             for file in yaml_files:
                 if not file.name.endswith("yml"):
                     continue
@@ -44,7 +44,5 @@ class Command(BaseCommand):
                     continue
                 shutil.copyfile(file, dst_file)
         self.stdout.write(
-            self.style.SUCCESS(
-                f"Copied initializer examples to '{target_path}' with {warnings} warnings."
-            )
+            self.style.SUCCESS(f"Copied initializer examples to '{target_path}' with {warnings} warnings.")
         )

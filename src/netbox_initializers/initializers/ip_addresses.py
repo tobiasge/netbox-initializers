@@ -1,6 +1,5 @@
 from dcim.models import Device, Interface
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q
 from ipam.models import VRF, IPAddress
 from netaddr import IPNetwork
 from tenancy.models import Tenant
@@ -19,11 +18,6 @@ OPTIONAL_ASSOCS = {
     "interface": (Interface, "name"),
 }
 
-VM_INTERFACE_CT = ContentType.objects.filter(
-    Q(app_label="virtualization", model="vminterface")
-).first()
-INTERFACE_CT = ContentType.objects.filter(Q(app_label="dcim", model="interface")).first()
-
 
 class IPAddressInitializer(BaseInitializer):
     data_file_name = "ip_addresses.yml"
@@ -32,6 +26,10 @@ class IPAddressInitializer(BaseInitializer):
         ip_addresses = self.load_yaml()
         if ip_addresses is None:
             return
+
+        vm_interface_ct = ContentType.objects.get_for_model(VMInterface)
+        interface_ct = ContentType.objects.get_for_model(Interface)
+
         for params in ip_addresses:
             custom_field_data = self.pop_custom_fields(params)
             tags = params.pop("tags", None)
@@ -52,14 +50,15 @@ class IPAddressInitializer(BaseInitializer):
                         if vm:
                             vm_id = VirtualMachine.objects.get(name=vm).id
                             query = {"name": params.pop(assoc), "virtual_machine_id": vm_id}
-                            params["assigned_object_type"] = VM_INTERFACE_CT
+                            params["assigned_object_type"] = vm_interface_ct
                             params["assigned_object_id"] = VMInterface.objects.get(**query).id
                         elif device:
                             dev_id = Device.objects.get(name=device).id
                             query = {"name": params.pop(assoc), "device_id": dev_id}
-                            params["assigned_object_type"] = INTERFACE_CT
+                            params["assigned_object_type"] = interface_ct
                             params["assigned_object_id"] = Interface.objects.get(**query).id
                     elif assoc == "vrf" and params[assoc] is None:
+                        params.pop(assoc)
                         params["vrf_id"] = None
                     else:
                         query = {field: params.pop(assoc)}
@@ -67,12 +66,10 @@ class IPAddressInitializer(BaseInitializer):
                         params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            ip_address, created = IPAddress.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
+            ip_address, created = IPAddress.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
-                print("🧬 Created IP Address", ip_address.address)
+                self.log(f"🧬 Created IP Address {ip_address.address}")
 
             self.set_custom_fields_values(ip_address, custom_field_data)
             self.set_tags(ip_address, tags)

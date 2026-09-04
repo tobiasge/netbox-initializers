@@ -63,9 +63,8 @@ class CustomFieldInitializer(BaseInitializer):
 
                 # object_type was renamed to related_object_type in netbox 4.0
                 if cf_details.get("object_type"):
-                    print(
-                        f"⚠️ Unable to create Custom Field '{cf_name}': please rename object_type "
-                        + "to related_object_type"
+                    self.log_warning(
+                        f"⚠️ Unable to create Custom Field '{cf_name}': please rename object_type to related_object_type"
                     )
                     custom_field.delete()
                     continue
@@ -76,15 +75,13 @@ class CustomFieldInitializer(BaseInitializer):
                         "object",
                         "multiobject",
                     ):
-                        print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': related_object_type is "
-                            + "supported only for object and multiobject types"
+                        self.log_warning(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': "
+                            "related_object_type is supported only for object and multiobject types"
                         )
                         custom_field.delete()
                         continue
-                    custom_field.related_object_type = get_class_for_class_path(
-                        cf_details["related_object_type"]
-                    )
+                    custom_field.related_object_type = get_class_for_class_path(cf_details["related_object_type"])
 
                 # validation_regex should only be applied when type is text, longtext, url
                 if cf_details.get("validation_regex"):
@@ -93,9 +90,9 @@ class CustomFieldInitializer(BaseInitializer):
                         "longtext",
                         "url",
                     ):
-                        print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': validation_regex is "
-                            + "supported only for text, longtext and, url types"
+                        self.log_warning(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': "
+                            "validation_regex is supported only for text, longtext and, url types"
                         )
                         custom_field.delete()
                         continue
@@ -104,9 +101,9 @@ class CustomFieldInitializer(BaseInitializer):
                 # validation_minimum should only be applied when type is integer
                 if cf_details.get("validation_minimum"):
                     if cf_details.get("type") not in ("integer",):
-                        print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': validation_minimum is "
-                            + "supported only for integer type"
+                        self.log_warning(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': "
+                            "validation_minimum is supported only for integer type"
                         )
                         custom_field.delete()
                         continue
@@ -115,9 +112,9 @@ class CustomFieldInitializer(BaseInitializer):
                 # validation_maximum should only be applied when type is integer
                 if cf_details.get("validation_maximum"):
                     if cf_details.get("type") not in ("integer",):
-                        print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': validation_maximum is "
-                            + "supported only for integer type"
+                        self.log_warning(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': "
+                            "validation_maximum is supported only for integer type"
                         )
                         custom_field.delete()
                         continue
@@ -129,15 +126,13 @@ class CustomFieldInitializer(BaseInitializer):
                         "select",
                         "multiselect",
                     ):
-                        print(
-                            f"⚠️ Unable to create Custom Field '{cf_name}': choice_set is supported only "
-                            + "for select and multiselect types"
+                        self.log_warning(
+                            f"⚠️ Unable to create Custom Field '{cf_name}': "
+                            "choice_set is supported only for select and multiselect types"
                         )
                         custom_field.delete()
                         continue
-                    choice_set, _ = CustomFieldChoiceSet.objects.get_or_create(
-                        name=f"{cf_name}_choices"
-                    )
+                    choice_set, _ = CustomFieldChoiceSet.objects.get_or_create(name=f"{cf_name}_choices")
                     # NetBox stores choices as [value, label] pairs. Allow the YAML to
                     # provide either plain values or explicit [value, label] pairs.
                     choice_set.extra_choices = [
@@ -149,7 +144,7 @@ class CustomFieldInitializer(BaseInitializer):
 
                 custom_field.save()
 
-                print("🔧 Created custom field", cf_name)
+                self.log(f"🔧 Created custom field {cf_name}")
 
 
 register_initializer("custom_fields", CustomFieldInitializer)

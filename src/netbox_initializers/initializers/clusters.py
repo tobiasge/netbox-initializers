@@ -1,50 +1,25 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from dcim.models import Site
 from tenancy.models import Tenant
 from virtualization.models import Cluster, ClusterGroup, ClusterType
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-MATCH_PARAMS = ["name", "type"]
-REQUIRED_ASSOCS = {"type": (ClusterType, "name")}
-OPTIONAL_ASSOCS = {
-    "scope": (Site, "name"),
-    "group": (ClusterGroup, "name"),
-    "tenant": (Tenant, "name"),
-}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class ClusterInitializer(BaseInitializer):
+class ClusterInitializer(BaseModelInitializer):
     data_file_name = "clusters.yml"
-
-    def load_data(self):
-        clusters = self.load_yaml()
-        if clusters is None:
-            return
-        for params in clusters:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
-
-            for assoc, details in REQUIRED_ASSOCS.items():
-                model, field = details
-                query = {field: params.pop(assoc)}
-
-                params[assoc] = model.objects.get(**query)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            cluster, created = Cluster.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                print("🗄️ Created cluster", cluster.name)
-
-            self.set_custom_fields_values(cluster, custom_field_data)
-            self.set_tags(cluster, tags)
+    model = Cluster
+    verbose_name = "cluster"
+    emoji = "🗄️"
+    match_params = ("name", "type")
+    required_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"type": (ClusterType, "name")}
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {
+        "scope": (Site, "name"),
+        "group": (ClusterGroup, "name"),
+        "tenant": (Tenant, "name"),
+    }
 
 
 register_initializer("clusters", ClusterInitializer)

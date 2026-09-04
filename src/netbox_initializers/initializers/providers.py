@@ -1,40 +1,40 @@
 from circuits.models import Provider
 from ipam.models import ASN
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseModelInitializer, Writer, register_initializer
 
 
-class ProviderInitializer(BaseInitializer):
+class ProviderInitializer(BaseModelInitializer):
     data_file_name = "providers.yml"
+    model = Provider
+    verbose_name = "provider"
+    emoji = "📡"
 
-    def load_data(self):
-        providers = self.load_yaml()
-        if providers is None:
-            return
-        for params in providers:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
+    def __init__(
+        self,
+        data_file_path: str,
+        stdout: Writer | None = None,
+        stderr: Writer | None = None,
+        verbosity: int = 1,
+    ) -> None:
+        super().__init__(data_file_path, stdout=stdout, stderr=stderr, verbosity=verbosity)
+        self._asn: ASN | None = None
 
-            asn_number = params.pop("asn")
-            asn = ASN.objects.filter(asn=asn_number).first()
-            if asn is None:
-                print(
-                    "⚠️ Unable to create Provider '{0}': The ASN '{1}' is unknown".format(
-                        params.get("name"), asn_number
-                    )
+    def prepare_params(self, params: dict[str, object]) -> dict[str, object] | None:
+        asn_number = params.pop("asn", None)
+        self._asn = None
+        if asn_number is not None:
+            self._asn = ASN.objects.filter(asn=asn_number).first()
+            if self._asn is None:
+                self.log_warning(
+                    f"⚠️ Unable to create Provider '{params.get('name')}': The ASN '{asn_number}' is unknown"
                 )
-                continue
+                return None
+        return params
 
-            matching_params, defaults = self.split_params(params)
-            provider, created = Provider.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                provider.asns.add(asn)
-                provider.save()
-                print("📡 Created provider", provider.name)
-
-            self.set_custom_fields_values(provider, custom_field_data)
-            self.set_tags(provider, tags)
+    def post_create(self, entity, params: dict[str, object], created: bool) -> None:
+        if created and self._asn is not None:
+            entity.asns.add(self._asn)
 
 
 register_initializer("providers", ProviderInitializer)

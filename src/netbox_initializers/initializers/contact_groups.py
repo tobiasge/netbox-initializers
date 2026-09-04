@@ -1,38 +1,17 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from tenancy.models import ContactGroup
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-OPTIONAL_ASSOCS = {"parent": (ContactGroup, "name")}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class ContactGroupInitializer(BaseInitializer):
+class ContactGroupInitializer(BaseModelInitializer):
     data_file_name = "contact_groups.yml"
-
-    def load_data(self):
-        contact_groups = self.load_yaml()
-        if contact_groups is None:
-            return
-        for params in contact_groups:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params)
-            contact_group, created = ContactGroup.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
-
-            if created:
-                print("🔳 Created Contact Group", contact_group.name)
-
-            self.set_custom_fields_values(contact_group, custom_field_data)
-            self.set_tags(contact_group, tags)
+    model = ContactGroup
+    verbose_name = "Contact Group"
+    emoji = "🔳"
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"parent": (ContactGroup, "name")}
 
 
 register_initializer("contact_groups", ContactGroupInitializer)

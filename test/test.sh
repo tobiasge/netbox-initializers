@@ -3,8 +3,18 @@
 # shellcheck disable=SC1091
 source ./gh-functions.sh
 
-# The docker compose command to use
-doco="docker compose --project-name netbox_initializer_test"
+# The compose command to use
+if [ -n "$DOCO" ]; then
+  doco="$DOCO"
+elif [ -n "$COMPOSE_CMD" ]; then
+  doco="$COMPOSE_CMD --project-name netbox_initializer_test"
+elif command -v docker &>/dev/null; then
+  doco="docker compose --project-name netbox_initializer_test"
+elif command -v podman &>/dev/null; then
+  doco="podman compose --project-name netbox_initializer_test"
+else
+  doco="docker compose --project-name netbox_initializer_test"
+fi
 
 INITIALIZERS_DIR="initializer-data"
 
@@ -63,8 +73,8 @@ test_api_verification() {
     sleep 5
   done
 
-  # Copy the verification script into the running container and run it
-  $doco cp ./verify_api.py netbox:/tmp/verify_api.py || exit 1
+  # Copy the verification script into the running container and run it (volume mount is used as fallback)
+  $doco cp ./verify_api.py netbox:/tmp/verify_api.py 2>/dev/null || true
   $doco exec -T netbox python3 /tmp/verify_api.py || exit 1
 }
 

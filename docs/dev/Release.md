@@ -22,20 +22,14 @@ After changing the version numbers and committing them create a new release with
 
 #### Build the packages
 
-Install the needed Python packages for the build:
+Run the build for the wheel and source distributions using `uv`:
 
 ```bash
-pip install --upgrade uv
+uv build
 ```
 
-Then run the build for the wheel and source distributions:
+#### Upload packages to PyPI
 
 ```bash
-uvx --from build pyproject-build --installer uv
-```
-
-#### Upload packages to PyPi
-
-```bash
-uvx twine upload dist/*
+uv publish
 ```

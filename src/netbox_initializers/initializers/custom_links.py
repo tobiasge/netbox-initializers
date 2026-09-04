@@ -1,44 +1,51 @@
 from core.models import ObjectType
+from django.core.exceptions import ObjectDoesNotExist
 from extras.models import CustomLink
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseModelInitializer, Writer, register_initializer
 
 
-def get_content_type(content_type):
+def get_content_type(content_type: str) -> ObjectType | None:
     try:
         return ObjectType.objects.get(model=content_type)
-    except ObjectType.DoesNotExist:
+    except ObjectDoesNotExist:
         pass
     return None
 
 
-class CustomLinkInitializer(BaseInitializer):
+class CustomLinkInitializer(BaseModelInitializer):
     data_file_name = "custom_links.yml"
+    model = CustomLink
+    verbose_name = "Custom Link"
+    emoji = "🔗"
 
-    def load_data(self):
-        custom_links = self.load_yaml()
-        if custom_links is None:
-            return
-        for link in custom_links:
-            content_type_name = link.pop("content_type")
-            content_type = get_content_type(content_type_name)
-            if content_type is None:
-                print(
-                    "⚠️ Unable to create Custom Link '{0}': The content_type '{1}' is unknown".format(
-                        link.get("name"), content_type
-                    )
-                )
-                continue
+    def __init__(
+        self,
+        data_file_path: str,
+        stdout: Writer | None = None,
+        stderr: Writer | None = None,
+        verbosity: int = 1,
+    ) -> None:
+        super().__init__(data_file_path, stdout=stdout, stderr=stderr, verbosity=verbosity)
+        self._content_type: ObjectType | None = None
 
-            matching_params, defaults = self.split_params(link)
-            custom_link, created = CustomLink.objects.get_or_create(
-                **matching_params, defaults=defaults
+    def print_created(self, entity) -> None:
+        self.log(f"🔗 Created Custom Link '{entity.name}'")
+
+    def prepare_params(self, params: dict[str, object]) -> dict[str, object] | None:
+        content_type_name = params.pop("content_type")
+        self._content_type = get_content_type(content_type_name)
+        if self._content_type is None:
+            self.log_warning(
+                f"⚠️ Unable to create Custom Link '{params.get('name')}': "
+                f"The content_type '{content_type_name}' is unknown"
             )
+            return None
+        return params
 
-            if created:
-                custom_link.object_types.add(content_type)
-                custom_link.save()
-                print("🔗 Created Custom Link '{0}'".format(custom_link.name))
+    def post_create(self, entity, params: dict[str, object], created: bool) -> None:
+        if created and self._content_type:
+            entity.object_types.add(self._content_type)
 
 
 register_initializer("custom_links", CustomLinkInitializer)
