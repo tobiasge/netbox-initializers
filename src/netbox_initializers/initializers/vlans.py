@@ -1,45 +1,26 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from dcim.models import Site
 from ipam.models import VLAN, Role, VLANGroup
 from tenancy.models import Tenant, TenantGroup
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-MATCH_PARAMS = ["name", "vid"]
-OPTIONAL_ASSOCS = {
-    "site": (Site, "name"),
-    "tenant": (Tenant, "name"),
-    "tenant_group": (TenantGroup, "name"),
-    "group": (VLANGroup, "name"),
-    "role": (Role, "name"),
-}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class VLANInitializer(BaseInitializer):
+class VLANInitializer(BaseModelInitializer):
     data_file_name = "vlans.yml"
-
-    def load_data(self):
-        vlans = self.load_yaml()
-        if vlans is None:
-            return
-        for params in vlans:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            vlan, created = VLAN.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                print("🏠 Created VLAN", vlan.name)
-
-            self.set_custom_fields_values(vlan, custom_field_data)
-            self.set_tags(vlan, tags)
+    model = VLAN
+    verbose_name = "VLAN"
+    emoji = "🏠"
+    match_params = ("name", "vid")
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {
+        "site": (Site, "name"),
+        "tenant": (Tenant, "name"),
+        "tenant_group": (TenantGroup, "name"),
+        "group": (VLANGroup, "name"),
+        "role": (Role, "name"),
+    }
 
 
 register_initializer("vlans", VLANInitializer)

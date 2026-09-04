@@ -21,10 +21,10 @@ class ObjectPermissionInitializer(BaseInitializer):
                 },
             )
 
-            if permission_details.get("constraints", 0):
+            if "constraints" in permission_details:
                 object_permission.constraints = permission_details["constraints"]
 
-            if permission_details.get("object_types", 0):
+            if "object_types" in permission_details:
                 object_types = permission_details["object_types"]
 
                 if object_types == "all":
@@ -38,35 +38,28 @@ class ObjectPermissionInitializer(BaseInitializer):
                             for app_model in app_models:
                                 object_permission.object_types.add(app_model.id)
                         else:
-                            # There is
                             for model in models:
                                 object_permission.object_types.add(
                                     ObjectType.objects.get(app_label=app_label, model=model)
                                 )
             if created:
-                print("🔓 Created object permission", object_permission.name)
+                self.log(f"🔓 Created object permission {object_permission.name}")
 
-            if permission_details.get("groups", 0):
+            if "groups" in permission_details:
                 for groupname in permission_details["groups"]:
                     group = Group.objects.filter(name=groupname).first()
 
                     if group:
                         object_permission.groups.add(group)
-                        print(
-                            " 👥 Assigned group %s object permission of %s"
-                            % (groupname, object_permission.name)
-                        )
+                        self.log(f" 👥 Assigned group {groupname} object permission of {object_permission.name}")
 
-            if permission_details.get("users", 0):
+            if "users" in permission_details:
                 for username in permission_details["users"]:
                     user = User.objects.filter(username=username).first()
 
                     if user:
                         object_permission.users.add(user)
-                        print(
-                            " 👤 Assigned user %s object permission of %s"
-                            % (username, object_permission.name)
-                        )
+                        self.log(f" 👤 Assigned user {username} object permission of {object_permission.name}")
 
             object_permission.save()
 

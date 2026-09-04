@@ -14,13 +14,14 @@ class GroupInitializer(BaseInitializer):
         for groupname, group_details in groups.items():
             group, created = Group.objects.get_or_create(name=groupname)
             if created:
-                print("👥 Created group", groupname)
+                self.log(f"👥 Created group {groupname}")
             for username in group_details.get("users", []):
-                user = User.objects.get(username=username)
+                user = User.objects.filter(username=username).first()
                 if user:
                     group.users.add(user)
-                    print(" 👤 Assigned user %s to group %s" % (username, group.name))
-            group.save()
+                    self.log(f" 👤 Assigned user {username} to group {group.name}")
+                else:
+                    self.log_warning(f"⚠️ User '{username}' not found for group '{group.name}'")
 
 
 register_initializer("groups", GroupInitializer)

@@ -42,12 +42,10 @@ class InterfaceInitializer(BaseInitializer):
                     params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            interface, created = Interface.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
+            interface, created = Interface.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
-                print(f"🧷 Created interface {interface} on {interface.device}")
+                self.log(f"🧷 Created interface {interface} on {interface.device}")
             else:
                 for name in defaults:
                     setattr(interface, name, defaults[name])
@@ -67,17 +65,12 @@ class InterfaceInitializer(BaseInitializer):
                     try:
                         related_obj = r_model.objects.get(**query)
                     except Interface.DoesNotExist:
-                        print(
-                            f"⚠️ Could not find parent interface with: {query} for interface {interface}"
-                        )
+                        self.log_warning(f"⚠️ Could not find parent interface with: {query} for interface {interface}")
                         raise
 
                     interface.parent_id = related_obj.id
                     interface.save()
-                    print(
-                        f"🧷 Attached interface {interface} on {interface.device} "
-                        f"to parent {related_obj}"
-                    )
+                    self.log(f"🧷 Attached interface {interface} on {interface.device} to parent {related_obj}")
                 else:
                     query = {
                         r_field: related_value,
@@ -86,9 +79,7 @@ class InterfaceInitializer(BaseInitializer):
                     related_obj, rel_obj_created = r_model.objects.get_or_create(**query)
 
                     if rel_obj_created:
-                        print(
-                            f"🧷 Created {related_field} interface {interface} on {interface.device}"
-                        )
+                        self.log(f"🧷 Created {related_field} interface {related_obj} on {interface.device}")
 
                     setattr(interface, f"{related_field}_id", related_obj.id)
                     interface.save()

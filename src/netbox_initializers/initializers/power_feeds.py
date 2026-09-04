@@ -1,46 +1,19 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from dcim.models import PowerFeed, PowerPanel, Rack
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-MATCH_PARAMS = ["name", "power_panel"]
-OPTIONAL_ASSOCS = {"rack": (Rack, "name")}
-REQUIRED_ASSOCS = {"power_panel": (PowerPanel, "name")}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class PowerFeedInitializer(BaseInitializer):
+class PowerFeedInitializer(BaseModelInitializer):
     data_file_name = "power_feeds.yml"
-
-    def load_data(self):
-        power_feeds = self.load_yaml()
-        if power_feeds is None:
-            return
-        for params in power_feeds:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
-
-            for assoc, details in REQUIRED_ASSOCS.items():
-                model, field = details
-                query = {field: params.pop(assoc)}
-
-                params[assoc] = model.objects.get(**query)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            power_feed, created = PowerFeed.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
-
-            if created:
-                print("⚡ Created Power Feed", power_feed.name)
-
-            self.set_custom_fields_values(power_feed, custom_field_data)
-            self.set_tags(power_feed, tags)
+    model = PowerFeed
+    verbose_name = "Power Feed"
+    emoji = "⚡"
+    match_params = ("name", "power_panel")
+    required_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"power_panel": (PowerPanel, "name")}
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"rack": (Rack, "name")}
 
 
 register_initializer("power_feeds", PowerFeedInitializer)

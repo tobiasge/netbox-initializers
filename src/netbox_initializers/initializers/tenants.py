@@ -1,36 +1,17 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from tenancy.models import Tenant, TenantGroup
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-OPTIONAL_ASSOCS = {"group": (TenantGroup, "name")}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class TenantInitializer(BaseInitializer):
+class TenantInitializer(BaseModelInitializer):
     data_file_name = "tenants.yml"
-
-    def load_data(self):
-        tenants = self.load_yaml()
-        if tenants is None:
-            return
-        for params in tenants:
-            custom_field_data = self.pop_custom_fields(params)
-            tags = params.pop("tags", None)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params)
-            tenant, created = Tenant.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                print("👩‍💻 Created Tenant", tenant.name)
-
-            self.set_custom_fields_values(tenant, custom_field_data)
-            self.set_tags(tenant, tags)
+    model = Tenant
+    verbose_name = "Tenant"
+    emoji = "👩‍💻"
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"group": (TenantGroup, "name")}
 
 
 register_initializer("tenants", TenantInitializer)

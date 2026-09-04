@@ -1,42 +1,21 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from ipam.models import ASN, RIR
 from tenancy.models import Tenant
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-MATCH_PARAMS = ["asn", "rir"]
-REQUIRED_ASSOCS = {"rir": (RIR, "name")}
-OPTIONAL_ASSOCS = {"tenant": (Tenant, "name")}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class ASNInitializer(BaseInitializer):
+class ASNInitializer(BaseModelInitializer):
     data_file_name = "asns.yml"
-
-    def load_data(self):
-        asns = self.load_yaml()
-        if asns is None:
-            return
-        for params in asns:
-            tags = params.pop("tags", None)
-            for assoc, details in REQUIRED_ASSOCS.items():
-                model, field = details
-                query = {field: params.pop(assoc)}
-
-                params[assoc] = model.objects.get(**query)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            asn, created = ASN.objects.get_or_create(**matching_params, defaults=defaults)
-
-            if created:
-                print(f"🔡 Created ASN {asn.asn}")
-
-            self.set_tags(asn, tags)
+    model = ASN
+    name_field = "asn"
+    verbose_name = "ASN"
+    emoji = "🔡"
+    match_params = ("asn", "rir")
+    required_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"rir": (RIR, "name")}
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"tenant": (Tenant, "name")}
 
 
 register_initializer("asns", ASNInitializer)

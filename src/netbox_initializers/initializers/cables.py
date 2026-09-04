@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from circuits.constants import CIRCUIT_TERMINATION_TERMINATION_TYPES
 from circuits.models import Circuit, CircuitTermination
 from dcim.models import (
@@ -18,23 +16,19 @@ from dcim.models import (
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import (
+    BaseInitializer,
+    InitializationError,
+    register_initializer,
+)
 from netbox_initializers.initializers.utils import get_scope_details
 
-CONSOLE_PORT_TERMINATION = ContentType.objects.get_for_model(ConsolePort)
-CONSOLE_SERVER_PORT_TERMINATION = ContentType.objects.get_for_model(ConsoleServerPort)
-FRONT_PORT_TERMINATION = ContentType.objects.get_for_model(FrontPort)
-REAR_PORT_TERMINATION = ContentType.objects.get_for_model(RearPort)
-FRONT_AND_REAR = [FRONT_PORT_TERMINATION, REAR_PORT_TERMINATION]
-POWER_PORT_TERMINATION = ContentType.objects.get_for_model(PowerPort)
-POWER_OUTLET_TERMINATION = ContentType.objects.get_for_model(PowerOutlet)
-POWER_FEED_TERMINATION = ContentType.objects.get_for_model(PowerFeed)
-POWER_TERMINATIONS = [POWER_PORT_TERMINATION, POWER_OUTLET_TERMINATION, POWER_FEED_TERMINATION]
-
+POWER_TERMINATIONS = {PowerPort, PowerOutlet, PowerFeed}
+FRONT_AND_REAR = {FrontPort, RearPort}
 VIRTUAL_INTERFACES = ["bridge", "lag", "virtual"]
 
 
-def get_termination_object(params: dict, side: str):
+def get_termination_object(params: dict, side: str, initializer: BaseInitializer | None = None):
     klass = params.pop(f"termination_{side}_class")
     name = params.pop(f"termination_{side}_name", None)
     device = params.pop(f"termination_{side}_device", None)
@@ -61,15 +55,16 @@ def get_termination_object(params: dict, side: str):
             circuit_params["termination_type"] = scope_type
             circuit_params["termination_id"] = scope_id
         else:
-            raise ValueError(
-                f"⚠️ Missing required parameter: 'scope'for side {term_side} of circuit {circuit}"
-            )
+            raise ValueError(f"⚠️ Missing required parameter: 'scope'for side {term_side} of circuit {circuit}")
 
         termination, created = CircuitTermination.objects.get_or_create(
             circuit=circuit, term_side=term_side, defaults=circuit_params
         )
         if created:
-            print(f"⚡ Created new CircuitTermination {termination}")
+            if initializer:
+                initializer.log(f"⚡ Created new CircuitTermination {termination}")
+            else:
+                print(f"⚡ Created new CircuitTermination {termination}")
 
         return termination
 
@@ -86,7 +81,7 @@ def get_termination_class_by_name(port_class: str):
     return globals()[port_class]
 
 
-def cable_in_cables(term_a: tuple, term_b: tuple) -> bool:
+def cable_in_cables(term_a: tuple[object, ...], term_b: tuple[object, ...]) -> bool:
     """Check if cable exist for given terminations.
     Each tuple should consist termination object and termination type
     """
@@ -113,32 +108,28 @@ def cable_in_cables(term_a: tuple, term_b: tuple) -> bool:
     return cable_a.id == cable_b.id
 
 
-def check_termination_types(type_a, type_b) -> Tuple[bool, str]:
+def check_termination_types(type_a, type_b) -> tuple[bool, str]:
+    if hasattr(type_a, "model_class"):
+        type_a = type_a.model_class()
+    if hasattr(type_b, "model_class"):
+        type_b = type_b.model_class()
+
+    types = {type_a, type_b}
     if type_a in POWER_TERMINATIONS and type_b in POWER_TERMINATIONS:
         if type_a == type_b:
             return False, "Can't connect the same power terminations together"
-        elif (
-            type_a == POWER_OUTLET_TERMINATION
-            and type_b == POWER_FEED_TERMINATION
-            or type_a == POWER_FEED_TERMINATION
-            and type_b == POWER_OUTLET_TERMINATION
-        ):
+        if types == {PowerOutlet, PowerFeed}:
             return False, "PowerOutlet can't be connected with PowerFeed"
     elif type_a in POWER_TERMINATIONS or type_b in POWER_TERMINATIONS:
         return False, "Can't mix power terminations with port terminations"
     elif type_a in FRONT_AND_REAR or type_b in FRONT_AND_REAR:
         return True, ""
-    elif (
-        type_a == CONSOLE_PORT_TERMINATION
-        and type_b != CONSOLE_SERVER_PORT_TERMINATION
-        or type_b == CONSOLE_PORT_TERMINATION
-        and type_a != CONSOLE_SERVER_PORT_TERMINATION
-    ):
+    elif ConsolePort in types and types != {ConsolePort, ConsoleServerPort}:
         return False, "ConsolePorts can only be connected to ConsoleServerPorts or Front/Rear ports"
     return True, ""
 
 
-def get_cable_name(termination_a: tuple, termination_b: tuple) -> str:
+def get_cable_name(termination_a: tuple[object, ...], termination_b: tuple[object, ...]) -> str:
     """Returns name of a cable in format:
     device_a interface_a <---> interface_b device_b
     or for circuits:
@@ -169,7 +160,7 @@ def check_interface_types(*args):
     for termination in args:
         try:
             if termination.type in VIRTUAL_INTERFACES:
-                raise Exception(
+                raise InitializationError(
                     f"⚠️ Virtual interfaces are not supported for cabling. "
                     f"Termination {termination.device} {termination} {termination.type}"
                 )
@@ -178,17 +169,18 @@ def check_interface_types(*args):
             pass
 
 
-def check_terminations_are_free(*args):
+def check_terminations_are_free(*args, initializer: BaseInitializer | None = None):
     any_failed = False
     for termination in args:
         if termination.cable_id:
             any_failed = True
-            print(
-                f"⚠️ Termination {termination} is already occupied "
-                f"with cable #{termination.cable_id}"
-            )
+            msg = f"⚠️ Termination {termination} is already occupied with cable #{termination.cable_id}"
+            if initializer:
+                initializer.log_warning(msg)
+            else:
+                print(msg)
     if any_failed:
-        raise Exception("⚠️ At least one end of the cable is already occupied.")
+        raise InitializationError("⚠️ At least one end of the cable is already occupied.")
 
 
 class CableInitializer(BaseInitializer):
@@ -201,15 +193,11 @@ class CableInitializer(BaseInitializer):
         for params in cables:
             tags = params.pop("tags", None)
 
-            params["termination_a_class"] = get_termination_class_by_name(
-                params.get("termination_a_class")
-            )
-            params["termination_b_class"] = get_termination_class_by_name(
-                params.get("termination_b_class")
-            )
+            params["termination_a_class"] = get_termination_class_by_name(params.get("termination_a_class"))
+            params["termination_b_class"] = get_termination_class_by_name(params.get("termination_b_class"))
 
-            term_a = get_termination_object(params, side="a")
-            term_b = get_termination_object(params, side="b")
+            term_a = get_termination_object(params, side="a", initializer=self)
+            term_b = get_termination_object(params, side="b", initializer=self)
 
             check_interface_types(term_a, term_b)
 
@@ -220,13 +208,13 @@ class CableInitializer(BaseInitializer):
             cable_name = get_cable_name((term_a, term_a_ct), (term_b, term_b_ct))
 
             if not types_ok:
-                print(f"⚠️ Invalid termination types for {cable_name}. {msg}")
+                self.log_warning(f"⚠️ Invalid termination types for {cable_name}. {msg}")
                 continue
 
             if cable_in_cables((term_a, term_a_ct), (term_b, term_b_ct)):
                 continue
 
-            check_terminations_are_free(term_a, term_b)
+            check_terminations_are_free(term_a, term_b, initializer=self)
 
             cable = Cable.objects.create(**params)
 
@@ -246,7 +234,7 @@ class CableInitializer(BaseInitializer):
             }
             CableTermination.objects.create(**params_b_term)
 
-            print(f"🧷 Created cable {cable} {cable_name}")
+            self.log(f"🧷 Created cable {cable} {cable_name}")
             self.set_tags(cable, tags)
 
 

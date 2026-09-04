@@ -34,14 +34,12 @@ class ConfigContextInitializer(BaseInitializer):
 
             # siphon off params that represent many to many relationships
             many_assocs = {}
-            for many_assoc in OPTIONAL_MANY_ASSOCS.keys():
+            for many_assoc in OPTIONAL_MANY_ASSOCS:
                 if many_assoc in params:
                     many_assocs[many_assoc] = params.pop(many_assoc)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            context, created = ConfigContext.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
+            context, created = ConfigContext.objects.get_or_create(**matching_params, defaults=defaults)
 
             # process the many to many relationships
             for assoc_field, assocs in many_assocs.items():
@@ -51,7 +49,7 @@ class ConfigContextInitializer(BaseInitializer):
                     getattr(context, assoc_field).add(model.objects.get(**query))
 
             if created:
-                print("🖥️  Created config context", context.name)
+                self.log(f"🖥️  Created config context {context.name}")
 
             self.set_tags(context, tags)
 

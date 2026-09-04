@@ -1,5 +1,3 @@
-from typing import List
-
 from dcim.models import DeviceType, Manufacturer, Region
 from dcim.models.device_component_templates import (
     ConsolePortTemplate,
@@ -33,13 +31,13 @@ SUPPORTED_COMPONENTS = {
 }
 
 
-def expand_templates(params: List[dict], device_type: DeviceType) -> List[dict]:
+def expand_templates(params: list[dict[str, object]], device_type: DeviceType) -> list[dict[str, object]]:
     templateable_fields = ["name", "label", "positions", "rear_port", "rear_port_position"]
 
-    expanded = []
+    expanded: list[dict[str, object]] = []
     for param in params:
         param["device_type"] = device_type
-        expanded_fields = {}
+        expanded_fields: dict[str, list[str]] = {}
         has_plain_fields = False
 
         for field in templateable_fields:
@@ -58,11 +56,8 @@ def expand_templates(params: List[dict], device_type: DeviceType) -> List[dict]:
 
         elements = list(expanded_fields.values())
         master_len = len(elements[0])
-        if not all([len(elem) == master_len for elem in elements]):
-            raise ValueError(
-                f"Number of elements in template fields "
-                f"{list(expanded_fields.keys())} must be equal"
-            )
+        if not all(len(elem) == master_len for elem in elements):
+            raise ValueError(f"Number of elements in template fields {list(expanded_fields.keys())} must be equal")
 
         for idx in range(master_len):
             tmp = param.copy()
@@ -103,19 +98,17 @@ class DeviceTypeInitializer(BaseInitializer):
                     params[assoc] = model.objects.get(**query)
 
             matching_params, defaults = self.split_params(params, MATCH_PARAMS)
-            device_type, created = DeviceType.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
+            device_type, created = DeviceType.objects.get_or_create(**matching_params, defaults=defaults)
 
             if created:
-                print("🔡 Created device type", device_type.manufacturer, device_type.model)
+                self.log(f"🔡 Created device type {device_type.manufacturer} {device_type.model}")
 
             self.set_custom_fields_values(device_type, custom_field_data)
             self.set_tags(device_type, tags)
 
             for component in components:
                 c_model, c_match_params, c_params = component
-                c_match_params.append("device_type")
+                c_match_params = [*c_match_params, "device_type"]
 
                 if not c_params:
                     continue
@@ -147,9 +140,7 @@ class DeviceTypeInitializer(BaseInitializer):
                         **new_matching_params, defaults=new_defaults
                     )
                     if new_obj_created:
-                        print(
-                            f"🧷  Created {c_model._meta} {new_obj} component for device type {device_type}"
-                        )
+                        self.log(f"🧷  Created {c_model._meta} {new_obj} component for device type {device_type}")
 
                     if port_mapping_params:
                         front_port_position = port_mapping_params.pop("front_port_position")

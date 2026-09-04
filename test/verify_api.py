@@ -218,7 +218,7 @@ class Verifier:
             case "list":
                 self._check_list(check, obj, data)
 
-    def _check_count(self, check: Check, obj: str, data: list) -> None:
+    def _check_count(self, check: Check, obj: str, data: list[object]) -> None:
         resp = api_get(check["endpoint"], {"limit": 1})
         count = resp.get("count") if resp else None
         if count is not None and count >= len(data):
@@ -226,7 +226,7 @@ class Verifier:
         else:
             self.fail(f"{obj}: expected >= {len(data)} objects, API reports {count}")
 
-    def _check_dict(self, check: Check, obj: str, data: dict) -> None:
+    def _check_dict(self, check: Check, obj: str, data: dict[str, JSON]) -> None:
         endpoint = check["endpoint"]
         key_filter = check["key_filter"]
         for key, details in data.items():
@@ -239,7 +239,7 @@ class Verifier:
             else:
                 self.fail(f"{label} not found")
 
-    def _check_list(self, check: Check, obj: str, data: list) -> None:
+    def _check_list(self, check: Check, obj: str, data: list[dict[str, object]]) -> None:
         for item in data:
             filters = {f: item[f] for f in check["filters"] if item.get(f) is not None}
             if not filters:

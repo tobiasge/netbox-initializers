@@ -1,36 +1,17 @@
+from collections.abc import Mapping
+from typing import ClassVar
+
 from dcim.models import SiteGroup
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
-
-OPTIONAL_ASSOCS = {"parent": (SiteGroup, "name")}
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class SiteGroupInitializer(BaseInitializer):
+class SiteGroupInitializer(BaseModelInitializer):
     data_file_name = "site_groups.yml"
-
-    def load_data(self):
-        site_groups = self.load_yaml()
-        if site_groups is None:
-            return
-        for params in site_groups:
-            tags = params.pop("tags", None)
-
-            for assoc, details in OPTIONAL_ASSOCS.items():
-                if assoc in params:
-                    model, field = details
-                    query = {field: params.pop(assoc)}
-
-                    params[assoc] = model.objects.get(**query)
-
-            matching_params, defaults = self.split_params(params)
-            site_group, created = SiteGroup.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
-
-            if created:
-                print("🌐 Created Site Group", site_group.name)
-
-            self.set_tags(site_group, tags)
+    model = SiteGroup
+    verbose_name = "Site Group"
+    emoji = "🌐"
+    optional_assocs: ClassVar[Mapping[str, tuple[type, str]]] = {"parent": (SiteGroup, "name")}
 
 
 register_initializer("site_groups", SiteGroupInitializer)

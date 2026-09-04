@@ -28,7 +28,16 @@ build-backend = "hatchling.build"
 path = "src/netbox_initializers/version.py"
 
 [dependency-groups]
-dev = ["ruff==0.16.5"]
+dev = [
+    "ruff==0.16.5",
+    "yamllint>=1.35.0",
+    "netbox==4.7.0",
+    "pytest==9.1.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 
 [tool.ruff]
 line-length = 120
@@ -37,6 +46,10 @@ target-version = "py312"
 [tool.ruff.lint]
 extend-select = ["I", "PL", "W191", "W291", "W292", "W293"]
 ignore = ["PLR0912", "PLR0915"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["PLR2004"]
+
 
 [tool.ruff.lint.isort]
 section-order = [

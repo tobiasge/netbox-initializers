@@ -13,17 +13,15 @@ class UserInitializer(BaseInitializer):
             return
 
         for username, user_details in users.items():
-            token_data = user_details.pop("token", Token.generate_key())
+            token_data = user_details.pop("token", None)
             password = user_details.pop("password", get_random_string(length=25))
             user, created = User.objects.get_or_create(username=username, defaults=user_details)
             if created:
                 user.set_password(password)
                 user.save()
                 if token_data and "key" in token_data and "value" in token_data:
-                    Token.objects.create(
-                        user=user, key=token_data["key"], token=token_data["value"]
-                    )
-                print("👤 Created user", username)
+                    Token.objects.create(user=user, key=token_data["key"], token=token_data["value"])
+                self.log(f"👤 Created user {username}")
 
 
 register_initializer("users", UserInitializer)

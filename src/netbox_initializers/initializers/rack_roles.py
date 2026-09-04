@@ -1,34 +1,25 @@
 from dcim.models import RackRole
 from netbox.choices import ColorChoices
 
-from netbox_initializers.initializers.base import BaseInitializer, register_initializer
+from netbox_initializers.initializers.base import BaseModelInitializer, register_initializer
 
 
-class RackRoleInitializer(BaseInitializer):
+class RackRoleInitializer(BaseModelInitializer):
     data_file_name = "rack_roles.yml"
+    model = RackRole
+    verbose_name = "rack role"
+    emoji = "🎨"
 
-    def load_data(self):
-        rack_roles = self.load_yaml()
-        if rack_roles is None:
-            return
-        for params in rack_roles:
-            tags = params.pop("tags", None)
-            if "color" in params:
-                color = params.pop("color")
+    def prepare_params(self, params: dict[str, object]) -> dict[str, object] | None:
+        if "color" in params:
+            color = params["color"]
 
-                for color_tpl in ColorChoices:
-                    if color in color_tpl:
-                        params["color"] = color_tpl[0]
+            for color_tpl in ColorChoices:
+                if color in color_tpl:
+                    params["color"] = color_tpl[0]
+                    break
 
-            matching_params, defaults = self.split_params(params)
-            rack_role, created = RackRole.objects.get_or_create(
-                **matching_params, defaults=defaults
-            )
-
-            if created:
-                print("🎨 Created rack role", rack_role.name)
-
-            self.set_tags(rack_role, tags)
+        return params
 
 
 register_initializer("rack_roles", RackRoleInitializer)

@@ -3,6 +3,8 @@ import traceback
 
 from django.core.management.base import BaseCommand, CommandError
 
+# Import initializers package to register all initializers in INITIALIZER_REGISTRY
+import netbox_initializers.initializers  # noqa: F401
 from netbox_initializers.initializers.base import INITIALIZER_ORDER, INITIALIZER_REGISTRY
 
 
@@ -11,9 +13,7 @@ class Command(BaseCommand):
     requires_migrations_checks = True
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--path", action="store", dest="path", help="Path of the initial data YAMLs"
-        )
+        parser.add_argument("--path", action="store", dest="path", help="Path of the initial data YAMLs")
 
     def handle(self, *args, **options):
         target_path = options["path"]
@@ -23,15 +23,20 @@ class Command(BaseCommand):
         if not os.path.isdir(target_path):
             raise CommandError("Path must be a directory.")
 
+        verbosity = options.get("verbosity", 1)
+
         for initializer_name in INITIALIZER_ORDER:
             if initializer_name not in INITIALIZER_REGISTRY:
-                self.stderr.write(
-                    self.style.ERROR(f"Initializer for {initializer_name} not found!")
-                )
+                self.stderr.write(self.style.ERROR(f"Initializer for {initializer_name} not found!"))
                 continue
 
             initializer = INITIALIZER_REGISTRY[initializer_name]
-            initializer_instance = initializer(target_path)
+            initializer_instance = initializer(
+                target_path,
+                stdout=self.stdout,
+                stderr=self.stderr,
+                verbosity=verbosity,
+            )
             try:
                 initializer_instance.load_data()
             except Exception as e:
