@@ -8,3 +8,7 @@
 #   description: mac address 4
 # - mac_address: 00:02:55:55:55:55
 #   description: mac address 5
+# - mac_address: 00:03:66:66:66:66
+#   description: mac address 6
+# - mac_address: 00:03:77:77:77:77
+#   description: mac address 7
