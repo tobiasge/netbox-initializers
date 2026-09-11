@@ -25,6 +25,7 @@ class InterfaceInitializer(BaseInitializer):
         for params in interfaces:
             custom_field_data = self.pop_custom_fields(params)
             tags = params.pop("tags", None)
+            mac_addresses = params.pop("mac_addresses", None)
 
             related_interfaces = {k: params.pop(k, None) for k in RELATED_ASSOCS}
 
@@ -53,6 +54,7 @@ class InterfaceInitializer(BaseInitializer):
 
             self.set_custom_fields_values(interface, custom_field_data)
             self.set_tags(interface, tags)
+            self.set_mac_addresses(interface, mac_addresses)
 
             for related_field, related_value in related_interfaces.items():
                 if not related_value:
