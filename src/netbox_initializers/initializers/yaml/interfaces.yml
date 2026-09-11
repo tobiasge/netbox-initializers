@@ -31,8 +31,8 @@
 #   name: eth0
 #   untagged_vlan: vlan2
 #   mac_addresses:
-#     - 00:03:66:66:66:66
-#     - 00:03:77:77:77:77
+#     - 00:04:66:66:66:66
+#     - 00:04:77:77:77:77
 # - device: server02
 #   enabled: true
 #   type: virtual
