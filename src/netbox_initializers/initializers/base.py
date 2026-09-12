@@ -143,6 +143,9 @@ class BaseInitializer:
         save = False
 
         for mac in mac_addresses:
+            if entity.mac_addresses.filter(mac_address=mac).first():
+                continue
+
             mac_address = MACAddress.objects.create(mac_address=mac, description=f"{entity} MAC Address")
             entity.mac_addresses.add(mac_address)
             save = True
