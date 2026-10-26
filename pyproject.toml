@@ -29,7 +29,7 @@ path = "src/netbox_initializers/version.py"
 
 [dependency-groups]
 dev = [
-    "ruff==0.17.1",
+    "ruff==0.17.2",
     "yamllint>=1.35.0",
     "netbox==4.7.3",
     "pytest==9.1.1",
