@@ -31,7 +31,7 @@ path = "src/netbox_initializers/version.py"
 dev = [
     "ruff==0.17.3",
     "yamllint>=1.35.0",
-    "netbox==4.7.3",
+    "netbox==4.7.4",
     "pytest==9.1.1",
 ]
 
