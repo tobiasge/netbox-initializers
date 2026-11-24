@@ -141,7 +141,12 @@ class BaseInitializer:
             raise InitializationError(f"⚠️ MAC Address cannot be applied to {entity}'s model")
 
         save = False
-        for mac_address in MACAddress.objects.filter(mac_address__in=mac_addresses):
+
+        for mac in mac_addresses:
+            if entity.mac_addresses.filter(mac_address=mac).first():
+                continue
+
+            mac_address = MACAddress.objects.create(mac_address=mac, description=f"{entity} MAC Address")
             entity.mac_addresses.add(mac_address)
             save = True
 

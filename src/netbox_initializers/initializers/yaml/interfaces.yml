@@ -30,6 +30,9 @@
 #   type: 1000base-t
 #   name: eth0
 #   untagged_vlan: vlan2
+#   mac_addresses:
+#     - 00:04:66:66:66:66
+#     - 00:04:77:77:77:77
 # - device: server02
 #   enabled: true
 #   type: virtual
